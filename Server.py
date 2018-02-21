@@ -10,7 +10,6 @@ def send_projects(clientsock, c, conn, username):
     c.execute("SELECT name FROM "+username)
     projectsAll = c.fetchall()
     clientsock.send(str(projectsAll))
-    print str(projectsAll)
 
 
 def send_versions(clientsock, c, conn, username):
@@ -31,7 +30,7 @@ def send_branches(clientsock, c, conn):
 
 
 def handler(clientsock, serversock, addr):
-    #try:
+    try:
         conn = sqlite3.connect(PATH+'\\ProjectsInfo.db')
         c = conn.cursor()
         connected = False
@@ -94,9 +93,9 @@ def handler(clientsock, serversock, addr):
             else:
                 clientsock.close()
                 conn.close()
-    #except:
-        #clientsock.close()
-        #conn.close()
+    except:
+        clientsock.close()
+        conn.close()
 
 
 PATH = utils.get_path()

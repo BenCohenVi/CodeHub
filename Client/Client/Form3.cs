@@ -15,6 +15,8 @@ namespace Client
         public string name;
         private string File;
         private ClientSocket cSock;
+        private Bunifu.Framework.UI.Drag dr = new Bunifu.Framework.UI.Drag();
+
         public NewProjectForm(ClientSocket cSock)
         {
             InitializeComponent();
@@ -67,15 +69,21 @@ namespace Client
                 this.name = pnameBox.Text;
                 if (this.name.Contains(' ') || this.name.Contains('^') || this.name.Contains('\\') || this.name.Contains('/'))
                 {
-                    throw new System.Exception();
+                    throw new System.DivideByZeroException();
                 }
                 string fileInfo = this.name + "." + pathBox.Text.Split('.')[pathBox.Text.Split('.').Length - 1];
                 string data = this.cSock.New_Project(this.File, fileInfo);
                 this.Close();
             }
-            catch
+            catch (DivideByZeroException)
             {
                 statusLabel.Text = "Project Name Unavailable";
+                statusLabel.Visible = true;
+                statusTimer.Start();
+            }
+            catch (DllNotFoundException)
+            {
+                statusLabel.Text = "File Type Not Supported";
                 statusLabel.Visible = true;
                 statusTimer.Start();
             }
@@ -93,6 +101,21 @@ namespace Client
         {
             statusLabel.Visible = false;
             statusTimer.Stop();
+        }
+
+        private void panel3_MouseDown(object sender, MouseEventArgs e)
+        {
+            this.dr.Grab(this);
+        }
+
+        private void panel3_MouseMove(object sender, MouseEventArgs e)
+        {
+            this.dr.MoveObject();
+        }
+
+        private void panel3_MouseUp(object sender, MouseEventArgs e)
+        {
+            this.dr.Release();
         }
     }
 }

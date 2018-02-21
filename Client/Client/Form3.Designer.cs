@@ -86,6 +86,9 @@
             this.panel3.Name = "panel3";
             this.panel3.Size = new System.Drawing.Size(545, 32);
             this.panel3.TabIndex = 18;
+            this.panel3.MouseDown += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseDown);
+            this.panel3.MouseMove += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseMove);
+            this.panel3.MouseUp += new System.Windows.Forms.MouseEventHandler(this.panel3_MouseUp);
             // 
             // exitBtn
             // 

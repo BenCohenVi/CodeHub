@@ -60,10 +60,8 @@ class Useresponse:
         shared = str(self.c.fetchone())
         shared = shared.replace("(u'","").replace("',)","")
         if shared != "NoOne":
-            print shared
             self.c.execute("SELECT sharing FROM "+shared+" WHERE name=:data", {'data':proName})
             new_sharing = str(self.c.fetchone())
-            print new_sharing
             if "^" in new_sharing:
                 new_sharing = new_sharing.replace("(u'","").replace("',)","").replace(self.username+"^", "").replace("^"+self.username, "")
             else:
@@ -98,7 +96,7 @@ class Useresponse:
             except:
                 verFile = open(proPath, "rb")
                 Content = verFile.read()
-            self.clientsock.send(str(Content)+"`"+proName.split('.')[1])
+            self.clientsock.send(str(Content)+"`~`"+proName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
             verFile.close()
         else:
@@ -106,7 +104,7 @@ class Useresponse:
             self.clientsock.send(str(len(imageStr)*10))
             self.clientsock.recv(self.BUFSIZ)
             time.sleep(0.1)
-            self.clientsock.send(imageStr +"`"+ proName.split('.')[1])
+            self.clientsock.send(imageStr +"`~`"+ proName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
             verFile.close()
 
@@ -119,24 +117,19 @@ class Useresponse:
         self.c.execute("SELECT * FROM UsersDB WHERE username=:data", {'data':uName})
         if self.c.fetchone() == None:
             self.clientsock.send("NO")
-            print "user no"
             return
         self.c.execute("SELECT sharing FROM "+self.username+" WHERE name=:data", {'data':proName})
         isSharing = str(self.c.fetchone())
         isSharing = isSharing.replace("(u'", "").replace("',)", "")
-        print isSharing
         if isSharing == "Admin":
-            print "not admin"
             self.clientsock.send("NO1")
             return
         if "^" in isSharing:
             for user in isSharing.split("^"):
                 if user == uName:
-                    print "user found in sharing"
                     self.clientsock.send("NO2")
                     return
         if isSharing == uName:
-            print "user found in sharing"
             self.clientsock.send("NO2")
             return
         if self.username == uName:

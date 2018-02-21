@@ -161,7 +161,7 @@ namespace Client
             }
             if (!valiable)
             {
-                throw new System.Exception();
+                throw new System.DllNotFoundException();
             }
 
             NetworkStream serverStream = clientSocket.GetStream();

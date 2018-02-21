@@ -218,20 +218,26 @@ namespace Client
                     projectList_SelectedIndexChanged(null, null);
                 }
             }
-            catch { }
+            catch
+            {
+                successMessage1.Visible = false;
+                errorMessage1.Set_Message("File Type Not Supported");
+                errorMessage1.Visible = true;
+                successMessage1.BringToFront();
+            }
         }
 
         private void downloadBtn_Click(object sender, EventArgs e)
         {
-            //try
-            //{
+            try
+            {
                 DialogResult result = folderBrowserDialogU.ShowDialog();
                 if (result == DialogResult.OK && versionList.SelectedIndex > -1)
                 {
                     string path = folderBrowserDialogU.SelectedPath;
                     string data = this.cSock.Download_Project(projectList.SelectedItem.ToString(), versionList.SelectedItem.ToString());
-                    string content = data.Split('`')[0];
-                    string extension = data.Split('`')[1];
+                    string content = data.Split(new[] { "`~`" }, StringSplitOptions.None)[0];
+                    string extension = data.Split(new[] { "`~`" }, StringSplitOptions.None)[1];
                     extension = extension.Replace("\0", string.Empty);
                     if (extension != "png")
                     {
@@ -250,14 +256,14 @@ namespace Client
                     successMessage1.Visible = true;
                     successMessage1.BringToFront();
                 }
-            //}
-            //catch
-            //{
-                //successMessage1.Visible = false;
-                //errorMessage1.Set_Message("Download Error");
-                //errorMessage1.Visible = true;
-                //successMessage1.BringToFront();
-            //}
+            }
+            catch
+            {
+                successMessage1.Visible = false;
+                errorMessage1.Set_Message("Download Error");
+                errorMessage1.Visible = true;
+                successMessage1.BringToFront();
+            }
         }
 
         private void branchBtn_Click(object sender, EventArgs e)

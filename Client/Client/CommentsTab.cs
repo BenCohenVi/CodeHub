@@ -68,7 +68,6 @@ namespace Client
                     }
                 }
                 this.Comments = this.cSock.Get_Comments(this.selectedProject).Split('\n');
-                this.Comments = this.Comments;
                 SetComments();
             }
             catch { }
