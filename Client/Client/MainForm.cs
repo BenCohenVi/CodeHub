@@ -35,8 +35,8 @@ namespace Client
 
         private void projectsTab_Click(object sender, EventArgs e)
         {
-            seperatorLine.Width = projectsTab.Width;
-            seperatorLine.Left = projectsTab.Left;
+            seperatorLine.Width = projectsTabB.Width;
+            seperatorLine.Left = projectsTabB.Left;
             projectTab1.Visible = false;
             projectTab1.BringToFront();
             bunifuTransition1.ShowSync(projectTab1);
@@ -44,8 +44,8 @@ namespace Client
 
         private void commentsTab_Click(object sender, EventArgs e)
         {
-            seperatorLine.Width = commentsTab.Width;
-            seperatorLine.Left = commentsTab.Left;
+            seperatorLine.Width = commentsTabB.Width;
+            seperatorLine.Left = commentsTabB.Left;
             this.lastSelected = projectTab1.Get_Latest();
             commentsTab1.SetTab(this.cSock, this.lastSelected);
             commentsTab1.Visible = false;
@@ -55,8 +55,8 @@ namespace Client
 
         private void shareTab_Click(object sender, EventArgs e)
         {
-            seperatorLine.Width = shareTab.Width;
-            seperatorLine.Left = shareTab.Left;
+            seperatorLine.Width = shareTabB.Width;
+            seperatorLine.Left = shareTabB.Left;
             this.lastSelected = projectTab1.Get_Latest();
             sharedTab1.SetTab(this.cSock, this.lastSelected);
             sharedTab1.Visible = false;
@@ -92,6 +92,30 @@ namespace Client
         private void panel4_MouseUp(object sender, MouseEventArgs e)
         {
             this.dr.Release(); 
+        }
+
+        private void bunifuFlatButton1_Click(object sender, EventArgs e)
+        {
+            placeLabel.Text = "My Profile";
+            projectsTabB.Visible = true;
+            commentsTabB.Visible = true;
+            shareTabB.Visible = true;
+            projectsTabB.Enabled = true;
+            commentsTabB.Enabled = true;
+            shareTabB.Enabled = true;
+            seperatorLine.Visible = true;
+        }
+
+        private void bunifuFlatButton2_Click(object sender, EventArgs e)
+        {
+            placeLabel.Text = "Search User";
+            projectsTabB.Visible = false;
+            commentsTabB.Visible = false;
+            shareTabB.Visible = false;
+            projectsTabB.Enabled = false;
+            commentsTabB.Enabled = false;
+            shareTabB.Enabled = false;
+            seperatorLine.Visible = false;
         }
     }
 }

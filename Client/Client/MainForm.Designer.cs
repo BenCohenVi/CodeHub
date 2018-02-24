@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BunifuAnimatorNS.Animation animation1 = new BunifuAnimatorNS.Animation();
+            BunifuAnimatorNS.Animation animation2 = new BunifuAnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
@@ -40,10 +40,10 @@
             this.projectTab1 = new Client.ProjectTab();
             this.commentsTab1 = new Client.CommentsTab();
             this.sharedTab1 = new Client.SharedTab();
-            this.projectsTab = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.commentsTab = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.projectsTabB = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.commentsTabB = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.bunifuTransition1 = new BunifuAnimatorNS.BunifuTransition(this.components);
-            this.shareTab = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.shareTabB = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.seperatorLine = new Bunifu.Framework.UI.BunifuSeparator();
             this.nameLabel = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
@@ -52,7 +52,7 @@
             this.bunifuFlatButton3 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.bunifuFlatButton2 = new Bunifu.Framework.UI.BunifuFlatButton();
             this.bunifuSeparator1 = new Bunifu.Framework.UI.BunifuSeparator();
-            this.bunifuCustomLabel2 = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.placeLabel = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minBtn)).BeginInit();
@@ -166,68 +166,68 @@
             this.sharedTab1.Size = new System.Drawing.Size(918, 498);
             this.sharedTab1.TabIndex = 2;
             // 
-            // projectsTab
+            // projectsTabB
             // 
-            this.projectsTab.AutoSize = true;
-            this.projectsTab.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuTransition1.SetDecoration(this.projectsTab, BunifuAnimatorNS.DecorationType.None);
-            this.projectsTab.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.projectsTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
-            this.projectsTab.Location = new System.Drawing.Point(273, 161);
-            this.projectsTab.Name = "projectsTab";
-            this.projectsTab.Size = new System.Drawing.Size(79, 18);
-            this.projectsTab.TabIndex = 2;
-            this.projectsTab.Text = "PROJECTS";
-            this.projectsTab.Click += new System.EventHandler(this.projectsTab_Click);
+            this.projectsTabB.AutoSize = true;
+            this.projectsTabB.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bunifuTransition1.SetDecoration(this.projectsTabB, BunifuAnimatorNS.DecorationType.None);
+            this.projectsTabB.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.projectsTabB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
+            this.projectsTabB.Location = new System.Drawing.Point(273, 161);
+            this.projectsTabB.Name = "projectsTabB";
+            this.projectsTabB.Size = new System.Drawing.Size(79, 18);
+            this.projectsTabB.TabIndex = 2;
+            this.projectsTabB.Text = "PROJECTS";
+            this.projectsTabB.Click += new System.EventHandler(this.projectsTab_Click);
             // 
-            // commentsTab
+            // commentsTabB
             // 
-            this.commentsTab.AutoSize = true;
-            this.commentsTab.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuTransition1.SetDecoration(this.commentsTab, BunifuAnimatorNS.DecorationType.None);
-            this.commentsTab.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.commentsTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
-            this.commentsTab.Location = new System.Drawing.Point(398, 161);
-            this.commentsTab.Name = "commentsTab";
-            this.commentsTab.Size = new System.Drawing.Size(97, 18);
-            this.commentsTab.TabIndex = 3;
-            this.commentsTab.Text = "DISCUSSION";
-            this.commentsTab.Click += new System.EventHandler(this.commentsTab_Click);
+            this.commentsTabB.AutoSize = true;
+            this.commentsTabB.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bunifuTransition1.SetDecoration(this.commentsTabB, BunifuAnimatorNS.DecorationType.None);
+            this.commentsTabB.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.commentsTabB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
+            this.commentsTabB.Location = new System.Drawing.Point(398, 161);
+            this.commentsTabB.Name = "commentsTabB";
+            this.commentsTabB.Size = new System.Drawing.Size(97, 18);
+            this.commentsTabB.TabIndex = 3;
+            this.commentsTabB.Text = "DISCUSSION";
+            this.commentsTabB.Click += new System.EventHandler(this.commentsTab_Click);
             // 
             // bunifuTransition1
             // 
             this.bunifuTransition1.AnimationType = BunifuAnimatorNS.AnimationType.HorizSlide;
             this.bunifuTransition1.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 0F;
-            this.bunifuTransition1.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 0F;
+            this.bunifuTransition1.DefaultAnimation = animation2;
             // 
-            // shareTab
+            // shareTabB
             // 
-            this.shareTab.AutoSize = true;
-            this.shareTab.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.bunifuTransition1.SetDecoration(this.shareTab, BunifuAnimatorNS.DecorationType.None);
-            this.shareTab.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.shareTab.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
-            this.shareTab.Location = new System.Drawing.Point(541, 161);
-            this.shareTab.Name = "shareTab";
-            this.shareTab.Size = new System.Drawing.Size(54, 18);
-            this.shareTab.TabIndex = 5;
-            this.shareTab.Text = "SHARE";
-            this.shareTab.Click += new System.EventHandler(this.shareTab_Click);
+            this.shareTabB.AutoSize = true;
+            this.shareTabB.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.bunifuTransition1.SetDecoration(this.shareTabB, BunifuAnimatorNS.DecorationType.None);
+            this.shareTabB.Font = new System.Drawing.Font("Century Gothic", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.shareTabB.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
+            this.shareTabB.Location = new System.Drawing.Point(541, 161);
+            this.shareTabB.Name = "shareTabB";
+            this.shareTabB.Size = new System.Drawing.Size(54, 18);
+            this.shareTabB.TabIndex = 5;
+            this.shareTabB.Text = "SHARE";
+            this.shareTabB.Click += new System.EventHandler(this.shareTab_Click);
             // 
             // seperatorLine
             // 
@@ -315,6 +315,7 @@
             this.bunifuFlatButton1.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.bunifuFlatButton1.Textcolor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton1.TextFont = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuFlatButton1.Click += new System.EventHandler(this.bunifuFlatButton1_Click);
             // 
             // bunifuFlatButton3
             // 
@@ -386,6 +387,7 @@
             this.bunifuFlatButton2.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.bunifuFlatButton2.Textcolor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton2.TextFont = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuFlatButton2.Click += new System.EventHandler(this.bunifuFlatButton2_Click);
             // 
             // bunifuSeparator1
             // 
@@ -401,25 +403,25 @@
             this.bunifuSeparator1.Transparency = 255;
             this.bunifuSeparator1.Vertical = false;
             // 
-            // bunifuCustomLabel2
+            // placeLabel
             // 
-            this.bunifuCustomLabel2.AutoSize = true;
-            this.bunifuCustomLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.bunifuTransition1.SetDecoration(this.bunifuCustomLabel2, BunifuAnimatorNS.DecorationType.None);
-            this.bunifuCustomLabel2.Font = new System.Drawing.Font("Segoe UI Semibold", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.bunifuCustomLabel2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuCustomLabel2.Location = new System.Drawing.Point(24, 75);
-            this.bunifuCustomLabel2.Name = "bunifuCustomLabel2";
-            this.bunifuCustomLabel2.Size = new System.Drawing.Size(168, 45);
-            this.bunifuCustomLabel2.TabIndex = 2;
-            this.bunifuCustomLabel2.Text = "My Profile";
+            this.placeLabel.AutoSize = true;
+            this.placeLabel.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuTransition1.SetDecoration(this.placeLabel, BunifuAnimatorNS.DecorationType.None);
+            this.placeLabel.Font = new System.Drawing.Font("Segoe UI Semibold", 24F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.placeLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.placeLabel.Location = new System.Drawing.Point(24, 75);
+            this.placeLabel.Name = "placeLabel";
+            this.placeLabel.Size = new System.Drawing.Size(168, 45);
+            this.placeLabel.TabIndex = 2;
+            this.placeLabel.Text = "My Profile";
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(101)))), ((int)(((byte)(152)))), ((int)(((byte)(252)))));
             this.panel1.BackgroundImage = global::Client.Properties.Resources.Background;
             this.panel1.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-            this.panel1.Controls.Add(this.bunifuCustomLabel2);
+            this.panel1.Controls.Add(this.placeLabel);
             this.bunifuTransition1.SetDecoration(this.panel1, BunifuAnimatorNS.DecorationType.None);
             this.panel1.Location = new System.Drawing.Point(235, 0);
             this.panel1.Name = "panel1";
@@ -434,9 +436,9 @@
             this.ClientSize = new System.Drawing.Size(1185, 708);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.seperatorLine);
-            this.Controls.Add(this.shareTab);
-            this.Controls.Add(this.commentsTab);
-            this.Controls.Add(this.projectsTab);
+            this.Controls.Add(this.shareTabB);
+            this.Controls.Add(this.commentsTabB);
+            this.Controls.Add(this.projectsTabB);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel3);
             this.Controls.Add(this.panel1);
@@ -465,12 +467,12 @@
 
         private Bunifu.Framework.UI.BunifuElipse bunifuElipse1;
         private System.Windows.Forms.Panel panel2;
-        private Bunifu.Framework.UI.BunifuCustomLabel commentsTab;
-        private Bunifu.Framework.UI.BunifuCustomLabel projectsTab;
+        private Bunifu.Framework.UI.BunifuCustomLabel commentsTabB;
+        private Bunifu.Framework.UI.BunifuCustomLabel projectsTabB;
         private ProjectTab projectTab1;
         private BunifuAnimatorNS.BunifuTransition bunifuTransition1;
         private CommentsTab commentsTab1;
-        private Bunifu.Framework.UI.BunifuCustomLabel shareTab;
+        private Bunifu.Framework.UI.BunifuCustomLabel shareTabB;
         private SharedTab sharedTab1;
         private Bunifu.Framework.UI.BunifuSeparator seperatorLine;
         private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton1;
@@ -481,7 +483,7 @@
         private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton3;
         private Bunifu.Framework.UI.BunifuSeparator bunifuSeparator1;
         private System.Windows.Forms.Panel panel1;
-        private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel2;
+        private Bunifu.Framework.UI.BunifuCustomLabel placeLabel;
         private Bunifu.Framework.UI.BunifuImageButton cancelBtn;
         private Bunifu.Framework.UI.BunifuImageButton minBtn;
         private System.Windows.Forms.Panel panel4;

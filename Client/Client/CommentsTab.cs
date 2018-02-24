@@ -35,7 +35,8 @@ namespace Client
                 this.selectedProject = proName;
                 proLabel.Text = "SELECTED PROJECT: " + this.selectedProject;
                 commentBox.Text = "Add A Comment...";
-                versionBox.Clear();
+                previewBox.Clear();
+                verBox.Items.Clear();
                 this.Versions = Convert.ToInt32(this.cSock.Get_Versions(this.selectedProject));
                 this.Branches = this.cSock.Get_Branches(this.selectedProject);
                 if (this.Branches.Contains('_'))
@@ -47,16 +48,16 @@ namespace Client
                         temp = this.Branches.Split(',')[branchIndex];
                         if ((i + 1) == Convert.ToInt32(temp.Split('_')[0]))
                         {
-                            versionBox.AddItem((i + 1).ToString());
+                            verBox.Items.Add((i + 1).ToString());
                             for (int x = 0; x < Convert.ToInt32(this.Branches.Split(',')[branchIndex].Split('_')[1]); x++)
                             {
-                                versionBox.AddItem("   " + ((i + 1) + "." + (+x + 1).ToString()));
+                                verBox.Items.Add("   " + ((i + 1) + "." + (+x + 1).ToString()));
                             }
                             branchIndex++;
                         }
                         else
                         {
-                            versionBox.AddItem((i + 1).ToString());
+                            verBox.Items.Add((i + 1).ToString());
                         }
                     }
                 }
@@ -64,10 +65,9 @@ namespace Client
                 {
                     for (int i = 0; i < Versions; i++)
                     {
-                        versionBox.AddItem((i + 1).ToString());
+                        verBox.Items.Add((i + 1).ToString());
                     }
                 }
-                this.Comments = this.cSock.Get_Comments(this.selectedProject).Split('\n');
                 SetComments();
             }
             catch { }
@@ -77,6 +77,7 @@ namespace Client
         {
             try
             {
+                this.Comments = this.cSock.Get_Comments(this.selectedProject).Split('\n');
                 commentsList.Items.Clear();
                 for (int i = 0; i < this.Comments.Length; i++)
                 {
@@ -86,33 +87,13 @@ namespace Client
             catch { }
         }
 
-        private void versionBox_onItemSelected(object sender, EventArgs e)
-        {
-            try
-            {
-                previewBox.Clear();
-                if (versionBox.selectedIndex > -1)
-                {
-                    previewBox.Text = this.cSock.Get_Preview(this.selectedProject, versionBox.selectedValue);
-                }
-                else
-                {
-                    previewBox.Text = "No Version Selected";
-                }
-            }
-            catch { }
-        }
-
-        private void commentBox_Click(object sender, EventArgs e)
-        {
-            commentBox.Text = "";
-        }
 
         private void commentBtn_Click(object sender, EventArgs e)
         {
             if (proLabel.Text != "SELECTED PROJECT: None" && commentBox.Text != "")
             {
                 this.cSock.Comment(this.selectedProject, commentBox.Text);
+                SetComments();
             }
             commentBox.Text = "";
         }
@@ -137,6 +118,23 @@ namespace Client
             e.DrawBackground();
             e.Graphics.DrawString(((ListBox)(sender)).Items[e.Index].ToString(), f, new SolidBrush(e.ForeColor), e.Bounds);
             e.DrawFocusRectangle();
+        }
+
+        private void verBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try 
+            {
+                previewBox.Clear();
+                if (verBox.SelectedIndex > -1)
+                {
+                    previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
+                }
+                else
+                {
+                    previewBox.Text = "No Version Selected";
+                }
+            }
+            catch { }
         }
     }
 }

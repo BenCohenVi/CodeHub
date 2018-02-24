@@ -29,16 +29,16 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BunifuAnimatorNS.Animation animation1 = new BunifuAnimatorNS.Animation();
+            BunifuAnimatorNS.Animation animation2 = new BunifuAnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CommentsTab));
             this.proLabel = new System.Windows.Forms.Label();
             this.bunifuTransition1 = new BunifuAnimatorNS.BunifuTransition(this.components);
             this.previewBox = new WindowsFormsControlLibrary1.BunifuCustomTextbox();
             this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
-            this.versionBox = new Bunifu.Framework.UI.BunifuDropdown();
             this.commentBox = new Bunifu.Framework.UI.BunifuMaterialTextbox();
             this.commentBtn = new Bunifu.Framework.UI.BunifuThinButton2();
             this.commentsList = new System.Windows.Forms.ListBox();
+            this.verBox = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // proLabel
@@ -58,27 +58,27 @@
             // 
             this.bunifuTransition1.AnimationType = BunifuAnimatorNS.AnimationType.VertSlide;
             this.bunifuTransition1.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 0F;
-            this.bunifuTransition1.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 0F;
+            this.bunifuTransition1.DefaultAnimation = animation2;
             this.bunifuTransition1.Interval = 5;
             // 
             // previewBox
             // 
-            this.previewBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
+            this.previewBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
             this.previewBox.BorderColor = System.Drawing.Color.SeaGreen;
             this.bunifuTransition1.SetDecoration(this.previewBox, BunifuAnimatorNS.DecorationType.None);
             this.previewBox.Font = new System.Drawing.Font("Fira Code", 8.999999F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -102,23 +102,6 @@
             this.bunifuCustomLabel1.Size = new System.Drawing.Size(110, 21);
             this.bunifuCustomLabel1.TabIndex = 53;
             this.bunifuCustomLabel1.Text = "Select Version:";
-            // 
-            // versionBox
-            // 
-            this.versionBox.BackColor = System.Drawing.Color.Transparent;
-            this.versionBox.BorderRadius = 3;
-            this.bunifuTransition1.SetDecoration(this.versionBox, BunifuAnimatorNS.DecorationType.None);
-            this.versionBox.DisabledColor = System.Drawing.Color.Gray;
-            this.versionBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
-            this.versionBox.Items = new string[0];
-            this.versionBox.Location = new System.Drawing.Point(648, 30);
-            this.versionBox.Name = "versionBox";
-            this.versionBox.NomalColor = System.Drawing.Color.FromArgb(((int)(((byte)(244)))), ((int)(((byte)(242)))), ((int)(((byte)(242)))));
-            this.versionBox.onHoverColor = System.Drawing.Color.FromArgb(((int)(((byte)(242)))), ((int)(((byte)(245)))), ((int)(((byte)(254)))));
-            this.versionBox.selectedIndex = -1;
-            this.versionBox.Size = new System.Drawing.Size(217, 29);
-            this.versionBox.TabIndex = 54;
-            this.versionBox.onItemSelected += new System.EventHandler(this.versionBox_onItemSelected);
             // 
             // commentBox
             // 
@@ -185,15 +168,28 @@
             this.commentsList.TabIndex = 57;
             this.commentsList.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.commentsList_DrawItem);
             // 
+            // verBox
+            // 
+            this.verBox.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.verBox, BunifuAnimatorNS.DecorationType.None);
+            this.verBox.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.verBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
+            this.verBox.FormattingEnabled = true;
+            this.verBox.Location = new System.Drawing.Point(644, 35);
+            this.verBox.Name = "verBox";
+            this.verBox.Size = new System.Drawing.Size(134, 29);
+            this.verBox.TabIndex = 58;
+            this.verBox.SelectedIndexChanged += new System.EventHandler(this.verBox_SelectedIndexChanged);
+            // 
             // CommentsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.verBox);
             this.Controls.Add(this.commentsList);
             this.Controls.Add(this.commentBtn);
             this.Controls.Add(this.commentBox);
-            this.Controls.Add(this.versionBox);
             this.Controls.Add(this.bunifuCustomLabel1);
             this.Controls.Add(this.previewBox);
             this.Controls.Add(this.proLabel);
@@ -211,9 +207,9 @@
         private BunifuAnimatorNS.BunifuTransition bunifuTransition1;
         private WindowsFormsControlLibrary1.BunifuCustomTextbox previewBox;
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
-        private Bunifu.Framework.UI.BunifuDropdown versionBox;
         private Bunifu.Framework.UI.BunifuMaterialTextbox commentBox;
         private Bunifu.Framework.UI.BunifuThinButton2 commentBtn;
         private System.Windows.Forms.ListBox commentsList;
+        private System.Windows.Forms.ComboBox verBox;
     }
 }
