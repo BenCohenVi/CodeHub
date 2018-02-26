@@ -24,8 +24,7 @@ namespace Client
                 bunifuTransition1.ShowSync(Item);
                 Application.DoEvents();
             }
-            errorMessage1.Visible = false;
-            successMessage1.Visible = false;
+            statusLabel.ForeColor = Color.FromArgb(252, 252, 252);
         }
 
         public string Fix_Format(string project)
@@ -178,10 +177,6 @@ namespace Client
                         }
                         else
                         {
-                            successMessage1.Visible = false;
-                            errorMessage1.Set_Message("Newer Version Available");
-                            errorMessage1.Visible = true;
-                            successMessage1.BringToFront();
                             Done = false;
                         }
                     }
@@ -201,29 +196,17 @@ namespace Client
                         }
                         else
                         {
-                            successMessage1.Visible = false;
-                            errorMessage1.Set_Message("Newer Version Available");
-                            errorMessage1.Visible = true;
-                            successMessage1.BringToFront();
                             Done = false;
                         }
                     }
                 }
                 if (Done)
                 {
-                    errorMessage1.Visible = false;
-                    successMessage1.Set_Message("Project Updated!");
-                    successMessage1.Visible = true;
-                    successMessage1.BringToFront();
                     projectList_SelectedIndexChanged(null, null);
                 }
             }
             catch
             {
-                successMessage1.Visible = false;
-                errorMessage1.Set_Message("File Type Not Supported");
-                errorMessage1.Visible = true;
-                successMessage1.BringToFront();
             }
         }
 
@@ -251,18 +234,10 @@ namespace Client
                         string filePath = path.Replace("\0", string.Empty) + "\\" + projectList.SelectedItem.ToString().Replace("\0", string.Empty) + "_" + versionList.SelectedItem.ToString().Replace(".", "_").Replace(" ", "").Replace("\0", string.Empty) + "."+ extension.Replace("\0", string.Empty);
                         System.IO.File.WriteAllBytes(filePath, Convert.FromBase64String(content));
                     }
-                    errorMessage1.Visible = false;
-                    successMessage1.Set_Message("Download Completed!");
-                    successMessage1.Visible = true;
-                    successMessage1.BringToFront();
                 }
             }
             catch
             {
-                successMessage1.Visible = false;
-                errorMessage1.Set_Message("Download Error");
-                errorMessage1.Visible = true;
-                successMessage1.BringToFront();
             }
         }
 
@@ -271,7 +246,7 @@ namespace Client
             try
             {
                 DialogResult result = openFileDialogU.ShowDialog();
-                if (result == DialogResult.OK && projectList.SelectedIndex > -1 && versionList.SelectedIndex > -1)
+                if (result == DialogResult.OK && projectList.SelectedIndex > -1 && versionList.SelectedIndex > -1 && !versionList.SelectedItem.ToString().Contains('.'))
                 {
                     int index = projectList.SelectedIndex;
                     this.File = openFileDialogU.FileName;
@@ -287,19 +262,14 @@ namespace Client
                         if (i + 1 == branchVer)
                             versionList.Items.Add(i + 1 + ".1");
                     }
+                    projectList_SelectedIndexChanged(null, null);
                 }
-                errorMessage1.Visible = false;
-                successMessage1.Set_Message("Branch Created!");
-                successMessage1.Visible = true;
-                successMessage1.BringToFront();
-                projectList_SelectedIndexChanged(null, null);
+            else
+                {
+                }
             }
             catch
             {
-                successMessage1.Visible = false;
-                errorMessage1.Set_Message("File Type Not Supported");
-                errorMessage1.Visible = true;
-                successMessage1.BringToFront();
             }
         }
 
@@ -311,18 +281,15 @@ namespace Client
                 this.cSock.Delete_Project(proName);
                 Refresh_Table();
                 versionList.Items.Clear();
-                errorMessage1.Visible = false;
-                successMessage1.Set_Message("Project Deleted!");
-                successMessage1.Visible = true;
-                successMessage1.BringToFront();
             }
             else
             {
-                successMessage1.Visible = false;
-                errorMessage1.Set_Message("Select A Project To Delete First");
-                errorMessage1.Visible = true;
-                successMessage1.BringToFront();
             }
+        }
+
+        private void bunifuCustomLabel1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

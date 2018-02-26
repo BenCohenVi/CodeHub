@@ -93,7 +93,7 @@ def handler(clientsock, serversock, addr):
             else:
                 clientsock.close()
                 conn.close()
-    except:
+    except:    
         clientsock.close()
         conn.close()
 

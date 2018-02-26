@@ -52,10 +52,11 @@ class Useresponse:
                 for user in users:
                     self.c.execute("DELETE FROM "+user+" WHERE name=:data", {'data':proName})
                     self.conn.commit()
-            else:
+            elif sharing != "NoOne":
                 self.c.execute("DELETE FROM "+sharing+" WHERE name=:data", {'data':proName})
                 self.conn.commit()
             shutil.rmtree(proPath)
+        print "deleted"
         self.c.execute("SELECT shared FROM "+self.username+" WHERE name=:data", {'data':proName})
         shared = str(self.c.fetchone())
         shared = shared.replace("(u'","").replace("',)","")
@@ -206,9 +207,10 @@ class Useresponse:
                     self.conn.commit()
         fileInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Info Gotten")
+        time.sleep(0.1)
         NewVerContent = self.clientsock.recv(int(fileBuffSize)+100)
-        self.clientsock.send("File Gotten")
-        if fileInfo != "png":
+        print fileBuffSize
+        if fileInfo != "png" and int(fileBuffSize) < 20000:
             proPath = self.PATH+"\\Projects\\"+data+"\\"
             filesInDir = os.listdir(proPath)
             filesInDir.sort()
@@ -230,11 +232,15 @@ class Useresponse:
             with io.FileIO(proPath, "w") as f:
                 f.write(str(delta))
                 f.close()
+            self.clientsock.send("File Gotten")
         else:
             proPath = self.PATH+"\\Projects\\"+data+"\\"+pro+"."+fileInfo
+            print "het"
             with io.FileIO(proPath, "w") as f:
                 f.write(NewVerContent)
                 f.close()
+            self.clientsock.send("File Gotten")
+
 
 
     def update_branch(self):
