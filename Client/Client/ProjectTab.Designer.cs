@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BunifuAnimatorNS.Animation animation2 = new BunifuAnimatorNS.Animation();
+            BunifuAnimatorNS.Animation animation1 = new BunifuAnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ProjectTab));
             this.label8 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
@@ -41,14 +41,17 @@
             this.projectList = new System.Windows.Forms.ListBox();
             this.versionList = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.openFileDialogU = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
             this.deleteProjectBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.newProjectBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.downloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.uploadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.branchBtn = new Bunifu.Framework.UI.BunifuImageButton();
-            this.openFileDialogU = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
-            this.statusLabel = new System.Windows.Forms.Label();
+            this.errorMessage1 = new Client.ErrorMessage();
+            this.successMessage1 = new Client.SuccessMessage();
+            this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.deleteProjectBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newProjectBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadBtn)).BeginInit();
@@ -138,22 +141,22 @@
             // 
             this.bunifuTransition1.AnimationType = BunifuAnimatorNS.AnimationType.HorizSlide;
             this.bunifuTransition1.Cursor = null;
-            animation2.AnimateOnlyDifferences = true;
-            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
-            animation2.LeafCoeff = 0F;
-            animation2.MaxTime = 1F;
-            animation2.MinTime = 0F;
-            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
-            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
-            animation2.MosaicSize = 0;
-            animation2.Padding = new System.Windows.Forms.Padding(0);
-            animation2.RotateCoeff = 0F;
-            animation2.RotateLimit = 0F;
-            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
-            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
-            animation2.TimeCoeff = 0F;
-            animation2.TransparencyCoeff = 0F;
-            this.bunifuTransition1.DefaultAnimation = animation2;
+            animation1.AnimateOnlyDifferences = true;
+            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
+            animation1.LeafCoeff = 0F;
+            animation1.MaxTime = 1F;
+            animation1.MinTime = 0F;
+            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
+            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
+            animation1.MosaicSize = 0;
+            animation1.Padding = new System.Windows.Forms.Padding(0);
+            animation1.RotateCoeff = 0F;
+            animation1.RotateLimit = 0F;
+            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
+            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
+            animation1.TimeCoeff = 0F;
+            animation1.TransparencyCoeff = 0F;
+            this.bunifuTransition1.DefaultAnimation = animation1;
             this.bunifuTransition1.Interval = 5;
             // 
             // projectList
@@ -197,6 +200,20 @@
             this.label2.Size = new System.Drawing.Size(104, 25);
             this.label2.TabIndex = 66;
             this.label2.Text = "VERSIONS";
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.errorMessage1);
+            this.panel1.Controls.Add(this.successMessage1);
+            this.bunifuTransition1.SetDecoration(this.panel1, BunifuAnimatorNS.DecorationType.None);
+            this.panel1.Location = new System.Drawing.Point(602, 442);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(336, 52);
+            this.panel1.TabIndex = 67;
+            // 
+            // openFileDialogU
+            // 
+            this.openFileDialogU.FileName = "openFileDialog1";
             // 
             // deleteProjectBtn
             // 
@@ -273,27 +290,33 @@
             this.branchBtn.Zoom = 10;
             this.branchBtn.Click += new System.EventHandler(this.branchBtn_Click);
             // 
-            // openFileDialogU
+            // errorMessage1
             // 
-            this.openFileDialogU.FileName = "openFileDialog1";
+            this.errorMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(23)))), ((int)(((byte)(58)))));
+            this.bunifuTransition1.SetDecoration(this.errorMessage1, BunifuAnimatorNS.DecorationType.None);
+            this.errorMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorMessage1.Location = new System.Drawing.Point(0, 0);
+            this.errorMessage1.Name = "errorMessage1";
+            this.errorMessage1.Size = new System.Drawing.Size(336, 52);
+            this.errorMessage1.TabIndex = 1;
             // 
-            // statusLabel
+            // successMessage1
             // 
-            this.statusLabel.AutoSize = true;
-            this.bunifuTransition1.SetDecoration(this.statusLabel, BunifuAnimatorNS.DecorationType.None);
-            this.statusLabel.Font = new System.Drawing.Font("Segoe UI", 14.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.statusLabel.Location = new System.Drawing.Point(422, 38);
-            this.statusLabel.Name = "statusLabel";
-            this.statusLabel.Size = new System.Drawing.Size(62, 25);
-            this.statusLabel.TabIndex = 67;
-            this.statusLabel.Text = "Status";
+            this.successMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(154)))));
+            this.bunifuTransition1.SetDecoration(this.successMessage1, BunifuAnimatorNS.DecorationType.None);
+            this.successMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.successMessage1.Location = new System.Drawing.Point(0, 0);
+            this.successMessage1.Name = "successMessage1";
+            this.successMessage1.Size = new System.Drawing.Size(336, 52);
+            this.successMessage1.TabIndex = 0;
+            this.successMessage1.Visible = false;
             // 
             // ProjectTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.Controls.Add(this.statusLabel);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.versionList);
             this.Controls.Add(this.projectList);
@@ -309,9 +332,9 @@
             this.Controls.Add(this.branchBtn);
             this.Controls.Add(this.label1);
             this.bunifuTransition1.SetDecoration(this, BunifuAnimatorNS.DecorationType.None);
-            this.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(37)))), ((int)(((byte)(139)))), ((int)(((byte)(229)))));
             this.Name = "ProjectTab";
             this.Size = new System.Drawing.Size(938, 494);
+            this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.deleteProjectBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newProjectBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadBtn)).EndInit();
@@ -341,6 +364,8 @@
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogU;
         private System.Windows.Forms.ListBox versionList;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label statusLabel;
+        private System.Windows.Forms.Panel panel1;
+        private SuccessMessage successMessage1;
+        private ErrorMessage errorMessage1;
     }
 }

@@ -278,9 +278,7 @@ class Useresponse:
 
 
     def send_preview(self):
-        print "preview"
         proInfo = self.clientsock.recv(self.BUFSIZ)
-        print proInfo
         proName = proInfo.split("^")[0]
         Version = proInfo.split("^")[1]
         proPath = self.PATH+"\\Projects"+"\\"+proName+"\\"
@@ -294,8 +292,6 @@ class Useresponse:
         proPath = proPath + proName
         verFile = open(proPath, "rb")
         if proName.split(".")[1] != "png":
-            print proPath
-            print str(os.path.getsize(proPath))
             self.clientsock.send(str(os.path.getsize(proPath)))
             self.clientsock.recv(self.BUFSIZ)
             try:
