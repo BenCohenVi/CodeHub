@@ -30,7 +30,7 @@ def send_branches(clientsock, c, conn):
 
 
 def handler(clientsock, serversock, addr):
-    try:
+    #try:
         conn = sqlite3.connect(PATH+'\\ProjectsInfo.db')
         c = conn.cursor()
         connected = False
@@ -75,6 +75,7 @@ def handler(clientsock, serversock, addr):
             elif data == "Branch.":
                 clientResponse.new_branch()
             elif data == "Update.":
+                #send_test(clientsock)
                 clientResponse.update_project()
             elif data == "BranchU.":
                 clientResponse.update_branch()
@@ -93,9 +94,9 @@ def handler(clientsock, serversock, addr):
             else:
                 clientsock.close()
                 conn.close()
-    except:    
-        clientsock.close()
-        conn.close()
+    #except:    
+        #clientsock.close()
+        #conn.close()
 
 
 PATH = utils.get_path()

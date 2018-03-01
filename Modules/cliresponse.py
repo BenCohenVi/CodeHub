@@ -13,11 +13,9 @@ class Useresponse:
 
 
     def new_project(self):
-        fileBuffSize = self.clientsock.recv(self.BUFSIZ)
+        size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
-        Content = self.clientsock.recv(int(fileBuffSize)+100)
-        self.clientsock.send("File Gotten")
-        proInfo = self.clientsock.recv(self.BUFSIZ)
+        proInfo = self.clientsock.recv(1024)
         proName = proInfo.split(".")[0]
         proType = proInfo.split(".")[1]
         dirs = os.listdir(self.PATH+"\\Projects")
@@ -26,6 +24,21 @@ class Useresponse:
                 self.clientsock.send("NO")
                 return
         self.clientsock.send("Info Gotten")
+        if proType != "png":
+            size = int(size)
+            current_Size = 0
+            buffer = b""
+            while current_Size < size:
+                data = self.clientsock.recv(1024)
+                if not data:
+                    break
+                if len(data) + current_Size > size:
+                    data = data[:size-current_Size]
+                buffer += data
+                current_Size += len(data)
+        else:
+            buffer = self.clientsock.recv(int(size)+100)
+        self.clientsock.send("File Gotten")
         proPath = self.PATH+"\\Projects" +"\\"+ proName
         if not os.path.exists(proPath):
             os.makedirs(proPath)
@@ -33,7 +46,7 @@ class Useresponse:
         commentsFile.close()
         proPath = proPath + "\\1."+ proType
         with io.FileIO(proPath, "w") as file:
-            file.write(Content)
+            file.write(buffer)
             file.close()
         self.c.execute("INSERT INTO "+self.username+" VALUES (?, 1, ?, ?)", (proName,"NoOne", "NoOne"))
         self.conn.commit()
@@ -56,7 +69,6 @@ class Useresponse:
                 self.c.execute("DELETE FROM "+sharing+" WHERE name=:data", {'data':proName})
                 self.conn.commit()
             shutil.rmtree(proPath)
-        print "deleted"
         self.c.execute("SELECT shared FROM "+self.username+" WHERE name=:data", {'data':proName})
         shared = str(self.c.fetchone())
         shared = shared.replace("(u'","").replace("',)","")
@@ -134,7 +146,6 @@ class Useresponse:
             self.clientsock.send("NO2")
             return
         if self.username == uName:
-            print "user shares himself"
             self.clientsock.send("NO3")
             return
         self.clientsock.send("OK")
@@ -155,29 +166,42 @@ class Useresponse:
 
 
     def new_branch(self):
-        fileBuffSize = self.clientsock.recv(self.BUFSIZ)
+        size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
         proInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Info Gotten")
         proName = proInfo.split("^")[0]
         branchVer = proInfo.split("^")[1]
         branchVer = branchVer.replace(" ", "")
-        Content = self.clientsock.recv(int(fileBuffSize)+100)
-        self.clientsock.send("Content Gotten")
         extension = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Extension Gotten")
+        if extension != "png":
+            size = int(size)
+            current_Size = 0
+            buffer = b""
+            while current_Size < size:
+                data = self.clientsock.recv(1024)
+                if not data:
+                    break
+                if len(data) + current_Size > size:
+                    data = data[:size-current_Size]
+                buffer += data
+                current_Size += len(data)
+        else:
+            buffer = self.clientsock.recv(int(size)+100)
+        self.clientsock.send("Content Gotten")
         branchPath = self.PATH+"\\Projects\\"+proName+"\\"+branchVer+"_1."+extension
         with io.FileIO(branchPath, "w") as f:
-            f.write(Content)
+            f.write(buffer)
             f.close()
 
 
     def update_project(self):
-        data = self.clientsock.recv(self.BUFSIZ)
+        proName = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
-        fileBuffSize = self.clientsock.recv(self.BUFSIZ)
+        size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
-        self.c.execute("SELECT * FROM "+self.username+" WHERE name=:data", {'data':data})
+        self.c.execute("SELECT * FROM "+self.username+" WHERE name=:data", {'data':proName})
         pro = str(self.c.fetchone())
         isSharing = pro.split(',')[2]
         isSharing = isSharing.replace(" u'","").replace("'","")
@@ -186,94 +210,118 @@ class Useresponse:
         pro = pro.split(',')[1]
         pro = pro[1:2]
         pro = str(int(pro)+1)
-        self.c.execute("UPDATE "+self.username+" SET version=? WHERE name=?", [int(pro), data])
+        self.c.execute("UPDATE "+self.username+" SET version=? WHERE name=?", [int(pro), proName])
         self.conn.commit()
         if isSharing != "NoOne":
-            self.c.execute("UPDATE "+isSharing+" SET version=? WHERE name=?", [int(pro), data])
+            self.c.execute("UPDATE "+isSharing+" SET version=? WHERE name=?", [int(pro), proName])
             self.conn.commit()
-            self.c.execute("SELECT sharing FROM "+isSharing+" WHERE name=:data", {'data':data})
+            self.c.execute("SELECT sharing FROM "+isSharing+" WHERE name=:data", {'data':proName})
             users = str(self.c.fetchall())
             users = users.replace("[(u'", "").replace("',)]", "")
             if "^" in users:
                 users = users.split("^")
                 for user in users:
-                    self.c.execute("UPDATE "+user+" SET version=? WHERE name=?", [int(pro), data])
+                    self.c.execute("UPDATE "+user+" SET version=? WHERE name=?", [int(pro), proName])
                     self.conn.commit()
         if sharing != "NoOne":
             if "^" in sharing:
                 users = sharing.split("^")
                 for user in users:
-                    self.c.execute("UPDATE "+user+" SET version=? WHERE name=?", [int(pro), data])
+                    self.c.execute("UPDATE "+user+" SET version=? WHERE name=?", [int(pro), proName])
                     self.conn.commit()
         fileInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Info Gotten")
-        time.sleep(0.1)
-        NewVerContent = self.clientsock.recv(int(fileBuffSize)+100)
-        print fileBuffSize
-        if fileInfo != "png" and int(fileBuffSize) < 20000:
-            proPath = self.PATH+"\\Projects\\"+data+"\\"
+        if fileInfo != "png":
+            size = int(size)
+            current_Size = 0
+            buffer = b""
+            while current_Size < size:
+                data = self.clientsock.recv(1024)
+                if not data:
+                    break
+                if len(data) + current_Size > size:
+                    data = data[:size-current_Size]
+                buffer += data
+                current_Size += len(data)
+        else:
+            buffer = self.clientsock.recv(int(size)+100)
+        self.clientsock.send("File Gotten")
+        if fileInfo != "png" and int(size) < 200000:
+            proPath = self.PATH+"\\Projects\\"+proName+"\\"
             filesInDir = os.listdir(proPath)
             filesInDir.sort()
             done = False
             i = 2
             while not done:
                 if not '_' in filesInDir[int(pro)-i]:
-                    proName =  filesInDir[int(pro)-i]
+                    proNameOld =  filesInDir[int(pro)-i]
                     done = True
                 i = i + 1
-            info = self.PATH+"\\Projects\\"+data+"\\"+proName
+            info = self.PATH+"\\Projects\\"+proName+"\\"+proNameOld
             lastVer = open(info, "r")
             try:
                 lastData= utils.restore_delta(lastVer.read())
             except:
                 lastData = lastVer.read()
-            delta = utils.get_delta(lastData, NewVerContent)
-            proPath = self.PATH+"\\Projects\\"+data+"\\"+pro+"."+fileInfo
+            delta = utils.get_delta(lastData, buffer)
+            proPath = self.PATH+"\\Projects\\"+proName+"\\"+pro+"."+fileInfo
             with io.FileIO(proPath, "w") as f:
                 f.write(str(delta))
                 f.close()
-            self.clientsock.send("File Gotten")
         else:
-            proPath = self.PATH+"\\Projects\\"+data+"\\"+pro+"."+fileInfo
-            print "het"
+            proPath = self.PATH+"\\Projects\\"+proName+"\\"+pro+"."+fileInfo
             with io.FileIO(proPath, "w") as f:
-                f.write(NewVerContent)
+                f.write(buffer)
                 f.close()
-            self.clientsock.send("File Gotten")
-
 
 
     def update_branch(self):
-        fileBuffSize = self.clientsock.recv(self.BUFSIZ)
+        size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
         proInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Info Gotten")
         proName = proInfo.split("^")[0]
         branchVer = proInfo.split("^")[1]
-        Content = self.clientsock.recv(int(fileBuffSize)+100)
-        self.clientsock.send(("Content Gotten"))
         extension = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Extension Gotten")
-        branchPath = self.PATH+"\\Projects\\"+proName+"\\"
-        filesInDir = os.listdir(branchPath)
-        bStart = int(branchVer.split(".")[0]) + int(branchVer.split(".")[1])
-        branchName =  filesInDir[bStart-1]
-        preBranch = self.PATH+"\\Projects\\"+proName+"\\"+branchName
-        lastBranch = open(preBranch, "r")
-        try:
-            lastData = utils.restore_delta(lastBranch.read())
-        except:
-            lastBranch = open(preBranch, "r")
-            lastData = lastBranch.read()
-        delta = utils.get_delta(lastData, Content)
-        branchPath = self.PATH+"\\Projects\\"+proName+"\\"+branchVer.split(".")[0]+"_"+str(int(branchVer.split(".")[1])+1)+"."+extension
         if extension != "png":
+            print "no"
+            size = int(size)
+            current_Size = 0
+            buffer = b""
+            while current_Size < size:
+                data = self.clientsock.recv(1024)
+                if not data:
+                    break
+                if len(data) + current_Size > size:
+                    data = data[:size-current_Size]
+                buffer += data
+                current_Size += len(data)
+        else:
+            buffer = self.clientsock.recv(int(size)+100)
+        self.clientsock.send(("Content Gotten"))
+        if extension != "png" and int(size) < 200000:
+            print "pngn"
+            branchPath = self.PATH+"\\Projects\\"+proName+"\\"
+            filesInDir = os.listdir(branchPath)
+            bStart = int(branchVer.split(".")[0]) + int(branchVer.split(".")[1])
+            branchName =  filesInDir[bStart-1]
+            preBranch = self.PATH+"\\Projects\\"+proName+"\\"+branchName
+            lastBranch = open(preBranch, "r")
+            try:
+                lastData = utils.restore_delta(lastBranch.read())
+            except:
+                lastBranch = open(preBranch, "r")
+                lastData = lastBranch.read()
+            delta = utils.get_delta(lastData, buffer)
+            branchPath = self.PATH+"\\Projects\\"+proName+"\\"+branchVer.split(".")[0]+"_"+str(int(branchVer.split(".")[1])+1)+"."+extension
             with io.FileIO(branchPath, "w") as f:
                 f.write(str(delta))
                 f.close()
         else:
+            branchPath = self.PATH+"\\Projects\\"+proName+"\\"+branchVer.split(".")[0]+"_"+str(int(branchVer.split(".")[1])+1)+"."+extension
             with io.FileIO(branchPath, "w") as f:
-                f.write(str(Content))
+                f.write(str(buffer))
                 f.close()
 
 

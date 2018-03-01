@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
+using System.Diagnostics;
 
 namespace Client
 {
@@ -182,15 +183,6 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            using (var fileStream = File.OpenRead(data))
-            {
-                fileStream.CopyTo(serverStream);
-            }
-
-            inStream = new byte[10025];
-            serverStream.Read(inStream, 0, inStream.Length);
-            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-
             outStream = System.Text.Encoding.ASCII.GetBytes(fileInfo.Replace("\0", string.Empty));
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
@@ -201,8 +193,36 @@ namespace Client
 
             if (System.Text.Encoding.ASCII.GetString(inStream).Replace("\0", string.Empty) == "NO")
             {
-                throw new System.Exception();
+                throw new System.DivideByZeroException();
             }
+
+            if (fileInfo.Split('.')[fileInfo.Split(',').Length] != "png")
+            {
+                using (FileStream fs = File.Open(data, FileMode.Open))
+                {
+                    byte[] b = new byte[1024];
+                    UTF8Encoding temp = new UTF8Encoding(true);
+                    while (fs.Read(b, 0, b.Length) > 0)
+                    {
+                        outStream = System.Text.Encoding.ASCII.GetBytes(temp.GetString(b));
+                        serverStream.Write(outStream, 0, outStream.Length);
+                        serverStream.Flush();
+                    }
+
+                }
+            }
+            else
+            {
+                using (var fileStream = File.OpenRead(data))
+                {
+                    fileStream.CopyTo(serverStream);
+                }
+            }
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+
 
             return returndata;
         }
@@ -303,7 +323,7 @@ namespace Client
             }
         }
 
-        public void Update_Project(string project, string data, string fileInfo)
+        public string Update_Project(string project, string data, string fileInfo)
         {
             bool valiable = false;
             foreach (string ext in this.text_extensions)
@@ -316,7 +336,7 @@ namespace Client
             }            
             if (!valiable)
             {
-                throw new System.Exception();
+                throw new System.DivideByZeroException();
             }
 
             NetworkStream serverStream = clientSocket.GetStream();
@@ -342,10 +362,9 @@ namespace Client
             serverStream.Write(OutStream, 0, OutStream.Length);
             serverStream.Flush();
 
-
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
-            
+
             OutStream = System.Text.Encoding.ASCII.GetBytes(fileInfo.Replace("\0", string.Empty));
             serverStream.Write(OutStream, 0, OutStream.Length);
             serverStream.Flush();
@@ -353,15 +372,33 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            using (var fileStream = File.OpenRead(data))
+            if (fileInfo != "png")
             {
-                fileStream.CopyTo(serverStream);
+                using (FileStream fs = File.Open(data, FileMode.Open))
+                {
+                    byte[] b = new byte[1024];
+                    UTF8Encoding temp = new UTF8Encoding(true);
+                    while (fs.Read(b, 0, b.Length) > 0)
+                    {
+                        OutStream = System.Text.Encoding.ASCII.GetBytes(temp.GetString(b));
+                        serverStream.Write(OutStream, 0, OutStream.Length);
+                        serverStream.Flush();
+                    }
+
+                }
+            }
+            else
+            {
+                using (var fileStream = File.OpenRead(data))
+                {
+                    fileStream.CopyTo(serverStream);
+                }
             }
 
             inStream = new byte[1025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-
+            return "Done";
         }
 
 
@@ -379,7 +416,7 @@ namespace Client
             }
             if (!valiable)
             {
-                throw new System.Exception();
+                throw new System.DivideByZeroException();
             }
 
             NetworkStream serverStream = clientSocket.GetStream();
@@ -409,6 +446,11 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
+            if (System.Text.Encoding.ASCII.GetString(inStream).Replace("\0", string.Empty) == "NO")
+            {
+                throw new System.FieldAccessException();
+            }
+
             OutStream = System.Text.Encoding.ASCII.GetBytes(project.Replace("\0", string.Empty) + "^"+version.Replace("\0", string.Empty));
             serverStream.Write(OutStream, 0, OutStream.Length);
             serverStream.Flush();
@@ -416,17 +458,34 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            using (var fileStream = File.OpenRead(fileP))
-            {
-                fileStream.CopyTo(serverStream);
-            }
-
-            inStream = new byte[10025];
-            serverStream.Read(inStream, 0, inStream.Length);
-
             OutStream = System.Text.Encoding.ASCII.GetBytes(fileInfo.Replace("\0", string.Empty));
             serverStream.Write(OutStream, 0, OutStream.Length);
             serverStream.Flush();
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+            if (fileInfo != "png")
+            {
+                using (FileStream fs = File.Open(fileP, FileMode.Open))
+                {
+                    byte[] b = new byte[1024];
+                    UTF8Encoding temp = new UTF8Encoding(true);
+                    while (fs.Read(b, 0, b.Length) > 0)
+                    {
+                        OutStream = System.Text.Encoding.ASCII.GetBytes(temp.GetString(b));
+                        serverStream.Write(OutStream, 0, OutStream.Length);
+                        serverStream.Flush();
+                    }
+
+                }
+            }
+            else
+            {
+                using (var fileStream = File.OpenRead(fileP))
+                {
+                    fileStream.CopyTo(serverStream);
+                }
+            }
 
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
@@ -504,5 +563,42 @@ namespace Client
 
             return returndata.Replace("\0", string.Empty);
         }
+
+        public void Send_Test(string fileP)
+        {
+            NetworkStream serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Update.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            FileInfo file = new FileInfo(fileP);
+            string lenghtf = file.Length.ToString();
+            outStream = System.Text.Encoding.ASCII.GetBytes(lenghtf);
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            using (FileStream fs = File.Open(fileP, FileMode.Open))
+            {
+                byte[] b = new byte[1024];
+                UTF8Encoding temp = new UTF8Encoding(true);
+                while (fs.Read(b, 0, b.Length) > 0)
+                {
+                    outStream = System.Text.Encoding.ASCII.GetBytes(temp.GetString(b));
+                    serverStream.Write(outStream, 0, outStream.Length);
+                    serverStream.Flush();
+                }
+
+            }
+
+        }
+
     }
 }

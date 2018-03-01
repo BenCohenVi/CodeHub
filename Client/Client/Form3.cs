@@ -87,6 +87,12 @@ namespace Client
                 statusLabel.Visible = true;
                 statusTimer.Start();
             }
+            catch (FieldAccessException)
+            {
+                statusLabel.Text = "File Is Too Big";
+                statusLabel.Visible = true;
+                statusTimer.Start();
+            }
         }
 
         private void pnameBox_Click(object sender, EventArgs e)

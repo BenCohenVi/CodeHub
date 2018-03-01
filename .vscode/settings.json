@@ -1,3 +1,6 @@
 {
-    "python.linting.pylintArgs": ["--errors-only"]
+    "python.linting.pylintArgs": [
+        "--errors-only"
+    ],
+    "python.pythonPath": "C:\\Python27\\python.exe"
 }
