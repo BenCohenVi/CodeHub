@@ -5,15 +5,19 @@ from socket import *
 import thread, threading, sqlite3
 
 
-def search_user(clientsock, c, conn):
+def search_user(clientsock, c, conn, username):
     userSearch = clientsock.recv(BUFSIZ)
     print userSearch
     c.execute("SELECT * FROM UsersDB WHERE username=:data", {'data':userSearch})
     if c.fetchone() == None:
         clientsock.send("NO")
         print "No"
+    elif userSearch == username:
+        clientsock.send("NO1")
+        print "No1"
     else:
-        clientsock.send("YES")
+        c.execute("SELECT name FROM "+userSearch)
+        clientsock.send(str(c.fetchall()))
 
 def send_projects(clientsock, c, conn, username):
     clientsock.recv(BUFSIZ)
@@ -101,7 +105,7 @@ def handler(clientsock, serversock, addr):
             elif data == "Branches.":
                 send_branches(clientsock, c, conn)
             elif data == "Search.":
-                search_user(clientsock, c, conn)
+                search_user(clientsock, c, conn, username)
             else:
                 clientsock.close()
                 conn.close()

@@ -26,7 +26,7 @@ namespace Client
         private void Form1_Load(object sender, EventArgs e)
         {
             this.ip = "169.254.240.186";
-            this.port = 56131;
+            this.port = 56967;
             this.cSock = new ClientSocket(this.ip, this.port);
         }
 

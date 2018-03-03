@@ -29,35 +29,40 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BunifuAnimatorNS.Animation animation2 = new BunifuAnimatorNS.Animation();
+            BunifuAnimatorNS.Animation animation1 = new BunifuAnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SearchTab));
             this.bunifuTransition1 = new BunifuAnimatorNS.BunifuTransition(this.components);
             this.bunifuCustomLabel1 = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.userBox = new Bunifu.Framework.UI.BunifuTextbox();
             this.searchBtn = new Bunifu.Framework.UI.BunifuThinButton2();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.errorMessage1 = new Client.ErrorMessage();
+            this.successMessage1 = new Client.SuccessMessage();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // bunifuTransition1
             // 
             this.bunifuTransition1.AnimationType = BunifuAnimatorNS.AnimationType.HorizSlide;
             this.bunifuTransition1.Cursor = null;
-            animation2.AnimateOnlyDifferences = true;
-            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
-            animation2.LeafCoeff = 0F;
-            animation2.MaxTime = 1F;
-            animation2.MinTime = 0F;
-            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
-            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
-            animation2.MosaicSize = 0;
-            animation2.Padding = new System.Windows.Forms.Padding(0, 0, 0, 0);
-            animation2.RotateCoeff = 0F;
-            animation2.RotateLimit = 0F;
-            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
-            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
-            animation2.TimeCoeff = 0F;
-            animation2.TransparencyCoeff = 0F;
-            this.bunifuTransition1.DefaultAnimation = animation2;
-            this.bunifuTransition1.Interval = 5;
+            animation1.AnimateOnlyDifferences = true;
+            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
+            animation1.LeafCoeff = 0F;
+            animation1.MaxTime = 1F;
+            animation1.MinTime = 0F;
+            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
+            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
+            animation1.MosaicSize = 0;
+            animation1.Padding = new System.Windows.Forms.Padding(0);
+            animation1.RotateCoeff = 0F;
+            animation1.RotateLimit = 0F;
+            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
+            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
+            animation1.TimeCoeff = 0F;
+            animation1.TransparencyCoeff = 0F;
+            this.bunifuTransition1.DefaultAnimation = animation1;
+            this.bunifuTransition1.Interval = 2;
             // 
             // bunifuCustomLabel1
             // 
@@ -78,7 +83,7 @@
             this.bunifuTransition1.SetDecoration(this.userBox, BunifuAnimatorNS.DecorationType.None);
             this.userBox.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.userBox.Icon = ((System.Drawing.Image)(resources.GetObject("userBox.Icon")));
-            this.userBox.Location = new System.Drawing.Point(124, 206);
+            this.userBox.Location = new System.Drawing.Point(168, 209);
             this.userBox.Name = "userBox";
             this.userBox.Size = new System.Drawing.Size(461, 42);
             this.userBox.TabIndex = 56;
@@ -111,17 +116,60 @@
             this.searchBtn.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             this.searchBtn.Click += new System.EventHandler(this.searchBtn_Click);
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.errorMessage1);
+            this.panel1.Controls.Add(this.successMessage1);
+            this.bunifuTransition1.SetDecoration(this.panel1, BunifuAnimatorNS.DecorationType.None);
+            this.panel1.Location = new System.Drawing.Point(582, 446);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(336, 52);
+            this.panel1.TabIndex = 69;
+            // 
+            // errorMessage1
+            // 
+            this.errorMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(23)))), ((int)(((byte)(58)))));
+            this.bunifuTransition1.SetDecoration(this.errorMessage1, BunifuAnimatorNS.DecorationType.None);
+            this.errorMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorMessage1.Location = new System.Drawing.Point(0, 0);
+            this.errorMessage1.Name = "errorMessage1";
+            this.errorMessage1.Size = new System.Drawing.Size(336, 52);
+            this.errorMessage1.TabIndex = 1;
+            // 
+            // successMessage1
+            // 
+            this.successMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(154)))));
+            this.bunifuTransition1.SetDecoration(this.successMessage1, BunifuAnimatorNS.DecorationType.None);
+            this.successMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.successMessage1.Location = new System.Drawing.Point(0, 0);
+            this.successMessage1.Name = "successMessage1";
+            this.successMessage1.Size = new System.Drawing.Size(336, 52);
+            this.successMessage1.TabIndex = 0;
+            this.successMessage1.Visible = false;
+            // 
+            // panel2
+            // 
+            this.bunifuTransition1.SetDecoration(this.panel2, BunifuAnimatorNS.DecorationType.None);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(918, 498);
+            this.panel2.TabIndex = 70;
+            // 
             // SearchTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.searchBtn);
             this.Controls.Add(this.userBox);
             this.Controls.Add(this.bunifuCustomLabel1);
+            this.Controls.Add(this.panel2);
             this.bunifuTransition1.SetDecoration(this, BunifuAnimatorNS.DecorationType.None);
             this.Name = "SearchTab";
             this.Size = new System.Drawing.Size(918, 498);
+            this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -133,5 +181,9 @@
         private Bunifu.Framework.UI.BunifuCustomLabel bunifuCustomLabel1;
         private Bunifu.Framework.UI.BunifuTextbox userBox;
         private Bunifu.Framework.UI.BunifuThinButton2 searchBtn;
+        private System.Windows.Forms.Panel panel1;
+        private ErrorMessage errorMessage1;
+        private SuccessMessage successMessage1;
+        private System.Windows.Forms.Panel panel2;
     }
 }

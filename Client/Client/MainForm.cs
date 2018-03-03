@@ -126,5 +126,10 @@ namespace Client
             searchTab1.BringToFront();
             bunifuTransition1.ShowSync(searchTab1);
         }
+
+        public void SearchedUserSet(string newHeader, string projects)
+        {
+            placeLabel.Text = newHeader + projects;
+        }
     }
 }
