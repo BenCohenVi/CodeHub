@@ -104,6 +104,11 @@ namespace Client
             commentsTabB.Enabled = true;
             shareTabB.Enabled = true;
             seperatorLine.Visible = true;
+            seperatorLine.Width = projectsTabB.Width;
+            seperatorLine.Left = projectsTabB.Left;
+            projectTab1.Visible = false;
+            projectTab1.BringToFront();
+            bunifuTransition1.ShowSync(projectTab1);
         }
 
         private void bunifuFlatButton2_Click(object sender, EventArgs e)
@@ -116,6 +121,10 @@ namespace Client
             commentsTabB.Enabled = false;
             shareTabB.Enabled = false;
             seperatorLine.Visible = false;
+            searchTab1.Set_Tab(this.cSock);
+            searchTab1.Visible = false;
+            searchTab1.BringToFront();
+            bunifuTransition1.ShowSync(searchTab1);
         }
     }
 }

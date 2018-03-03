@@ -75,6 +75,12 @@
     <Compile Include="Form3.Designer.cs">
       <DependentUpon>Form3.cs</DependentUpon>
     </Compile>
+    <Compile Include="LoadingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="LoadingForm.Designer.cs">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -89,6 +95,12 @@
       <DependentUpon>ProjectTab.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SearchTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="SearchTab.Designer.cs">
+      <DependentUpon>SearchTab.cs</DependentUpon>
+    </Compile>
     <Compile Include="SharedTab.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -113,6 +125,9 @@
     <EmbeddedResource Include="Form3.resx">
       <DependentUpon>Form3.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="LoadingForm.resx">
+      <DependentUpon>LoadingForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -129,6 +144,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="SearchTab.resx">
+      <DependentUpon>SearchTab.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="SharedTab.resx">
       <DependentUpon>SharedTab.cs</DependentUpon>
     </EmbeddedResource>

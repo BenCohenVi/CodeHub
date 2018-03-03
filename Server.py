@@ -5,6 +5,16 @@ from socket import *
 import thread, threading, sqlite3
 
 
+def search_user(clientsock, c, conn):
+    userSearch = clientsock.recv(BUFSIZ)
+    print userSearch
+    c.execute("SELECT * FROM UsersDB WHERE username=:data", {'data':userSearch})
+    if c.fetchone() == None:
+        clientsock.send("NO")
+        print "No"
+    else:
+        clientsock.send("YES")
+
 def send_projects(clientsock, c, conn, username):
     clientsock.recv(BUFSIZ)
     c.execute("SELECT name FROM "+username)
@@ -75,7 +85,6 @@ def handler(clientsock, serversock, addr):
             elif data == "Branch.":
                 clientResponse.new_branch()
             elif data == "Update.":
-                #send_test(clientsock)
                 clientResponse.update_project()
             elif data == "BranchU.":
                 clientResponse.update_branch()
@@ -91,6 +100,8 @@ def handler(clientsock, serversock, addr):
                 send_versions(clientsock, c, conn, username)
             elif data == "Branches.":
                 send_branches(clientsock, c, conn)
+            elif data == "Search.":
+                search_user(clientsock, c, conn)
             else:
                 clientsock.close()
                 conn.close()

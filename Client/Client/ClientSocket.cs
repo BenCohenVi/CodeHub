@@ -323,7 +323,7 @@ namespace Client
             }
         }
 
-        public string Update_Project(string project, string data, string fileInfo)
+        public void Update_Project(string project, string data, string fileInfo)
         {
             bool valiable = false;
             foreach (string ext in this.text_extensions)
@@ -397,8 +397,6 @@ namespace Client
 
             inStream = new byte[1025];
             serverStream.Read(inStream, 0, inStream.Length);
-
-            return "Done";
         }
 
 
@@ -598,6 +596,28 @@ namespace Client
 
             }
 
+        }
+
+        public string Search_User(string username)
+        {
+            NetworkStream serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Search.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            outStream = System.Text.Encoding.ASCII.GetBytes(username.Replace("\0", string.Empty));
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+
+            return returndata.Replace("\0", string.Empty);
         }
 
     }
