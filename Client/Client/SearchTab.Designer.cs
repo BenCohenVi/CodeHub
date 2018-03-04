@@ -62,7 +62,7 @@
             animation1.TimeCoeff = 0F;
             animation1.TransparencyCoeff = 0F;
             this.bunifuTransition1.DefaultAnimation = animation1;
-            this.bunifuTransition1.Interval = 2;
+            this.bunifuTransition1.Interval = 3;
             // 
             // bunifuCustomLabel1
             // 

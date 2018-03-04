@@ -55,6 +55,7 @@
             this.commentsTab1 = new Client.CommentsTab();
             this.sharedTab1 = new Client.SharedTab();
             this.searchTab1 = new Client.SearchTab();
+            this.userTab1 = new Client.UserTab();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cancelBtn)).BeginInit();
@@ -132,6 +133,7 @@
             this.panel2.Controls.Add(this.commentsTab1);
             this.panel2.Controls.Add(this.sharedTab1);
             this.panel2.Controls.Add(this.searchTab1);
+            this.panel2.Controls.Add(this.userTab1);
             this.bunifuTransition1.SetDecoration(this.panel2, BunifuAnimatorNS.DecorationType.None);
             this.panel2.Location = new System.Drawing.Point(255, 198);
             this.panel2.Name = "panel2";
@@ -441,6 +443,16 @@
             this.searchTab1.Size = new System.Drawing.Size(918, 498);
             this.searchTab1.TabIndex = 3;
             // 
+            // userTab1
+            // 
+            this.userTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.userTab1, BunifuAnimatorNS.DecorationType.None);
+            this.userTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userTab1.Location = new System.Drawing.Point(0, 0);
+            this.userTab1.Name = "userTab1";
+            this.userTab1.Size = new System.Drawing.Size(918, 498);
+            this.userTab1.TabIndex = 4;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -502,5 +514,6 @@
         private System.Windows.Forms.Panel panel4;
         private System.Windows.Forms.Label mainLabel;
         private SearchTab searchTab1;
+        private UserTab userTab1;
     }
 }

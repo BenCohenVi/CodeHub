@@ -35,11 +35,22 @@ namespace Client
 
         private void projectsTab_Click(object sender, EventArgs e)
         {
-            seperatorLine.Width = projectsTabB.Width;
-            seperatorLine.Left = projectsTabB.Left;
-            projectTab1.Visible = false;
-            projectTab1.BringToFront();
-            bunifuTransition1.ShowSync(projectTab1);
+            if (placeLabel.Text == "My Profile")
+            {
+                seperatorLine.Width = projectsTabB.Width;
+                seperatorLine.Left = projectsTabB.Left;
+                projectTab1.Visible = false;
+                projectTab1.BringToFront();
+                bunifuTransition1.ShowSync(projectTab1);
+            }
+            else
+            {
+                seperatorLine.Width = projectsTabB.Width;
+                seperatorLine.Left = projectsTabB.Left;
+                userTab1.Visible = false;
+                userTab1.BringToFront();
+                bunifuTransition1.ShowSync(userTab1);
+            }
         }
 
         private void commentsTab_Click(object sender, EventArgs e)
@@ -129,7 +140,20 @@ namespace Client
 
         public void SearchedUserSet(string newHeader, string projects)
         {
-            placeLabel.Text = newHeader + projects;
+            projectsTabB.Visible = true;
+            commentsTabB.Visible = true;
+            projectsTabB.Enabled = true;
+            commentsTabB.Enabled = true;
+            projectsTabB.Visible = true;
+            commentsTabB.Visible = true;
+            seperatorLine.Visible = true;
+            seperatorLine.Width = projectsTabB.Width;
+            seperatorLine.Left = projectsTabB.Left;
+            placeLabel.Text = newHeader;
+            userTab1.Set_Tab(this.cSock, projects, newHeader.Replace("'s Profile", string.Empty));
+            userTab1.Visible = false;
+            userTab1.BringToFront();
+            bunifuTransition1.ShowSync(userTab1);
         }
     }
 }

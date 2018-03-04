@@ -136,3 +136,4 @@ C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Deb
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.pdb
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.SearchTab.resources
+C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.UserTab.resources

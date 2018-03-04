@@ -113,6 +113,12 @@
     <Compile Include="SuccessMessage.Designer.cs">
       <DependentUpon>SuccessMessage.cs</DependentUpon>
     </Compile>
+    <Compile Include="UserTab.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UserTab.Designer.cs">
+      <DependentUpon>UserTab.cs</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="CommentsTab.resx">
       <DependentUpon>CommentsTab.cs</DependentUpon>
     </EmbeddedResource>
@@ -152,6 +158,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="SuccessMessage.resx">
       <DependentUpon>SuccessMessage.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UserTab.resx">
+      <DependentUpon>UserTab.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

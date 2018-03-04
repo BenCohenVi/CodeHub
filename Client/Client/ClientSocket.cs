@@ -620,5 +620,27 @@ namespace Client
             return returndata.Replace("\0", string.Empty);
         }
 
+        public string Get_UVersions(string proName, string username)
+        {
+            NetworkStream serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("UVersions.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            outStream = System.Text.Encoding.ASCII.GetBytes(proName.Replace("\0", string.Empty)+"^"+username.Replace("\0", string.Empty));
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+
+            return returndata.Replace("\0", string.Empty).Replace("[(", string.Empty).Replace(",)]", string.Empty);
+        }
+
     }
 }

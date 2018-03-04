@@ -43,6 +43,16 @@ def send_branches(clientsock, c, conn):
         clientsock.send("None")
 
 
+def send_UVersions(clientsock, c, conn):
+    proInfo = clientsock.recv(BUFSIZ)
+    print proInfo
+    proName= proInfo.split("^")[0]
+    uName= proInfo.split("^")[1]
+    c.execute("SELECT version FROM "+uName+" WHERE name=:data", {'data':proName})
+    projectVersions = c.fetchall()
+    clientsock.send(str(projectVersions))
+
+
 def handler(clientsock, serversock, addr):
     #try:
         conn = sqlite3.connect(PATH+'\\ProjectsInfo.db')
@@ -106,10 +116,12 @@ def handler(clientsock, serversock, addr):
                 send_branches(clientsock, c, conn)
             elif data == "Search.":
                 search_user(clientsock, c, conn, username)
+            elif data == "UVersions.":
+                send_UVersions(clientsock, c, conn)
             else:
                 clientsock.close()
                 conn.close()
-    #except:    
+    #except:
         #clientsock.close()
         #conn.close()
 
