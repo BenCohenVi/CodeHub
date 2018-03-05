@@ -42,13 +42,13 @@
             this.versionList = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.openFileDialogU = new System.Windows.Forms.OpenFileDialog();
-            this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
             this.deleteProjectBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.newProjectBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.downloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.uploadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.branchBtn = new Bunifu.Framework.UI.BunifuImageButton();
+            this.openFileDialogU = new System.Windows.Forms.OpenFileDialog();
+            this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
             this.errorMessage1 = new Client.ErrorMessage();
             this.successMessage1 = new Client.SuccessMessage();
             this.panel1.SuspendLayout();
@@ -211,10 +211,6 @@
             this.panel1.Size = new System.Drawing.Size(336, 52);
             this.panel1.TabIndex = 67;
             // 
-            // openFileDialogU
-            // 
-            this.openFileDialogU.FileName = "openFileDialog1";
-            // 
             // deleteProjectBtn
             // 
             this.deleteProjectBtn.BackColor = System.Drawing.Color.Transparent;
@@ -289,6 +285,10 @@
             this.branchBtn.TabStop = false;
             this.branchBtn.Zoom = 10;
             this.branchBtn.Click += new System.EventHandler(this.branchBtn_Click);
+            // 
+            // openFileDialogU
+            // 
+            this.openFileDialogU.FileName = "openFileDialog1";
             // 
             // errorMessage1
             // 
