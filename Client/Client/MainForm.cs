@@ -53,12 +53,29 @@ namespace Client
             }
         }
 
+        public string GetHeader()
+        {
+            return placeLabel.Text;
+        }
+
         private void commentsTab_Click(object sender, EventArgs e)
         {
+            string username;
+            if (placeLabel.Text == "My Profile")
+            {
+                this.lastSelected = projectTab1.Get_Latest();
+                username = "";
+
+            }
+            else
+            {
+                this.lastSelected = userTab1.Get_Latest();
+                username = placeLabel.Text.Replace("'s Profile", string.Empty);
+            }
+
             seperatorLine.Width = commentsTabB.Width;
             seperatorLine.Left = commentsTabB.Left;
-            this.lastSelected = projectTab1.Get_Latest();
-            commentsTab1.SetTab(this.cSock, this.lastSelected);
+            commentsTab1.SetTab(this.cSock, this.lastSelected, username);
             commentsTab1.Visible = false;
             commentsTab1.BringToFront();
             bunifuTransition1.ShowSync(commentsTab1);

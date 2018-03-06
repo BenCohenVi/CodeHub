@@ -11,10 +11,8 @@ def search_user(clientsock, c, conn, username):
     c.execute("SELECT * FROM UsersDB WHERE username=:data", {'data':userSearch})
     if c.fetchone() == None:
         clientsock.send("NO")
-        print "No"
     elif userSearch == username:
         clientsock.send("NO1")
-        print "No1"
     else:
         c.execute("SELECT name FROM "+userSearch)
         clientsock.send(str(c.fetchall()))
@@ -45,7 +43,6 @@ def send_branches(clientsock, c, conn):
 
 def send_UVersions(clientsock, c, conn):
     proInfo = clientsock.recv(BUFSIZ)
-    print proInfo
     proName= proInfo.split("^")[0]
     uName= proInfo.split("^")[1]
     c.execute("SELECT version FROM "+uName+" WHERE name=:data", {'data':proName})

@@ -16,7 +16,9 @@ namespace Client
         private int Versions;
         private string Branches;
         private string[] Comments;
+        private string username;
         private ClientSocket cSock;
+        MainForm ParentF;
         public CommentsTab()
         {
             InitializeComponent();
@@ -27,17 +29,26 @@ namespace Client
             }
         }
 
-        public void SetTab(ClientSocket cliSock, string proName)
+        public void SetTab(ClientSocket cliSock, string proName, string username)
         {
             try
             {
+                this.username = username;
+                this.ParentF = (MainForm)this.ParentForm;
                 this.cSock = cliSock;
                 this.selectedProject = proName;
                 proLabel.Text = "SELECTED PROJECT: " + this.selectedProject;
                 commentBox.Text = "Add A Comment...";
                 previewBox.Clear();
                 verBox.Items.Clear();
-                this.Versions = Convert.ToInt32(this.cSock.Get_Versions(this.selectedProject));
+                if (this.ParentF.GetHeader() == "My Profile")
+                {
+                    this.Versions = Convert.ToInt32(this.cSock.Get_Versions(this.selectedProject));
+                }
+                else
+                {
+                    this.Versions = Convert.ToInt32(this.cSock.Get_UVersions(this.selectedProject, username));
+                }
                 this.Branches = this.cSock.Get_Branches(this.selectedProject);
                 if (this.Branches.Contains('_'))
                 {
@@ -122,12 +133,15 @@ namespace Client
 
         private void verBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+            System.Threading.Thread procThread = new System.Threading.Thread(new System.Threading.ThreadStart(this.Process));
             try 
             {
                 previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
+                    procThread.Start();
                     previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
+                    procThread.Abort();
                 }
                 else
                 {
@@ -135,6 +149,12 @@ namespace Client
                 }
             }
             catch { }
+        }
+
+        private void Process()
+        {
+            var loadingfrm = new LoadingForm();
+            loadingfrm.ShowDialog();
         }
     }
 }

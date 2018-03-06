@@ -285,7 +285,6 @@ class Useresponse:
         extension = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Extension Gotten")
         if extension != "png":
-            print "no"
             size = int(size)
             current_Size = 0
             buffer = b""

@@ -134,7 +134,7 @@ C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Deb
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csproj.CoreCompileInputs.cache
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.exe
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.pdb
-C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.SearchTab.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.UserTab.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csproj.CopyComplete
+C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache

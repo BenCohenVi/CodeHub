@@ -21,6 +21,8 @@ namespace Client
             foreach (Control Item in this.Controls)            {                bunifuTransition1.ShowSync(Item);                Application.DoEvents();            }
         }
 
+        public string Get_Latest()        {            if (projectList.SelectedIndex > -1)            {                return projectList.SelectedItem.ToString();            }            else            {                return "None";            }        }
+
         public void Set_Tab(ClientSocket cliSock, string projects, string username)
         {
             projectList.Items.Clear();
