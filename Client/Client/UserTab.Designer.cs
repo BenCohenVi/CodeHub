@@ -36,9 +36,12 @@
             this.projectList = new System.Windows.Forms.ListBox();
             this.versionList = new System.Windows.Forms.ListBox();
             this.bunifuTransition1 = new BunifuAnimatorNS.BunifuTransition(this.components);
-            this.downloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.label6 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.bunifuImageButton1 = new Bunifu.Framework.UI.BunifuImageButton();
+            this.downloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
+            ((System.ComponentModel.ISupportInitialize)(this.bunifuImageButton1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadBtn)).BeginInit();
             this.SuspendLayout();
             // 
@@ -119,6 +122,47 @@
             this.bunifuTransition1.DefaultAnimation = animation1;
             this.bunifuTransition1.Interval = 3;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.label6, BunifuAnimatorNS.DecorationType.None);
+            this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
+            this.label6.Location = new System.Drawing.Point(608, 184);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(81, 21);
+            this.label6.TabIndex = 71;
+            this.label6.Text = "Download";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.label3, BunifuAnimatorNS.DecorationType.None);
+            this.label3.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
+            this.label3.Location = new System.Drawing.Point(598, 338);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(110, 21);
+            this.label3.TabIndex = 73;
+            this.label3.Text = "Request Share";
+            // 
+            // bunifuImageButton1
+            // 
+            this.bunifuImageButton1.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuTransition1.SetDecoration(this.bunifuImageButton1, BunifuAnimatorNS.DecorationType.None);
+            this.bunifuImageButton1.Image = global::Client.Properties.Resources.Share_RequestBtn;
+            this.bunifuImageButton1.ImageActive = null;
+            this.bunifuImageButton1.Location = new System.Drawing.Point(602, 239);
+            this.bunifuImageButton1.Name = "bunifuImageButton1";
+            this.bunifuImageButton1.Size = new System.Drawing.Size(96, 96);
+            this.bunifuImageButton1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
+            this.bunifuImageButton1.TabIndex = 72;
+            this.bunifuImageButton1.TabStop = false;
+            this.bunifuImageButton1.Zoom = 10;
+            this.bunifuImageButton1.Click += new System.EventHandler(this.bunifuImageButton1_Click);
+            // 
             // downloadBtn
             // 
             this.downloadBtn.BackColor = System.Drawing.Color.Transparent;
@@ -134,24 +178,13 @@
             this.downloadBtn.Zoom = 10;
             this.downloadBtn.Click += new System.EventHandler(this.downloadBtn_Click);
             // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuTransition1.SetDecoration(this.label6, BunifuAnimatorNS.DecorationType.None);
-            this.label6.Font = new System.Drawing.Font("Segoe UI", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
-            this.label6.Location = new System.Drawing.Point(608, 184);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(81, 21);
-            this.label6.TabIndex = 71;
-            this.label6.Text = "Download";
-            // 
             // UserTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.bunifuImageButton1);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.downloadBtn);
             this.Controls.Add(this.versionList);
@@ -161,6 +194,7 @@
             this.bunifuTransition1.SetDecoration(this, BunifuAnimatorNS.DecorationType.None);
             this.Name = "UserTab";
             this.Size = new System.Drawing.Size(938, 494);
+            ((System.ComponentModel.ISupportInitialize)(this.bunifuImageButton1)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadBtn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -177,5 +211,7 @@
         private Bunifu.Framework.UI.BunifuImageButton downloadBtn;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialogU;
+        private Bunifu.Framework.UI.BunifuImageButton bunifuImageButton1;
+        private System.Windows.Forms.Label label3;
     }
 }

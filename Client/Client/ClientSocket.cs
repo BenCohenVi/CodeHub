@@ -642,5 +642,22 @@ namespace Client
             return returndata.Replace("\0", string.Empty).Replace("[(", string.Empty).Replace(",)]", string.Empty);
         }
 
+        public void Rquest_Share(string username, string proName)
+        {
+            NetworkStream serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("SendRequest.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            outStream = System.Text.Encoding.ASCII.GetBytes(username.Replace("\0", string.Empty) +"^"+proName.Replace("\0", string.Empty));
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+        }
     }
 }

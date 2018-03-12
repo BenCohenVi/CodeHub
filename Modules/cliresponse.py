@@ -11,7 +11,6 @@ class Useresponse:
         self.PATH = path
         self.username = username
 
-
     def new_project(self):
         size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
@@ -51,7 +50,6 @@ class Useresponse:
         self.c.execute("INSERT INTO "+self.username+" VALUES (?, 1, ?, ?)", (proName,"NoOne", "NoOne"))
         self.conn.commit()
 
-
     def delete_project(self):
         proName = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
@@ -85,7 +83,6 @@ class Useresponse:
             self.conn.commit()
         self.c.execute("DELETE FROM "+self.username+" WHERE name=:data", {'data':proName})
         self.conn.commit()
-        
 
     def download_project(self):
         proInfo = self.clientsock.recv(self.BUFSIZ)
@@ -120,7 +117,6 @@ class Useresponse:
             self.clientsock.send(imageStr +"`~`"+ proName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
             verFile.close()
-
 
     def share_project(self):
         shareInfo = self.clientsock.recv(self.BUFSIZ)
@@ -164,7 +160,6 @@ class Useresponse:
                 self.c.execute("UPDATE "+self.username+" SET sharing=? WHERE name=?", [sharing, proName])
                 self.conn.commit()
 
-
     def new_branch(self):
         size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
@@ -194,7 +189,6 @@ class Useresponse:
         with io.FileIO(branchPath, "w") as f:
             f.write(buffer)
             f.close()
-
 
     def update_project(self):
         proName = self.clientsock.recv(self.BUFSIZ)
@@ -274,7 +268,6 @@ class Useresponse:
                 f.write(buffer)
                 f.close()
 
-
     def update_branch(self):
         size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
@@ -300,7 +293,6 @@ class Useresponse:
             buffer = self.clientsock.recv(int(size)+100)
         self.clientsock.send(("Content Gotten"))
         if extension != "png" and int(size) < 200000:
-            print "pngn"
             branchPath = self.PATH+"\\Projects\\"+proName+"\\"
             filesInDir = os.listdir(branchPath)
             bStart = int(branchVer.split(".")[0]) + int(branchVer.split(".")[1])
@@ -322,7 +314,6 @@ class Useresponse:
             with io.FileIO(branchPath, "w") as f:
                 f.write(str(buffer))
                 f.close()
-
 
     def send_preview(self):
         proInfo = self.clientsock.recv(self.BUFSIZ)
@@ -354,7 +345,6 @@ class Useresponse:
             self.clientsock.send("Unable To Preview")
             verFile.close()
 
-
     def comment(self):
         commentInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
@@ -363,7 +353,6 @@ class Useresponse:
         commentsPath = self.PATH+"\\Projects"+"\\"+proName+"\\"+"comments.txt"
         with open(commentsPath, "a") as commentsFile:
             commentsFile.write(self.username+":\n"+commentContent+"\n")
-
 
     def get_comments(self):
         proName = self.clientsock.recv(self.BUFSIZ)
