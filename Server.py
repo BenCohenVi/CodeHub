@@ -50,6 +50,17 @@ def send_UVersions(clientsock, c, conn):
     clientsock.send(str(projectVersions))
 
 
+def get_requests(clientsock, username):
+    clientsock.recv(BUFSIZ)
+    requestPath = PATH+"\\Users\\"+username+".txt"
+    with open(requestPath, 'r') as requestFile:
+        requests = requestFile.read()
+        if requests != "":
+            clientsock.send(requests)
+        else:
+            clientsock.send("No Requests Yet")
+
+
 
 def handler(clientsock, serversock, addr):
     #try:
@@ -118,6 +129,8 @@ def handler(clientsock, serversock, addr):
             send_UVersions(clientsock, c, conn)
         elif data == "SendRequest.":
             uact.add_request(clientsock, PATH, username)
+        elif data == "GetRequest.":
+            get_requests(clientsock, username)
         else:
             clientsock.close()
             conn.close()

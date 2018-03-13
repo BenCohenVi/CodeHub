@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            BunifuAnimatorNS.Animation animation1 = new BunifuAnimatorNS.Animation();
+            BunifuAnimatorNS.Animation animation2 = new BunifuAnimatorNS.Animation();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.bunifuElipse1 = new Bunifu.Framework.UI.BunifuElipse(this.components);
             this.panel4 = new System.Windows.Forms.Panel();
@@ -37,11 +37,6 @@
             this.minBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.cancelBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.projectTab1 = new Client.ProjectTab();
-            this.commentsTab1 = new Client.CommentsTab();
-            this.sharedTab1 = new Client.SharedTab();
-            this.searchTab1 = new Client.SearchTab();
-            this.userTab1 = new Client.UserTab();
             this.projectsTabB = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.commentsTabB = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.bunifuTransition1 = new BunifuAnimatorNS.BunifuTransition(this.components);
@@ -57,6 +52,12 @@
             this.bunifuSeparator1 = new Bunifu.Framework.UI.BunifuSeparator();
             this.placeLabel = new Bunifu.Framework.UI.BunifuCustomLabel();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.projectTab1 = new Client.ProjectTab();
+            this.commentsTab1 = new Client.CommentsTab();
+            this.sharedTab1 = new Client.SharedTab();
+            this.searchTab1 = new Client.SearchTab();
+            this.userTab1 = new Client.UserTab();
+            this.requestTab1 = new Client.RequestTab();
             this.panel4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.minBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.cancelBtn)).BeginInit();
@@ -135,61 +136,12 @@
             this.panel2.Controls.Add(this.sharedTab1);
             this.panel2.Controls.Add(this.searchTab1);
             this.panel2.Controls.Add(this.userTab1);
+            this.panel2.Controls.Add(this.requestTab1);
             this.bunifuTransition1.SetDecoration(this.panel2, BunifuAnimatorNS.DecorationType.None);
             this.panel2.Location = new System.Drawing.Point(255, 198);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(918, 498);
             this.panel2.TabIndex = 1;
-            // 
-            // projectTab1
-            // 
-            this.projectTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuTransition1.SetDecoration(this.projectTab1, BunifuAnimatorNS.DecorationType.None);
-            this.projectTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.projectTab1.Location = new System.Drawing.Point(0, 0);
-            this.projectTab1.Name = "projectTab1";
-            this.projectTab1.Size = new System.Drawing.Size(918, 498);
-            this.projectTab1.TabIndex = 0;
-            // 
-            // commentsTab1
-            // 
-            this.commentsTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuTransition1.SetDecoration(this.commentsTab1, BunifuAnimatorNS.DecorationType.None);
-            this.commentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.commentsTab1.Location = new System.Drawing.Point(0, 0);
-            this.commentsTab1.Name = "commentsTab1";
-            this.commentsTab1.Size = new System.Drawing.Size(918, 498);
-            this.commentsTab1.TabIndex = 1;
-            // 
-            // sharedTab1
-            // 
-            this.sharedTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuTransition1.SetDecoration(this.sharedTab1, BunifuAnimatorNS.DecorationType.None);
-            this.sharedTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.sharedTab1.Location = new System.Drawing.Point(0, 0);
-            this.sharedTab1.Name = "sharedTab1";
-            this.sharedTab1.Size = new System.Drawing.Size(918, 498);
-            this.sharedTab1.TabIndex = 2;
-            // 
-            // searchTab1
-            // 
-            this.searchTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuTransition1.SetDecoration(this.searchTab1, BunifuAnimatorNS.DecorationType.None);
-            this.searchTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.searchTab1.Location = new System.Drawing.Point(0, 0);
-            this.searchTab1.Name = "searchTab1";
-            this.searchTab1.Size = new System.Drawing.Size(918, 498);
-            this.searchTab1.TabIndex = 3;
-            // 
-            // userTab1
-            // 
-            this.userTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
-            this.bunifuTransition1.SetDecoration(this.userTab1, BunifuAnimatorNS.DecorationType.None);
-            this.userTab1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.userTab1.Location = new System.Drawing.Point(0, 0);
-            this.userTab1.Name = "userTab1";
-            this.userTab1.Size = new System.Drawing.Size(918, 498);
-            this.userTab1.TabIndex = 4;
             // 
             // projectsTabB
             // 
@@ -223,22 +175,22 @@
             // 
             this.bunifuTransition1.AnimationType = BunifuAnimatorNS.AnimationType.HorizSlide;
             this.bunifuTransition1.Cursor = null;
-            animation1.AnimateOnlyDifferences = true;
-            animation1.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.BlindCoeff")));
-            animation1.LeafCoeff = 0F;
-            animation1.MaxTime = 1F;
-            animation1.MinTime = 0F;
-            animation1.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicCoeff")));
-            animation1.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation1.MosaicShift")));
-            animation1.MosaicSize = 0;
-            animation1.Padding = new System.Windows.Forms.Padding(0);
-            animation1.RotateCoeff = 0F;
-            animation1.RotateLimit = 0F;
-            animation1.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.ScaleCoeff")));
-            animation1.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation1.SlideCoeff")));
-            animation1.TimeCoeff = 0F;
-            animation1.TransparencyCoeff = 0F;
-            this.bunifuTransition1.DefaultAnimation = animation1;
+            animation2.AnimateOnlyDifferences = true;
+            animation2.BlindCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.BlindCoeff")));
+            animation2.LeafCoeff = 0F;
+            animation2.MaxTime = 1F;
+            animation2.MinTime = 0F;
+            animation2.MosaicCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicCoeff")));
+            animation2.MosaicShift = ((System.Drawing.PointF)(resources.GetObject("animation2.MosaicShift")));
+            animation2.MosaicSize = 0;
+            animation2.Padding = new System.Windows.Forms.Padding(0);
+            animation2.RotateCoeff = 0F;
+            animation2.RotateLimit = 0F;
+            animation2.ScaleCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.ScaleCoeff")));
+            animation2.SlideCoeff = ((System.Drawing.PointF)(resources.GetObject("animation2.SlideCoeff")));
+            animation2.TimeCoeff = 0F;
+            animation2.TransparencyCoeff = 0F;
+            this.bunifuTransition1.DefaultAnimation = animation2;
             this.bunifuTransition1.Interval = 3;
             // 
             // shareTabB
@@ -318,6 +270,7 @@
             this.bunifuFlatButton4.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bunifuTransition1.SetDecoration(this.bunifuFlatButton4, BunifuAnimatorNS.DecorationType.None);
             this.bunifuFlatButton4.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuFlatButton4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton4.Iconcolor = System.Drawing.Color.Transparent;
             this.bunifuFlatButton4.Iconimage = global::Client.Properties.Resources.Share_Request;
             this.bunifuFlatButton4.Iconimage_right = null;
@@ -342,6 +295,7 @@
             this.bunifuFlatButton4.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.bunifuFlatButton4.Textcolor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton4.TextFont = new System.Drawing.Font("Century Gothic", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.bunifuFlatButton4.Click += new System.EventHandler(this.bunifuFlatButton4_Click);
             // 
             // bunifuFlatButton1
             // 
@@ -353,6 +307,7 @@
             this.bunifuFlatButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bunifuTransition1.SetDecoration(this.bunifuFlatButton1, BunifuAnimatorNS.DecorationType.None);
             this.bunifuFlatButton1.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuFlatButton1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton1.Iconcolor = System.Drawing.Color.Transparent;
             this.bunifuFlatButton1.Iconimage = ((System.Drawing.Image)(resources.GetObject("bunifuFlatButton1.Iconimage")));
             this.bunifuFlatButton1.Iconimage_right = null;
@@ -389,6 +344,7 @@
             this.bunifuFlatButton3.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bunifuTransition1.SetDecoration(this.bunifuFlatButton3, BunifuAnimatorNS.DecorationType.None);
             this.bunifuFlatButton3.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuFlatButton3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton3.Iconcolor = System.Drawing.Color.Transparent;
             this.bunifuFlatButton3.Iconimage = global::Client.Properties.Resources.Logout;
             this.bunifuFlatButton3.Iconimage_right = null;
@@ -425,6 +381,7 @@
             this.bunifuFlatButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.bunifuTransition1.SetDecoration(this.bunifuFlatButton2, BunifuAnimatorNS.DecorationType.None);
             this.bunifuFlatButton2.DisabledColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuFlatButton2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(38)))), ((int)(((byte)(44)))), ((int)(((byte)(69)))));
             this.bunifuFlatButton2.Iconcolor = System.Drawing.Color.Transparent;
             this.bunifuFlatButton2.Iconimage = ((System.Drawing.Image)(resources.GetObject("bunifuFlatButton2.Iconimage")));
             this.bunifuFlatButton2.Iconimage_right = null;
@@ -490,6 +447,66 @@
             this.panel1.Size = new System.Drawing.Size(959, 152);
             this.panel1.TabIndex = 0;
             // 
+            // projectTab1
+            // 
+            this.projectTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.projectTab1, BunifuAnimatorNS.DecorationType.None);
+            this.projectTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.projectTab1.Location = new System.Drawing.Point(0, 0);
+            this.projectTab1.Name = "projectTab1";
+            this.projectTab1.Size = new System.Drawing.Size(918, 498);
+            this.projectTab1.TabIndex = 0;
+            // 
+            // commentsTab1
+            // 
+            this.commentsTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.commentsTab1, BunifuAnimatorNS.DecorationType.None);
+            this.commentsTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.commentsTab1.Location = new System.Drawing.Point(0, 0);
+            this.commentsTab1.Name = "commentsTab1";
+            this.commentsTab1.Size = new System.Drawing.Size(918, 498);
+            this.commentsTab1.TabIndex = 1;
+            // 
+            // sharedTab1
+            // 
+            this.sharedTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.sharedTab1, BunifuAnimatorNS.DecorationType.None);
+            this.sharedTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.sharedTab1.Location = new System.Drawing.Point(0, 0);
+            this.sharedTab1.Name = "sharedTab1";
+            this.sharedTab1.Size = new System.Drawing.Size(918, 498);
+            this.sharedTab1.TabIndex = 2;
+            // 
+            // searchTab1
+            // 
+            this.searchTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.searchTab1, BunifuAnimatorNS.DecorationType.None);
+            this.searchTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.searchTab1.Location = new System.Drawing.Point(0, 0);
+            this.searchTab1.Name = "searchTab1";
+            this.searchTab1.Size = new System.Drawing.Size(918, 498);
+            this.searchTab1.TabIndex = 3;
+            // 
+            // userTab1
+            // 
+            this.userTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.userTab1, BunifuAnimatorNS.DecorationType.None);
+            this.userTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.userTab1.Location = new System.Drawing.Point(0, 0);
+            this.userTab1.Name = "userTab1";
+            this.userTab1.Size = new System.Drawing.Size(918, 498);
+            this.userTab1.TabIndex = 4;
+            // 
+            // requestTab1
+            // 
+            this.requestTab1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.bunifuTransition1.SetDecoration(this.requestTab1, BunifuAnimatorNS.DecorationType.None);
+            this.requestTab1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.requestTab1.Location = new System.Drawing.Point(0, 0);
+            this.requestTab1.Name = "requestTab1";
+            this.requestTab1.Size = new System.Drawing.Size(918, 498);
+            this.requestTab1.TabIndex = 5;
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -553,5 +570,6 @@
         private SearchTab searchTab1;
         private UserTab userTab1;
         private Bunifu.Framework.UI.BunifuFlatButton bunifuFlatButton4;
+        private RequestTab requestTab1;
     }
 }

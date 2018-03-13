@@ -659,5 +659,28 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
         }
+
+        public string Get_Requests()
+        {
+            NetworkStream serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("GetRequest.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            outStream = System.Text.Encoding.ASCII.GetBytes("Get");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+
+            return returndata.Replace("\0", string.Empty).Replace("[(", string.Empty).Replace(",)]", string.Empty);
+        }
     }
 }
