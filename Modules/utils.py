@@ -5,11 +5,11 @@ import os, sys, ast, string
 
 def get_local_host():
     return gethostbyname(gethostname())
-    
+
 
 def get_open_port():
     s = socket(AF_INET, SOCK_STREAM)
-    s.bind(("",0))
+    s.bind(("", 0))
     s.listen(1)
     port = s.getsockname()[1]
     s.close()
@@ -44,7 +44,7 @@ def get_branches(proPath):
                 lastBranchFull = ver.split('.')[0]
                 lastBranch = ver.split('.')[0].split('_')[0]
             else:
-                branches = branches + ","+ ver.split('.')[0]
+                branches = branches + "," + ver.split('.')[0]
                 lastBranchFull = ver.split('.')[0]
                 lastBranch = ver.split('.')[0].split('_')[0]
     branches = branches[1:]

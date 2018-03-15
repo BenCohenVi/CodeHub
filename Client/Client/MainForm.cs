@@ -172,21 +172,5 @@ namespace Client
             userTab1.BringToFront();
             bunifuTransition1.ShowSync(userTab1);
         }
-
-        private void bunifuFlatButton4_Click(object sender, EventArgs e)
-        {
-            projectsTabB.Visible = false;
-            commentsTabB.Visible = false;
-            shareTabB.Visible = false;
-            projectsTabB.Enabled = false;
-            commentsTabB.Enabled = false;
-            shareTabB.Enabled = false;
-            seperatorLine.Visible = false;
-            placeLabel.Text = "Share Requests";
-            requestTab1.Set_Tab(this.cSock);
-            requestTab1.Visible = false;
-            requestTab1.BringToFront();
-            bunifuTransition1.ShowSync(requestTab1);
-        }
     }
 }

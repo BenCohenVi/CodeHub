@@ -65,12 +65,6 @@ namespace Client
                 }
             }
         }
-
-        private void bunifuImageButton1_Click(object sender, EventArgs e)
-        {
-            string proName = projectList.SelectedItem.ToString();
-            this.cSock.Rquest_Share(this.username, proName);
-        }
     }
 }
 

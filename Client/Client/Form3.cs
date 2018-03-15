@@ -64,10 +64,8 @@ namespace Client
 
         private void createBtn_Click(object sender, EventArgs e)
         {
-            System.Threading.Thread procThread = new System.Threading.Thread(new System.Threading.ThreadStart(this.Process));
             try
             {
-                procThread.Start();
                 this.name = pnameBox.Text;
                 if (this.name.Contains(' ') || this.name.Contains('^') || this.name.Contains('\\') || this.name.Contains('/'))
                 {
@@ -75,7 +73,6 @@ namespace Client
                 }
                 string fileInfo = this.name + "." + pathBox.Text.Split('.')[pathBox.Text.Split('.').Length - 1];
                 string data = this.cSock.New_Project(this.File, fileInfo);
-                procThread.Abort();
                 this.Close();
             }
             catch (DivideByZeroException)
@@ -83,21 +80,18 @@ namespace Client
                 statusLabel.Text = "Project Name Unavailable";
                 statusLabel.Visible = true;
                 statusTimer.Start();
-                procThread.Abort();
             }
             catch (DllNotFoundException)
             {
                 statusLabel.Text = "File Type Not Supported";
                 statusLabel.Visible = true;
                 statusTimer.Start();
-                procThread.Abort();
             }
             catch (FieldAccessException)
             {
                 statusLabel.Text = "File Is Too Big";
                 statusLabel.Visible = true;
                 statusTimer.Start();
-                procThread.Abort();
             }
         }
 
@@ -128,12 +122,6 @@ namespace Client
         private void panel3_MouseUp(object sender, MouseEventArgs e)
         {
             this.dr.Release();
-        }
-
-        private void Process()
-        {
-            var loadingfrm = new LoadingForm();
-            loadingfrm.ShowDialog();
         }
     }
 }
