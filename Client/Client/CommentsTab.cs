@@ -7,11 +7,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
 
 namespace Client
 {
     public partial class CommentsTab : UserControl
     {
+        private static float value = 1;
+        private static Bitmap bitmap;
         private string selectedProject;
         private int Versions;
         private string Branches;
@@ -27,7 +30,10 @@ namespace Client
                 bunifuTransition1.ShowSync(Item);
                 Application.DoEvents();
             }
+            pictureView.MouseWheel += PictureView_MouseWheel;
         }
+
+
 
         public void SetTab(ClientSocket cliSock, string proName, string username)
         {
@@ -139,22 +145,72 @@ namespace Client
                 previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
-                    procThread.Start();
-                    previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
-                    procThread.Abort();
+                    //procThread.Start();
+                    //previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
+                    //procThread.Abort();
+
+                    int index = 0;
+                    bool pathFound = false;
+                    string tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
+                    while (!pathFound)
+                    {
+                        if (!File.Exists(tempPath))
+                        {
+                            tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
+                            pathFound = true;
+                        }
+                        else
+                        {
+                            index++;
+                            tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
+                        }
+                    }
+                    System.IO.File.WriteAllBytes(tempPath, Convert.FromBase64String(this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString())));
+                    pictureView.Image = System.Drawing.Image.FromFile(tempPath);
+                    bitmap = new Bitmap(tempPath);
+
                 }
                 else
                 {
                     previewBox.Text = "No Version Selected";
                 }
             }
-            catch { }
+            catch
+            {
+                procThread.Abort();
+            }
         }
 
         private void Process()
         {
             var loadingfrm = new LoadingForm();
             loadingfrm.ShowDialog();
+        }
+
+        private void pictureView_MouseHover(object sender, EventArgs e)
+        {
+            pictureView.Focus();
+        }
+
+        private void PictureView_MouseWheel(object sender, MouseEventArgs e)
+        {
+            if (e.Delta > 0)
+            {
+                value += 0.1f;
+                pictureView.Image = new Bitmap(bitmap, new Size((int)(bitmap.Width * value), (int)(bitmap.Height * value)));
+            }
+            else
+            {
+                value -= 0.1f;
+                if (value > 0)
+                {
+                    pictureView.Image = new Bitmap(bitmap, new Size((int)(bitmap.Width * value), (int)(bitmap.Height * value)));
+                }
+                else
+                {
+                    value = 0;
+                }
+            }
         }
     }
 }

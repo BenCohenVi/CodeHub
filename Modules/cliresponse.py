@@ -388,9 +388,10 @@ class Useresponse:
             self.clientsock.send(str(Content))
             verFile.close()
         else:
-            self.clientsock.send("10025")
+            imageStr = base64.b64encode(verFile.read())
+            self.clientsock.send(str(len(imageStr) * 10))
             self.clientsock.recv(self.BUFSIZ)
-            self.clientsock.send("Unable To Preview")
+            self.clientsock.send(imageStr)
             verFile.close()
 
     def comment(self):

@@ -39,6 +39,8 @@
             this.commentBtn = new Bunifu.Framework.UI.BunifuThinButton2();
             this.commentsList = new System.Windows.Forms.ListBox();
             this.verBox = new System.Windows.Forms.ComboBox();
+            this.pictureView = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureView)).BeginInit();
             this.SuspendLayout();
             // 
             // proLabel
@@ -181,11 +183,22 @@
             this.verBox.TabIndex = 58;
             this.verBox.SelectedIndexChanged += new System.EventHandler(this.verBox_SelectedIndexChanged);
             // 
+            // pictureView
+            // 
+            this.bunifuTransition1.SetDecoration(this.pictureView, BunifuAnimatorNS.DecorationType.None);
+            this.pictureView.Location = new System.Drawing.Point(521, 71);
+            this.pictureView.Name = "pictureView";
+            this.pictureView.Size = new System.Drawing.Size(368, 413);
+            this.pictureView.TabIndex = 59;
+            this.pictureView.TabStop = false;
+            this.pictureView.MouseHover += new System.EventHandler(this.pictureView_MouseHover);
+            // 
             // CommentsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.pictureView);
             this.Controls.Add(this.verBox);
             this.Controls.Add(this.commentsList);
             this.Controls.Add(this.commentBtn);
@@ -196,6 +209,7 @@
             this.bunifuTransition1.SetDecoration(this, BunifuAnimatorNS.DecorationType.None);
             this.Name = "CommentsTab";
             this.Size = new System.Drawing.Size(918, 498);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureView)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -211,5 +225,6 @@
         private Bunifu.Framework.UI.BunifuThinButton2 commentBtn;
         private System.Windows.Forms.ListBox commentsList;
         private System.Windows.Forms.ComboBox verBox;
+        private System.Windows.Forms.PictureBox pictureView;
     }
 }
