@@ -56,6 +56,7 @@ def send_UVersions(clientsock, c, conn):
     clientsock.send(str(projectVersions))
 
 
+
 def handler(clientsock, serversock, addr):
     # try:
     conn = sqlite3.connect(PATH + '\\ProjectsInfo.db')
@@ -123,6 +124,8 @@ def handler(clientsock, serversock, addr):
             search_user(clientsock, c, conn, username)
         elif data == "UVersions.":
             send_UVersions(clientsock, c, conn)
+        elif data == "GetType.":
+            utils.get_type(clientsock, PATH)
         else:
             clientsock.close()
             conn.close()

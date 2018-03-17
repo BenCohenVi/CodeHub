@@ -147,31 +147,37 @@ namespace Client
                 previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
-                    //procThread.Start();
-                    //previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
-                    //procThread.Abort();
-
-                    int index = 0;
-                    bool pathFound = false;
-                    string tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
-                    while (!pathFound)
+                    procThread.Start();
+                    if (this.cSock.GetType(this.selectedProject, verBox.SelectedItem.ToString()) != "png")
                     {
-                        if (!File.Exists(tempPath))
-                        {
-                            tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
-                            pathFound = true;
-                        }
-                        else
-                        {
-                            index++;
-                            tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
-                        }
+                        previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
+                        previewBox.BringToFront();
                     }
+                    else
+                    {
+                        int index = 0;
+                        bool pathFound = false;
+                        string tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
+                        while (!pathFound)
+                        {
+                            if (!File.Exists(tempPath))
+                            {
+                                tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
+                                pathFound = true;
+                            }
+                            else
+                            {
+                                index++;
+                                tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
+                            }
+                        }
 
-                    System.IO.File.WriteAllBytes(tempPath, Convert.FromBase64String(this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString())));
-                    pictureView.Image = System.Drawing.Image.FromFile(tempPath);
-                    bitmap = new Bitmap(tempPath);
-
+                        System.IO.File.WriteAllBytes(tempPath, Convert.FromBase64String(this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString())));
+                        pictureView.Image = System.Drawing.Image.FromFile(tempPath);
+                        bitmap = new Bitmap(tempPath);
+                        pictureView.BringToFront();
+                    }
+                    procThread.Abort();
                 }
                 else
                 {

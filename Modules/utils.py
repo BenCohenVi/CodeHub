@@ -51,3 +51,22 @@ def get_branches(proPath):
     if len(branches) > 0:
         branches = branches + ",0_0"
     return branches
+
+
+def get_type(clientsock, PATH):
+    proInfo = clientsock.recv(1024)
+    print proInfo
+    proName = proInfo.split("^")[0]
+    proVer = proInfo.split("^")[1]
+    proPath = PATH + "\\Projects" + "\\" + proName + "\\"
+    filesInDir = os.listdir(proPath)
+    filesInDir.sort()
+    proVer = proVer.replace(".", "_").replace(" ", "")
+    for file in filesInDir:
+        if file.split(".")[0] == proVer:
+            proName = file
+            break
+    print proName
+    clientsock.send(proName.split(".")[1])
+
+    

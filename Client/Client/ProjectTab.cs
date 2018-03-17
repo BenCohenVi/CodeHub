@@ -24,7 +24,11 @@
 
         private void Process()
         {
-            var loadingfrm = new LoadingForm();
-            loadingfrm.ShowDialog();
+            try
+            {
+                var loadingfrm = new LoadingForm();
+                loadingfrm.ShowDialog();
+            }
+            catch { }
         }
     }}

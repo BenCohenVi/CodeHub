@@ -643,5 +643,28 @@ namespace Client
             return returndata.Replace("\0", string.Empty).Replace("[(", string.Empty).Replace(",)]", string.Empty);
         }
 
+        public string GetType(string proName, string Version)
+        {
+            NetworkStream serverStream = clientSocket.GetStream();
+
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("GetType.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            outStream = System.Text.Encoding.ASCII.GetBytes(proName.Replace("\0", string.Empty) + "^" + Version.Replace("\0", string.Empty));
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
+
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+            string returndata = System.Text.Encoding.ASCII.GetString(inStream);
+
+            return returndata.Replace("\0", string.Empty);
+
+        }
+
     }
 }
