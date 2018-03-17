@@ -47,6 +47,8 @@ namespace Client
                 commentBox.Text = "Add A Comment...";
                 previewBox.Clear();
                 verBox.Items.Clear();
+                verBox.Text = "";
+                pictureView.Image = null;
                 if (this.ParentF.GetHeader() == "My Profile")
                 {
                     this.Versions = Convert.ToInt32(this.cSock.Get_Versions(this.selectedProject));
@@ -165,6 +167,7 @@ namespace Client
                             tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
                         }
                     }
+
                     System.IO.File.WriteAllBytes(tempPath, Convert.FromBase64String(this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString())));
                     pictureView.Image = System.Drawing.Image.FromFile(tempPath);
                     bitmap = new Bitmap(tempPath);

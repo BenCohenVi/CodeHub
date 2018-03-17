@@ -367,6 +367,7 @@ class Useresponse:
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split("^")[0]
         Version = proInfo.split("^")[1]
+        print proInfo
         proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
         filesInDir = os.listdir(proPath)
         filesInDir.sort()
@@ -388,9 +389,12 @@ class Useresponse:
             self.clientsock.send(str(Content))
             verFile.close()
         else:
+            print "img"
             imageStr = base64.b64encode(verFile.read())
             self.clientsock.send(str(len(imageStr) * 10))
+            print str(len(imageStr) * 10)
             self.clientsock.recv(self.BUFSIZ)
+            time.sleep(0.1)
             self.clientsock.send(imageStr)
             verFile.close()
 

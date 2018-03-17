@@ -509,6 +509,7 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
             string fileBuffSize = System.Text.Encoding.ASCII.GetString(inStream);
+            Debug.Print(fileBuffSize);
 
             outStream = System.Text.Encoding.ASCII.GetBytes("OK");
             serverStream.Write(outStream, 0, outStream.Length);
