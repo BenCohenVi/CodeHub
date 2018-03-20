@@ -298,8 +298,12 @@ class Useresponse:
             try:
                 lastData = utils.restore_delta(lastVer.read())
             except:
+                print info
+                lastVer = open(info, "r")
                 lastData = lastVer.read()
-            delta = utils.get_delta(lastData, buffer)
+                print lastVer.read()
+                print "ex"
+            delta = utils.get_delta(lastData, buffer.replace('\r', ''))
             proPath = self.PATH + "\\Projects\\" + proName + "\\" + pro + "." + fileInfo
             with io.FileIO(proPath, "w") as f:
                 f.write(str(delta))

@@ -24,8 +24,31 @@ def get_path():
 
 
 def get_delta(main_file, new_file):
-    diff = ndiff(main_file, new_file)
-    return list(diff)
+    old_lines = main_file.split('\n')
+    new_lines = new_file.split('\n')
+    print old_lines
+    print new_lines
+    old_lines_set = set(old_lines)
+    new_lines_set = set(new_lines)
+    old_added = old_lines_set - new_lines_set
+    old_removed = new_lines_set - old_lines_set
+    data = ""
+    index = 0
+    for line in old_lines:
+        if line in old_added:
+            data += str(index) + '-' + line.strip()+'\n'
+        elif line in old_removed:
+            data += str(index) + '+' + line.strip()+'\n'
+        index += 1
+    index = 0
+    for line in new_lines:
+        if line in old_added:
+            data +=str(index) + '-' + line.strip()+'\n'
+        elif line in old_removed:
+            data += str(index) + '+' + line.strip()+'\n'
+        index += 1
+    print data
+    return data
 
 
 def restore_delta(delta):
