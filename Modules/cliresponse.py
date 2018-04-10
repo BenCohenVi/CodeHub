@@ -113,41 +113,43 @@ class Useresponse:
         filesInDir = os.listdir(proPath)
         filesInDir.sort()
         proVer = proVer.replace(".", "_").replace(" ", "")
-        if proVer != "1":
-            for file in filesInDir:
-                if file.split(".")[0] == str(int(proVer)-1):
-                    verName = file
-                    break
-            proPath = proPath + verName
-            oldVerFile = open(proPath, "rb")
-            if verName.split('.')[1] == "png":
-                isPng = True
+        oldVerContent = ""
         for file in filesInDir:
-            if file.split(".")[0] == proVer:
+            if file.split('.')[0] == "1":
                 verName = file
-                break
-        proPath = self.PATH + "\\Projects" + "\\" + proName + "\\" + verName
-        verFile = open(proPath, "rb")
-        if verName.split('.')[1] == "png":
-            isPng = True
-        if isPng == False:
-            if proVer != "1":
-                Content = utils.restore_delta(oldVerFile.read(), verFile.read())
-            else:
-                Content = verFile.read()
-            self.clientsock.send(str(len(Content.encode('utf-8'))))
-            self.clientsock.recv(self.BUFSIZ)
-            self.clientsock.send(str(Content) + "`~`" + verName.split('.')[1])
-            self.clientsock.recv(self.BUFSIZ)
-            verFile.close()
+                with open(proPath + file, 'r') as verOneFile:
+                    oldVerContent = verOneFile.read().replace('\n', '\r\n')
+            if file.split('.')[1] == "png":
+                isPng = True
+        if verName.split('.')[1] == "txt":
+            isTxt = True
         else:
-            imageStr = base64.b64encode(verFile.read())
+            isTxt = False
+        if proVer != "1":
+            for x in range(2, int(proVer)+1):
+                for file in filesInDir:
+                    if file.split('.')[0] == str(x):
+                        verName = file
+                        with open(proPath + file, 'r') as verXFile:
+                            oldVerContent = utils.restore_delta(oldVerContent, verXFile.read(), isTxt)
+                    if file.split('.')[1] == "png":
+                        isPng = True
+                    if verName.split('.')[1] == "txt":
+                        isTxt = True
+                    else:
+                        isTxt = False
+        if isPng == False:
+            self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
+            self.clientsock.recv(self.BUFSIZ)
+            self.clientsock.send(str(oldVerContent) + "`~`" + verName.split('.')[1])
+            self.clientsock.recv(self.BUFSIZ)
+        else:
+            imageStr = base64.b64encode(oldVerContent)
             self.clientsock.send(str(len(imageStr) * 10))
             self.clientsock.recv(self.BUFSIZ)
             time.sleep(0.1)
             self.clientsock.send(imageStr + "`~`" + proName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
-            verFile.close()
 
     def share_project(self):
         shareInfo = self.clientsock.recv(self.BUFSIZ)
@@ -277,6 +279,10 @@ class Useresponse:
                         [int(pro), proName])
                     self.conn.commit()
         fileInfo = self.clientsock.recv(self.BUFSIZ)
+        if fileInfo == "txt":
+            isTxt = True
+        else:
+            isTxt = False
         self.clientsock.send("Info Gotten")
         if fileInfo != "png":
             size = int(size)
@@ -295,18 +301,19 @@ class Useresponse:
         self.clientsock.send("File Gotten")
         if fileInfo != "png":
             proPath = self.PATH + "\\Projects\\" + proName + "\\"
+            oldVerContent = ""
             filesInDir = os.listdir(proPath)
             filesInDir.sort()
-            done = False
-            i = 2
-            while not done:
-                if not '_' in filesInDir[int(pro) - i]:
-                    proNameOld = filesInDir[int(pro) - i]
-                    done = True
-                i = i + 1
-            info = self.PATH + "\\Projects\\" + proName + "\\" + proNameOld
-            lastVer = open(info, "r")
-            delta = utils.get_delta(lastVer.read(), str(buffer.replace('\r', '')))
+            for file in filesInDir:
+                if file.split('.')[0] == "1":
+                    with open(proPath + file, 'r') as verOneFile:
+                        oldVerContent = verOneFile.read()
+            for x in range(2, int(pro)):
+                for file in filesInDir:
+                    if file.split('.')[0] == str(x):
+                        with open(proPath + file, 'r') as verXFile:
+                            oldVerContent = utils.restore_delta(oldVerContent, verXFile.read(), isTxt)
+            delta = utils.get_delta(oldVerContent, str(buffer), isTxt)
             proPath = self.PATH + "\\Projects\\" + proName + "\\" + pro + "." + fileInfo
             with io.FileIO(proPath, "w") as f:
                 f.write(delta)
@@ -350,11 +357,11 @@ class Useresponse:
             preBranch = self.PATH + "\\Projects\\" + proName + "\\" + branchName
             lastBranch = open(preBranch, "r")
             try:
-                lastData = utils.restore_delta(lastBranch.read(), "ok")
+                lastData = utils.restore_delta(lastBranch.read(), "ok", True)
             except:
                 lastBranch = open(preBranch, "r")
                 lastData = lastBranch.read()
-            delta = utils.get_delta(lastData, buffer)
+            delta = utils.get_delta(lastData, buffer, True)
             branchPath = self.PATH+"\\Projects\\"+proName+"\\" + \
                 branchVer.split(
                     ".")[0]+"_"+str(int(branchVer.split(".")[1])+1)+"."+extension
@@ -387,7 +394,7 @@ class Useresponse:
             self.clientsock.send(str(os.path.getsize(proPath)))
             self.clientsock.recv(self.BUFSIZ)
             try:
-                Content = utils.restore_delta(verFile.read(),"ok")
+                Content = utils.restore_delta(verFile.read(),"ok", True)
             except:
                 verFile = open(proPath, "rb")
                 Content = verFile.read()

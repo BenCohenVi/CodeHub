@@ -23,24 +23,28 @@ def get_path():
     return "\\".join(directory)
 
 
-def get_delta(main_file, new_file):
+def get_delta(main_file, new_file, isTxt):
+    if isTxt == True:
+        extension = "\r\n"
+    else:
+        extension = "\n"
     old_lines = main_file.split('\n')
     new_lines = new_file.split('\n')
     changes = ""
     if len(new_lines) >= len(old_lines):
         for x in range(0, len(old_lines)):
             if old_lines[x] != new_lines[x]:
-                changes += "-`" + str(x) + "\n"
-                changes += "+`" + str(x) +"`"+ new_lines[x] + "\n"
+                changes += "-`" + str(x) + extension
+                changes += "+`" + str(x) + "`" + new_lines[x] + extension
         for i in range(len(old_lines), len(new_lines)):
-            changes += "+`" + str(i) +"`"+ new_lines[i] + "\n"
+            changes += "+`" + str(i) + "`" + new_lines[i] + extension
     else:
         for x in range(0, len(new_lines)):
             if old_lines[x] != new_lines[x]:
-                changes += "-`" + str(x) + "\n"
-                changes += "+`" + str(x) +"`"+ new_lines[x] + "\n"
+                changes += "-`" + str(x) + extension
+                changes += "+`" + str(x) + "`" + new_lines[x] + extension
         for i in range(len(new_lines), len(old_lines)):
-            changes += "-`" + str(i) + "\n"
+            changes += "-`" + str(i) + extension
     return changes
 
 
@@ -52,7 +56,8 @@ def get_branches(proPath):
     for ver in proVers:
         if '_' in ver:
             if ver.split('.')[0].split('_')[0] == lastBranch:
-                branches = string.replace(branches, lastBranchFull, ver.split('.')[0])
+                branches = string.replace(branches, lastBranchFull,
+                                          ver.split('.')[0])
                 lastBranchFull = ver.split('.')[0]
                 lastBranch = ver.split('.')[0].split('_')[0]
             else:
@@ -82,20 +87,24 @@ def get_type(clientsock, PATH):
     clientsock.send(proName.split(".")[1])
 
 
-def restore_delta(oldFile, changes):
+def restore_delta(oldFile, changes, isTxt):
     if changes != "":
+        if isTxt == True:
+            extension = "\r\n"
+        else:
+            extension = "\n"
         newFile = ""
         oldLines = oldFile.split('\n')
         lineIndex = 0
         lastRemoved = False
         for line in changes.split('\n'):
-            if line.split('`')[0] == "-": 
+            if line.split('`')[0] == "-":
                 #In Case Of Removing
                 if lastRemoved == False:
                     lineNumber = int(line.split('`')[1])
                     oldLines[lineNumber] = ""
                     for x in range(lineIndex, lineNumber):
-                        newFile += oldLines[x] + "\n"
+                        newFile += oldLines[x] + "\r\n"
                         lineIndex += 1
                     lastRemoved = True
                 else:
@@ -103,11 +112,11 @@ def restore_delta(oldFile, changes):
                     break
             elif line.split('`')[0] == "+":
                 #In Case Of Adding
-                if lastRemoved== True:
+                if lastRemoved == True:
                     newFile += line.split('`')[2]
                 else:
-                    newFile += "\n" + line.split('`')[2]
+                    newFile += "\r\n" + line.split('`')[2]
                 lastRemoved = False
         return newFile
     else:
-        return oldFile 
+        return oldFile
