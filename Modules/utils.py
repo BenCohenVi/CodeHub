@@ -26,33 +26,22 @@ def get_path():
 def get_delta(main_file, new_file):
     old_lines = main_file.split('\n')
     new_lines = new_file.split('\n')
-    print old_lines
-    print new_lines
-    old_lines_set = set(old_lines)
-    new_lines_set = set(new_lines)
-    old_added = old_lines_set - new_lines_set
-    old_removed = new_lines_set - old_lines_set
-    data = ""
-    index = 0
-    for line in old_lines:
-        if line in old_added:
-            data += str(index) + '-' + line.strip()+'\n'
-        elif line in old_removed:
-            data += str(index) + '+' + line.strip()+'\n'
-        index += 1
-    index = 0
-    for line in new_lines:
-        if line in old_added:
-            data +=str(index) + '-' + line.strip()+'\n'
-        elif line in old_removed:
-            data += str(index) + '+' + line.strip()+'\n'
-        index += 1
-    print data
-    return data
-
-
-def restore_delta(delta):
-    return ''.join(restore(ast.literal_eval(delta), 2))
+    changes = ""
+    if len(new_lines) >= len(old_lines):
+        for x in range(0, len(old_lines)):
+            if old_lines[x] != new_lines[x]:
+                changes += "-`" + str(x) + "\n"
+                changes += "+`" + str(x) +"`"+ new_lines[x] + "\n"
+        for i in range(len(old_lines), len(new_lines)):
+            changes += "+`" + str(i) +"`"+ new_lines[i] + "\n"
+    else:
+        for x in range(0, len(new_lines)):
+            if old_lines[x] != new_lines[x]:
+                changes += "-`" + str(x) + "\n"
+                changes += "+`" + str(x) +"`"+ new_lines[x] + "\n"
+        for i in range(len(new_lines), len(old_lines)):
+            changes += "-`" + str(i) + "\n"
+    return changes
 
 
 def get_branches(proPath):
@@ -92,4 +81,33 @@ def get_type(clientsock, PATH):
     print proName
     clientsock.send(proName.split(".")[1])
 
-    
+
+def restore_delta(oldFile, changes):
+    if changes != "":
+        newFile = ""
+        oldLines = oldFile.split('\n')
+        lineIndex = 0
+        lastRemoved = False
+        for line in changes.split('\n'):
+            if line.split('`')[0] == "-": 
+                #In Case Of Removing
+                if lastRemoved == False:
+                    lineNumber = int(line.split('`')[1])
+                    oldLines[lineNumber] = ""
+                    for x in range(lineIndex, lineNumber):
+                        newFile += oldLines[x] + "\n"
+                        lineIndex += 1
+                    lastRemoved = True
+                else:
+                    newFile = newFile[:newFile.rfind('\n')]
+                    break
+            elif line.split('`')[0] == "+":
+                #In Case Of Adding
+                if lastRemoved== True:
+                    newFile += line.split('`')[2]
+                else:
+                    newFile += "\n" + line.split('`')[2]
+                lastRemoved = False
+        return newFile
+    else:
+        return oldFile 

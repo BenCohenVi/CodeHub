@@ -105,6 +105,7 @@ class Useresponse:
         self.conn.commit()
 
     def download_project(self):
+        isPng = False
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split(",")[0]
         proVer = proInfo.split(",")[1]
@@ -112,21 +113,31 @@ class Useresponse:
         filesInDir = os.listdir(proPath)
         filesInDir.sort()
         proVer = proVer.replace(".", "_").replace(" ", "")
+        if proVer != "1":
+            for file in filesInDir:
+                if file.split(".")[0] == str(int(proVer)-1):
+                    verName = file
+                    break
+            proPath = proPath + verName
+            oldVerFile = open(proPath, "rb")
+            if verName.split('.')[1] == "png":
+                isPng = True
         for file in filesInDir:
             if file.split(".")[0] == proVer:
-                proName = file
+                verName = file
                 break
-        proPath = proPath + proName
+        proPath = self.PATH + "\\Projects" + "\\" + proName + "\\" + verName
         verFile = open(proPath, "rb")
-        if proName.split(".")[1] != "png":
-            self.clientsock.send(str(os.path.getsize(proPath)))
-            self.clientsock.recv(self.BUFSIZ)
-            try:
-                Content = utils.restore_delta(verFile.read())
-            except:
-                verFile = open(proPath, "rb")
+        if verName.split('.')[1] == "png":
+            isPng = True
+        if isPng == False:
+            if proVer != "1":
+                Content = utils.restore_delta(oldVerFile.read(), verFile.read())
+            else:
                 Content = verFile.read()
-            self.clientsock.send(str(Content) + "`~`" + proName.split('.')[1])
+            self.clientsock.send(str(len(Content.encode('utf-8'))))
+            self.clientsock.recv(self.BUFSIZ)
+            self.clientsock.send(str(Content) + "`~`" + verName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
             verFile.close()
         else:
@@ -282,7 +293,7 @@ class Useresponse:
         else:
             buffer = self.clientsock.recv(int(size) + 100)
         self.clientsock.send("File Gotten")
-        if fileInfo != "png" and int(size) < 200000:
+        if fileInfo != "png":
             proPath = self.PATH + "\\Projects\\" + proName + "\\"
             filesInDir = os.listdir(proPath)
             filesInDir.sort()
@@ -295,18 +306,10 @@ class Useresponse:
                 i = i + 1
             info = self.PATH + "\\Projects\\" + proName + "\\" + proNameOld
             lastVer = open(info, "r")
-            try:
-                lastData = utils.restore_delta(lastVer.read())
-            except:
-                print info
-                lastVer = open(info, "r")
-                lastData = lastVer.read()
-                print lastVer.read()
-                print "ex"
-            delta = utils.get_delta(lastData, buffer.replace('\r', ''))
+            delta = utils.get_delta(lastVer.read(), str(buffer.replace('\r', '')))
             proPath = self.PATH + "\\Projects\\" + proName + "\\" + pro + "." + fileInfo
             with io.FileIO(proPath, "w") as f:
-                f.write(str(delta))
+                f.write(delta)
                 f.close()
         else:
             proPath = self.PATH + "\\Projects\\" + proName + "\\" + pro + "." + fileInfo
@@ -338,8 +341,7 @@ class Useresponse:
         else:
             buffer = self.clientsock.recv(int(size) + 100)
         self.clientsock.send(("Content Gotten"))
-        if extension != "png" and int(size) < 200000:
-            print "pngn"
+        if extension != "png":
             branchPath = self.PATH + "\\Projects\\" + proName + "\\"
             filesInDir = os.listdir(branchPath)
             bStart = int(branchVer.split(".")[0]) + int(
@@ -348,7 +350,7 @@ class Useresponse:
             preBranch = self.PATH + "\\Projects\\" + proName + "\\" + branchName
             lastBranch = open(preBranch, "r")
             try:
-                lastData = utils.restore_delta(lastBranch.read())
+                lastData = utils.restore_delta(lastBranch.read(), "ok")
             except:
                 lastBranch = open(preBranch, "r")
                 lastData = lastBranch.read()
@@ -371,7 +373,6 @@ class Useresponse:
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split("^")[0]
         Version = proInfo.split("^")[1]
-        print proInfo
         proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
         filesInDir = os.listdir(proPath)
         filesInDir.sort()
@@ -386,17 +387,15 @@ class Useresponse:
             self.clientsock.send(str(os.path.getsize(proPath)))
             self.clientsock.recv(self.BUFSIZ)
             try:
-                Content = utils.restore_delta(verFile.read())
+                Content = utils.restore_delta(verFile.read(),"ok")
             except:
                 verFile = open(proPath, "rb")
                 Content = verFile.read()
             self.clientsock.send(str(Content))
             verFile.close()
         else:
-            print "img"
             imageStr = base64.b64encode(verFile.read())
             self.clientsock.send(str(len(imageStr) * 10))
-            print str(len(imageStr) * 10)
             self.clientsock.recv(self.BUFSIZ)
             time.sleep(0.1)
             self.clientsock.send(imageStr)
