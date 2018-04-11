@@ -1,6 +1,4 @@
-from Modules import utils
-from Modules import usract
-from Modules import cliresponse
+from Modules import utils, usract, cliresponse
 from socket import *
 import thread
 import threading
@@ -99,7 +97,7 @@ def handler(clientsock, serversock, addr):
         elif data == "Delete.":
             clientResponse.delete_project()
         elif data == "Download.":
-            clientResponse.download_projectVer()
+            clientResponse.download_project()
         elif data == "Share.":
             clientResponse.share_project()
         elif data == "Branch.":

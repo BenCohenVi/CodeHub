@@ -101,12 +101,16 @@ class Useresponse:
                        {'data': proName})
         self.conn.commit()
 
-    def download_projectVer(self):
+    def download_project(self):
         #Downloading Version That Isn't A Branch
         isPng = False
+        isTxt = False
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split(",")[0]
         proVer = proInfo.split(",")[1]
+        if '.' in proVer:
+            self.download_branch(proInfo)
+            return
         proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
         filesInDir = os.listdir(proPath)
         filesInDir.sort()
@@ -118,32 +122,29 @@ class Useresponse:
                     isPng = True
         if isPng == False:
             for file in filesInDir:
-                if file.split('.')[0] == "1":
-                    verName = file
-                    with open(proPath + file, 'r') as verOneFile:
-                        oldVerContent = verOneFile.read().replace('\n', '\r\n')
-                if file.split('.')[1] == "png" and int(
-                        file.split('.')[0]) <= int(proVer):
-                    isPng = True
-            if verName.split('.')[1] == "txt":
-                isTxt = True
-            else:
-                isTxt = False
+                if '_' not in file:
+                    if file.split('.')[0] == "1":
+                        verName = file
+                        with open(proPath + file, 'r') as verOneFile:
+                            oldVerContent = verOneFile.read()
+                    if file.split('.')[1] == "png" and int(
+                            file.split('.')[0]) <= int(proVer):
+                        isPng = True
+                if verName.split('.')[1] == "txt":
+                    isTxt = True
             if proVer != "1":
                 for x in range(2, int(proVer) + 1):
                     for file in filesInDir:
-                        if file.split('.')[0] == str(x):
-                            verName = file
-                            with open(proPath + file, 'r') as verXFile:
-                                oldVerContent = utils.restore_delta(
-                                    oldVerContent, verXFile.read(), isTxt)
-                        if file.split('.')[1] == "png" and int(
-                                file.split('.')[0]) <= int(proVer):
-                            isPng = True
-                        if verName.split('.')[1] == "txt":
-                            isTxt = True
-                        else:
-                            isTxt = False
+                        if '_' not in file:
+                            if file.split('.')[0] == str(x):
+                                verName = file
+                                with open(proPath + file, 'r') as verXFile:
+                                    oldVerContent = utils.restore_delta(
+                                        oldVerContent, verXFile.read(), isTxt)
+                                if file.split('.')[1] == "png":
+                                    isPng = True
+                                if verName.split('.')[1] == "txt":
+                                    isTxt = True
             if isPng == False:
                 self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
                 self.clientsock.recv(self.BUFSIZ)
@@ -165,6 +166,7 @@ class Useresponse:
             for file in filesInDir:
                 if file.split('.')[0] == proVer:
                     verName = file
+                    break
             with open(proPath + verName, 'rb') as verPic:
                 verContent = verPic.read()
             imageStr = base64.b64encode(verContent)
@@ -173,6 +175,90 @@ class Useresponse:
             time.sleep(0.1)
             self.clientsock.send(imageStr + "`~`" + verName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
+
+    def download_branch(self, proInfo):
+        #Downloading A Branch Version
+        isPng = False
+        isTxt = False
+        proName = proInfo.split(",")[0]
+        branchVer = proInfo.split(",")[1].replace(' ', '')
+        proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
+        filesInDir = os.listdir(proPath)
+        filesInDir.sort()
+        oldBranchContent = ""
+        for file in filesInDir:
+            if file.split('.')[0].replace(
+                    '_', '.') == branchVer.split('.')[0] + ".1":
+                with open(proPath + file, 'rb') as firstBranchFile:
+                    oldBranchContent = firstBranchFile.read()
+                if file.split('.')[1] == "txt":
+                    isTxt = True
+                if file.split('.')[1] == "png":
+                    isPng = True
+            if file.split('.')[0].replace('_', '.') == branchVer:
+                if file.split('.')[1] == "png":
+                    isPng = True
+        if isPng == False and branchVer.split('.')[1] != "1":
+            for x in range(2, int(branchVer.split('.')[1]) + 1):
+                for file in filesInDir:
+                    if file.split('.')[
+                            0] == branchVer.split('.')[0] + "_" + str(x):
+                        verName = file
+                        with open(proPath + file, 'r') as verXFile:
+                            oldBranchContent = utils.restore_delta(
+                                oldBranchContent, verXFile.read(), isTxt)
+                        if file.split('.')[1] == "png":
+                            isPng = True
+                        if verName.split('.')[1] == "txt":
+                            isTxt = True
+            if isPng == False:
+                self.clientsock.send(
+                    str(len(oldBranchContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(
+                    str(oldBranchContent) + "`~`" + verName.split('.')[1])
+                self.clientsock.recv(self.BUFSIZ)
+            else:
+                for file in filesInDir:
+                    if file.split('.')[0].replace('_', '.') == branchVer:
+                        branchName = file
+                        break
+                with open(proPath + branchName, 'rb') as branchFile:
+                    branchContent = branchFile.read()
+                self.clientsock.send(str(len(branchContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                time.sleep(0.1)
+                self.clientsock.send(
+                    branchContent + "`~`" + branchName.split('.')[1])
+                self.clientsock.recv(self.BUFSIZ)
+        else:
+            if branchVer.split('.')[1] != "1":
+                for file in filesInDir:
+                    if file.split('.')[0].replace('_', '.') == branchVer:
+                        branchName = file
+                        break
+                with open(proPath + branchName, 'rb') as branchFile:
+                    branchContent = branchFile.read()
+                imageStr = base64.b64encode(branchContent)
+                self.clientsock.send(str(len(imageStr) * 10))
+                self.clientsock.recv(self.BUFSIZ)
+                time.sleep(0.1)
+                self.clientsock.send(
+                    imageStr + "`~`" + branchName.split('.')[1])
+                self.clientsock.recv(self.BUFSIZ)
+            else:
+                for file in filesInDir:
+                    if file.split('.')[0].replace('_', '.') == branchVer:
+                        branchName = file
+                        break
+                with open(proPath + branchName, 'rb') as branchFile:
+                    branchContent = branchFile.read()
+                self.clientsock.send(str(len(branchContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                time.sleep(0.1)
+                self.clientsock.send(
+                    branchContent + "`~`" + branchName.split('.')[1])
+                self.clientsock.recv(self.BUFSIZ)
 
     def share_project(self):
         shareInfo = self.clientsock.recv(self.BUFSIZ)
@@ -237,20 +323,17 @@ class Useresponse:
         branchVer = branchVer.replace(" ", "")
         extension = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Extension Gotten")
-        if extension != "png":
-            size = int(size)
-            current_Size = 0
-            buffer = b""
-            while current_Size < size:
-                data = self.clientsock.recv(1024)
-                if not data:
-                    break
-                if len(data) + current_Size > size:
-                    data = data[:size - current_Size]
-                buffer += data
-                current_Size += len(data)
-        else:
-            buffer = self.clientsock.recv(int(size) + 100)
+        size = int(size)
+        current_Size = 0
+        buffer = b""
+        while current_Size < size:
+            data = self.clientsock.recv(1024)
+            if not data:
+                break
+            if len(data) + current_Size > size:
+                data = data[:size - current_Size]
+            buffer += data
+            current_Size += len(data)
         self.clientsock.send("Content Gotten")
         branchPath = self.PATH + "\\Projects\\" + proName + "\\" + branchVer + "_1." + extension
         with io.FileIO(branchPath, "w") as f:
@@ -353,55 +436,78 @@ class Useresponse:
                 f.close()
 
     def update_branch(self):
+        isTxt = False
+        isPng = False
         size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
         proInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Info Gotten")
-        proName = proInfo.split("^")[0]
-        branchVer = proInfo.split("^")[1]
         extension = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Extension Gotten")
-        if extension != "png":
-            size = int(size)
-            current_Size = 0
-            buffer = b""
-            while current_Size < size:
-                data = self.clientsock.recv(1024)
-                if not data:
-                    break
-                if len(data) + current_Size > size:
-                    data = data[:size - current_Size]
-                buffer += data
-                current_Size += len(data)
+        size = int(size)
+        current_Size = 0
+        buffer = b""
+        while current_Size < size:
+            data = self.clientsock.recv(1024)
+            if not data:
+                break
+            if len(data) + current_Size > size:
+                data = data[:size - current_Size]
+            buffer += data
+            current_Size += len(data)
+        self.clientsock.send("Content Gotten")
+        proName = proInfo.split('^')[0]
+        branchVer = proInfo.split('^')[1]
+        proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
+        filesInDir = os.listdir(proPath)
+        filesInDir.sort()
+        if extension == "png":
+            isPng = True
+        oldVerContent = ""
+        for file in filesInDir:
+            if file.split('.')[0] == branchVer.split('.')[0] + "_1":
+                with open(proPath + file, 'rb') as branchFile:
+                    oldVerContent = branchFile.read()
+                if file.split('.')[1] == "txt":
+                    isTxt = True
+                if file.split('.')[1] == "png":
+                    isPng = True
+        if isPng == False:
+            for x in range(2, int(branchVer.split('.')[1]) + 1):
+                for file in filesInDir:
+                    if file.split('.')[
+                            0] == branchVer.split('.')[0] + "_" + str(x):
+                        with open(proPath + file, 'rb') as oldBranchFile:
+                            oldVerContent = utils.restore_delta(
+                                oldVerContent, oldBranchFile.read(), isTxt)
+                        if file.split('.')[1] == "txt":
+                            isTxt = True
+                        if file.split('.')[1] == "png":
+                            isPng = True
+            if extension == "txt":
+                isTxt = True
+            if isPng == False:
+                newBranchContent = utils.get_delta(oldVerContent, str(buffer),
+                                                   isTxt)
+                branchVer = branchVer.split('.')[0] + "_" + str(
+                    int(branchVer.split('.')[1]) + 1)
+                proPath = self.PATH + "\\Projects\\" + proName + "\\" + branchVer + "." + extension
+                with io.FileIO(proPath, "w") as f:
+                    f.write(newBranchContent)
+                    f.close()
+            else:
+                branchVer = branchVer.split('.')[0] + "_" + str(
+                    int(branchVer.split('.')[1]) + 1)
+                proPath = self.PATH + "\\Projects\\" + proName + "\\" + branchVer + "." + extension
+                with io.FileIO(proPath, "w") as f:
+                    f.write(buffer)
+                    f.close()
         else:
-            buffer = self.clientsock.recv(int(size) + 100)
-        self.clientsock.send(("Content Gotten"))
-        if extension != "png":
-            branchPath = self.PATH + "\\Projects\\" + proName + "\\"
-            filesInDir = os.listdir(branchPath)
-            bStart = int(branchVer.split(".")[0]) + int(
-                branchVer.split(".")[1])
-            branchName = filesInDir[bStart - 1]
-            preBranch = self.PATH + "\\Projects\\" + proName + "\\" + branchName
-            lastBranch = open(preBranch, "r")
-            try:
-                lastData = utils.restore_delta(lastBranch.read(), "ok", True)
-            except:
-                lastBranch = open(preBranch, "r")
-                lastData = lastBranch.read()
-            delta = utils.get_delta(lastData, buffer, True)
-            branchPath = self.PATH+"\\Projects\\"+proName+"\\" + \
-                branchVer.split(
-                    ".")[0]+"_"+str(int(branchVer.split(".")[1])+1)+"."+extension
-            with io.FileIO(branchPath, "w") as f:
-                f.write(str(delta))
-                f.close()
-        else:
-            branchPath = self.PATH+"\\Projects\\"+proName+"\\" + \
-                branchVer.split(
-                    ".")[0]+"_"+str(int(branchVer.split(".")[1])+1)+"."+extension
-            with io.FileIO(branchPath, "w") as f:
-                f.write(str(buffer))
+            branchVer = branchVer.split('.')[0] + "_" + str(
+                int(branchVer.split('.')[1]) + 1)
+            proPath = self.PATH + "\\Projects\\" + proName + "\\" + branchVer + "." + extension
+            with io.FileIO(proPath, "w") as f:
+                f.write(buffer)
                 f.close()
 
     def send_preview(self):

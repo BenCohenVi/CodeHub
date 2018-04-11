@@ -444,10 +444,6 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            if (System.Text.Encoding.ASCII.GetString(inStream).Replace("\0", string.Empty) == "NO")
-            {
-                throw new System.FieldAccessException();
-            }
 
             OutStream = System.Text.Encoding.ASCII.GetBytes(project.Replace("\0", string.Empty) + "^"+version.Replace("\0", string.Empty));
             serverStream.Write(OutStream, 0, OutStream.Length);
