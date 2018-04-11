@@ -29,20 +29,17 @@ class Useresponse:
                 self.clientsock.send("NO")
                 return
         self.clientsock.send("Info Gotten")
-        if proType != "png":
-            size = int(size)
-            current_Size = 0
-            buffer = b""
-            while current_Size < size:
-                data = self.clientsock.recv(1024)
-                if not data:
-                    break
-                if len(data) + current_Size > size:
-                    data = data[:size - current_Size]
-                buffer += data
-                current_Size += len(data)
-        else:
-            buffer = self.clientsock.recv(int(size) + 100)
+        size = int(size)
+        current_Size = 0
+        buffer = b""
+        while current_Size < size:
+            data = self.clientsock.recv(1024)
+            if not data:
+                break
+            if len(data) + current_Size > size:
+                data = data[:size - current_Size]
+            buffer += data
+            current_Size += len(data)
         self.clientsock.send("File Gotten")
         proPath = self.PATH + "\\Projects" + "\\" + proName
         if not os.path.exists(proPath):
@@ -104,7 +101,8 @@ class Useresponse:
                        {'data': proName})
         self.conn.commit()
 
-    def download_project(self):
+    def download_projectVer(self):
+        #Downloading Version That Isn't A Branch
         isPng = False
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split(",")[0]
@@ -115,40 +113,65 @@ class Useresponse:
         proVer = proVer.replace(".", "_").replace(" ", "")
         oldVerContent = ""
         for file in filesInDir:
-            if file.split('.')[0] == "1":
-                verName = file
-                with open(proPath + file, 'r') as verOneFile:
-                    oldVerContent = verOneFile.read().replace('\n', '\r\n')
-            if file.split('.')[1] == "png":
-                isPng = True
-        if verName.split('.')[1] == "txt":
-            isTxt = True
-        else:
-            isTxt = False
-        if proVer != "1":
-            for x in range(2, int(proVer)+1):
-                for file in filesInDir:
-                    if file.split('.')[0] == str(x):
-                        verName = file
-                        with open(proPath + file, 'r') as verXFile:
-                            oldVerContent = utils.restore_delta(oldVerContent, verXFile.read(), isTxt)
-                    if file.split('.')[1] == "png":
-                        isPng = True
-                    if verName.split('.')[1] == "txt":
-                        isTxt = True
-                    else:
-                        isTxt = False
+            if file.split('.')[0] == proVer:
+                if file.split('.')[1] == "png":
+                    isPng = True
         if isPng == False:
-            self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
-            self.clientsock.recv(self.BUFSIZ)
-            self.clientsock.send(str(oldVerContent) + "`~`" + verName.split('.')[1])
-            self.clientsock.recv(self.BUFSIZ)
+            for file in filesInDir:
+                if file.split('.')[0] == "1":
+                    verName = file
+                    with open(proPath + file, 'r') as verOneFile:
+                        oldVerContent = verOneFile.read().replace('\n', '\r\n')
+                if file.split('.')[1] == "png" and int(
+                        file.split('.')[0]) <= int(proVer):
+                    isPng = True
+            if verName.split('.')[1] == "txt":
+                isTxt = True
+            else:
+                isTxt = False
+            if proVer != "1":
+                for x in range(2, int(proVer) + 1):
+                    for file in filesInDir:
+                        if file.split('.')[0] == str(x):
+                            verName = file
+                            with open(proPath + file, 'r') as verXFile:
+                                oldVerContent = utils.restore_delta(
+                                    oldVerContent, verXFile.read(), isTxt)
+                        if file.split('.')[1] == "png" and int(
+                                file.split('.')[0]) <= int(proVer):
+                            isPng = True
+                        if verName.split('.')[1] == "txt":
+                            isTxt = True
+                        else:
+                            isTxt = False
+            if isPng == False:
+                self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(
+                    str(oldVerContent) + "`~`" + verName.split('.')[1])
+                self.clientsock.recv(self.BUFSIZ)
+            else:
+                for file in filesInDir:
+                    if file.split('.')[0] == proVer:
+                        verName = file
+                with open(proPath + verName, 'rb') as verFile:
+                    verContent = verFile.read()
+                self.clientsock.send(str(len(verContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(
+                    str(verContent) + "`~`" + verName.split('.')[1])
+                self.clientsock.recv(self.BUFSIZ)
         else:
-            imageStr = base64.b64encode(oldVerContent)
+            for file in filesInDir:
+                if file.split('.')[0] == proVer:
+                    verName = file
+            with open(proPath + verName, 'rb') as verPic:
+                verContent = verPic.read()
+            imageStr = base64.b64encode(verContent)
             self.clientsock.send(str(len(imageStr) * 10))
             self.clientsock.recv(self.BUFSIZ)
             time.sleep(0.1)
-            self.clientsock.send(imageStr + "`~`" + proName.split('.')[1])
+            self.clientsock.send(imageStr + "`~`" + verName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
 
     def share_project(self):
@@ -235,6 +258,7 @@ class Useresponse:
             f.close()
 
     def update_project(self):
+        isPng = False
         proName = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
         size = self.clientsock.recv(self.BUFSIZ)
@@ -279,31 +303,34 @@ class Useresponse:
                         [int(pro), proName])
                     self.conn.commit()
         fileInfo = self.clientsock.recv(self.BUFSIZ)
+        if fileInfo == "png":
+            isPng = True
         if fileInfo == "txt":
             isTxt = True
         else:
             isTxt = False
         self.clientsock.send("Info Gotten")
-        if fileInfo != "png":
-            size = int(size)
-            current_Size = 0
-            buffer = b""
-            while current_Size < size:
-                data = self.clientsock.recv(1024)
-                if not data:
-                    break
-                if len(data) + current_Size > size:
-                    data = data[:size - current_Size]
-                buffer += data
-                current_Size += len(data)
-        else:
-            buffer = self.clientsock.recv(int(size) + 100)
+        size = int(size)
+        current_Size = 0
+        buffer = b""
+        while current_Size < size:
+            data = self.clientsock.recv(1024)
+            if not data:
+                break
+            if len(data) + current_Size > size:
+                data = data[:size - current_Size]
+            buffer += data
+            current_Size += len(data)
         self.clientsock.send("File Gotten")
-        if fileInfo != "png":
-            proPath = self.PATH + "\\Projects\\" + proName + "\\"
+        proPath = self.PATH + "\\Projects\\" + proName + "\\"
+        filesInDir = os.listdir(proPath)
+        filesInDir.sort()
+        for file in filesInDir:
+            if file.split('.')[1] == "png":
+                isPng = True
+                break
+        if isPng == False:
             oldVerContent = ""
-            filesInDir = os.listdir(proPath)
-            filesInDir.sort()
             for file in filesInDir:
                 if file.split('.')[0] == "1":
                     with open(proPath + file, 'r') as verOneFile:
@@ -312,7 +339,8 @@ class Useresponse:
                 for file in filesInDir:
                     if file.split('.')[0] == str(x):
                         with open(proPath + file, 'r') as verXFile:
-                            oldVerContent = utils.restore_delta(oldVerContent, verXFile.read(), isTxt)
+                            oldVerContent = utils.restore_delta(
+                                oldVerContent, verXFile.read(), isTxt)
             delta = utils.get_delta(oldVerContent, str(buffer), isTxt)
             proPath = self.PATH + "\\Projects\\" + proName + "\\" + pro + "." + fileInfo
             with io.FileIO(proPath, "w") as f:
@@ -394,7 +422,7 @@ class Useresponse:
             self.clientsock.send(str(os.path.getsize(proPath)))
             self.clientsock.recv(self.BUFSIZ)
             try:
-                Content = utils.restore_delta(verFile.read(),"ok", True)
+                Content = utils.restore_delta(verFile.read(), "ok", True)
             except:
                 verFile = open(proPath, "rb")
                 Content = verFile.read()

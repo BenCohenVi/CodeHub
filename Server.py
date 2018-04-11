@@ -99,7 +99,7 @@ def handler(clientsock, serversock, addr):
         elif data == "Delete.":
             clientResponse.delete_project()
         elif data == "Download.":
-            clientResponse.download_project()
+            clientResponse.download_projectVer()
         elif data == "Share.":
             clientResponse.share_project()
         elif data == "Branch.":
