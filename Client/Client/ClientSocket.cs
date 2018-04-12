@@ -16,9 +16,6 @@ namespace Client
         private string ip;
         private int port;
         private string projects;
-        private string[] text_extensions = {"html","xml","css","svg","json",
-        "c","cpp","h","cs","js","py","java","rb","pl","php","sh",
-        "txt","tex","markdown","asciidoc","rtf","ps","ini","cfg","rc","reg","csv","tsv", "png"};
         public ClientSocket(string ip, int port)
         {
             this.ip = ip;
@@ -151,20 +148,6 @@ namespace Client
 
         public string New_Project(string data, string fileInfo)
         {
-            bool valiable = false;
-            foreach (string ext in this.text_extensions)
-            {
-                if (fileInfo.Split('.')[1] == ext)
-                {
-                    valiable = true;
-                    break;
-                }
-            }
-            if (!valiable)
-            {
-                throw new System.DllNotFoundException();
-            }
-
             NetworkStream serverStream = clientSocket.GetStream();
 
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes("New.");
@@ -325,20 +308,6 @@ namespace Client
 
         public void Update_Project(string project, string data, string fileInfo)
         {
-            bool valiable = false;
-            foreach (string ext in this.text_extensions)
-            {
-                if (fileInfo == ext)
-                {
-                    valiable = true;
-                    break;
-                }
-            }            
-            if (!valiable)
-            {
-                throw new System.DivideByZeroException();
-            }
-
             NetworkStream serverStream = clientSocket.GetStream();
 
             byte[] OutStream = System.Text.Encoding.ASCII.GetBytes("Update.");
@@ -401,22 +370,8 @@ namespace Client
 
 
 
-        public string Manage_Branch(string project, string fileP, string fileInfo, string version)
+        public void Manage_Branch(string project, string fileP, string fileInfo, string version)
         {
-            bool valiable = false;
-            foreach (string ext in this.text_extensions)
-            {
-                if (fileInfo == ext)
-                {
-                    valiable = true;
-                    break;
-                }
-            }
-            if (!valiable)
-            {
-                throw new System.DivideByZeroException();
-            }
-
             NetworkStream serverStream = clientSocket.GetStream();
 
             byte[] OutStream = new byte[10025];
@@ -484,7 +439,6 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            return System.Text.Encoding.ASCII.GetString(inStream);
         }
 
         public string Get_Preview(string proName, string version)

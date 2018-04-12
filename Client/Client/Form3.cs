@@ -15,6 +15,9 @@ namespace Client
         public string name;
         private string File;
         private ClientSocket cSock;
+        private string[] text_extensions = {"html","xml","css","svg","json",
+        "c","cpp","h","cs","js","py","java","rb","pl","php","sh",
+        "txt","tex","markdown","asciidoc","rtf","ps","ini","cfg","rc","reg","csv","tsv", "png"};
         private Bunifu.Framework.UI.Drag dr = new Bunifu.Framework.UI.Drag();
 
         public NewProjectForm(ClientSocket cSock)
@@ -72,18 +75,28 @@ namespace Client
                     throw new System.DivideByZeroException();
                 }
                 string fileInfo = this.name + "." + pathBox.Text.Split('.')[pathBox.Text.Split('.').Length - 1];
+                bool valiable = false;
+                foreach (string ext in this.text_extensions)
+                {
+                    if (fileInfo == ext)
+                    {
+                        valiable = true;
+                        break;
+                    }
+                }
+                if (!valiable)
+                {
+                    statusLabel.Text = "File Type Not Supported";
+                    statusLabel.Visible = true;
+                    statusTimer.Start();
+                    return;
+                }
                 string data = this.cSock.New_Project(this.File, fileInfo);
                 this.Close();
             }
             catch (DivideByZeroException)
             {
                 statusLabel.Text = "Project Name Unavailable";
-                statusLabel.Visible = true;
-                statusTimer.Start();
-            }
-            catch (DllNotFoundException)
-            {
-                statusLabel.Text = "File Type Not Supported";
                 statusLabel.Visible = true;
                 statusTimer.Start();
             }
