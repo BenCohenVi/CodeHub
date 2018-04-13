@@ -7,7 +7,6 @@ import sqlite3
 
 def search_user(clientsock, c, conn, username):
     userSearch = clientsock.recv(BUFSIZ)
-    print userSearch
     c.execute("SELECT * FROM UsersDB WHERE username=:data",
               {'data': userSearch})
     if c.fetchone() == None:

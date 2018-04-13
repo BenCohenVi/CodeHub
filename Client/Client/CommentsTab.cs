@@ -141,13 +141,11 @@ namespace Client
 
         private void verBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            System.Threading.Thread procThread = new System.Threading.Thread(new System.Threading.ThreadStart(this.Process));
-            try 
-            {
+            //try 
+            //{
                 previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
-                    procThread.Start();
                     if (this.cSock.GetType(this.selectedProject, verBox.SelectedItem.ToString()) != "png")
                     {
                         previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
@@ -177,23 +175,13 @@ namespace Client
                         bitmap = new Bitmap(tempPath);
                         pictureView.BringToFront();
                     }
-                    procThread.Abort();
                 }
                 else
                 {
                     previewBox.Text = "No Version Selected";
                 }
-            }
-            catch
-            {
-                procThread.Abort();
-            }
-        }
-
-        private void Process()
-        {
-            var loadingfrm = new LoadingForm();
-            loadingfrm.ShowDialog();
+            //}
+            //catch { }
         }
 
         private void pictureView_MouseHover(object sender, EventArgs e)
@@ -203,23 +191,27 @@ namespace Client
 
         private void PictureView_MouseWheel(object sender, MouseEventArgs e)
         {
-            if (e.Delta > 0)
+            try
             {
-                value += 0.1f;
-                pictureView.Image = new Bitmap(bitmap, new Size((int)(bitmap.Width * value), (int)(bitmap.Height * value)));
-            }
-            else
-            {
-                value -= 0.1f;
-                if (value > 0)
+                if (e.Delta > 0)
                 {
+                    value += 0.1f;
                     pictureView.Image = new Bitmap(bitmap, new Size((int)(bitmap.Width * value), (int)(bitmap.Height * value)));
                 }
                 else
                 {
-                    value = 0;
+                    value -= 0.1f;
+                    if (value > 0)
+                    {
+                        pictureView.Image = new Bitmap(bitmap, new Size((int)(bitmap.Width * value), (int)(bitmap.Height * value)));
+                    }
+                    else
+                    {
+                        value = 0;
+                    }
                 }
             }
+            catch { }
         }
     }
 }

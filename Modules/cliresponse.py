@@ -511,36 +511,156 @@ class Useresponse:
                 f.close()
 
     def send_preview(self):
+        isPng = False
+        isTxt = False
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split("^")[0]
-        Version = proInfo.split("^")[1]
+        proVer = proInfo.split("^")[1]
+        if '.' in proVer:
+            self.send_previewB(proInfo)
+            return
         proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
         filesInDir = os.listdir(proPath)
         filesInDir.sort()
-        Version = Version.replace(".", "_").replace(" ", "")
+        proVer = proVer.replace('.', '_').replace(' ', '')
+        oldVerContent = ""
         for file in filesInDir:
-            if file.split(".")[0] == Version:
-                proName = file
-                break
-        proPath = proPath + proName
-        verFile = open(proPath, "rb")
-        if proName.split(".")[1] != "png":
-            self.clientsock.send(str(os.path.getsize(proPath)))
-            self.clientsock.recv(self.BUFSIZ)
-            try:
-                Content = utils.restore_delta(verFile.read(), "ok", True)
-            except:
-                verFile = open(proPath, "rb")
-                Content = verFile.read()
-            self.clientsock.send(str(Content))
-            verFile.close()
+            if file.split('.')[0] == proVer:
+                if file.split('.')[1] == "png":
+                    isPng = True
+                    break
+        if isPng == False:
+            for file in filesInDir:
+                if '_' not in file:
+                    if file.split('.')[0] == "1":
+                        verName = file
+                        with open(proPath + file, 'r') as verOneFile:
+                            oldVerContent = verOneFile.read()
+                    if file.split('.')[1] == "png" and int(
+                            file.split('.')[0]) <= int(proVer):
+                        isPng = True
+                if verName.split('.')[1] == "txt":
+                    isTxt = True
+            if proVer != "1":
+                for x in range(2, int(proVer) + 1):
+                    for file in filesInDir:
+                        if '_' not in file:
+                            if file.split('.')[0] == str(x):
+                                verName = file
+                                with open(proPath + file, 'r') as verXFile:
+                                    oldVerContent = utils.restore_delta(
+                                        oldVerContent, verXFile.read(), isTxt)
+                                if file.split('.')[1] == "png":
+                                    isPng = True
+                                if verName.split('.')[1] == "txt":
+                                    isTxt = True
+            if isPng == False:
+                self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(str(oldVerContent))
+                self.clientsock.recv(self.BUFSIZ)
+            else:
+                for file in filesInDir:
+                    if file.split('.')[0] == proVer:
+                        verName = file
+                with open(proPath + verName, 'rb') as verFile:
+                    verContent = verFile.read()
+                self.clientsock.send(str(len(verContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(str(verContent))
+                self.clientsock.recv(self.BUFSIZ)
         else:
-            imageStr = base64.b64encode(verFile.read())
-            self.clientsock.send(str(len(imageStr) * 10))
+            for file in filesInDir:
+                if file.split('.')[0] == proVer:
+                    verName = file
+                    break
+            with open(proPath + verName , 'rb') as verPic:
+                verContent = verPic.read()
+            imageStr = base64.b64encode(verContent)
+            self.clientsock.send(str(len(imageStr)*10))
             self.clientsock.recv(self.BUFSIZ)
             time.sleep(0.1)
             self.clientsock.send(imageStr)
-            verFile.close()
+            self.clientsock.recv(self.BUFSIZ)
+
+    def send_previewB(self, proInfo):
+        isPng = False
+        isTxt = False
+        proName = proInfo.split("^")[0]
+        branchVer = proInfo.split("^")[1].replace(' ', '')
+        proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
+        filesInDir = os.listdir(proPath)
+        filesInDir.sort()
+        oldBranchContent = ""
+        for file in filesInDir:
+            if file.split('.')[0].replace(
+                    '_', '.') == branchVer.split('.')[0] + ".1":
+                with open(proPath + file, 'rb') as firstBranchFile:
+                    oldBranchContent = firstBranchFile.read()
+                if file.split('.')[1] == "txt":
+                    isTxt = True
+                if file.split('.')[1] == "png":
+                    isPng = True
+            if file.split('.')[0].replace('_', '.') == branchVer:
+                if file.split('.')[1] == "png":
+                    isPng = True
+        if isPng == False and branchVer.split('.')[1] != "1":
+            for x in range(2, int(branchVer.split('.')[1]) + 1):
+                for file in filesInDir:
+                    if file.split('.')[
+                            0] == branchVer.split('.')[0] + "_" + str(x):
+                        verName = file
+                        with open(proPath + file, 'r') as verXFile:
+                            oldBranchContent = utils.restore_delta(
+                                oldBranchContent, verXFile.read(), isTxt)
+                        if file.split('.')[1] == "png":
+                            isPng = True
+                        if verName.split('.')[1] == "txt":
+                            isTxt = True
+            if isPng == False:
+                self.clientsock.send(
+                    str(len(oldBranchContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(str(oldBranchContent))
+                self.clientsock.recv(self.BUFSIZ)
+            else:
+                for file in filesInDir:
+                    if file.split('.')[0].replace('_', '.') == branchVer:
+                        branchName = file
+                        break
+                with open(proPath + branchName, 'rb') as branchFile:
+                    branchContent = branchFile.read()
+                self.clientsock.send(str(len(branchContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                time.sleep(0.1)
+                self.clientsock.send(branchContent)
+                self.clientsock.recv(self.BUFSIZ)
+        else:
+            if branchVer.split('.')[1] != "1":
+                for file in filesInDir:
+                    if file.split('.')[0].replace('_', '.') == branchVer:
+                        branchName = file
+                        break
+                with open(proPath + branchName, 'rb') as branchFile:
+                    branchContent = branchFile.read()
+                imageStr = base64.b64encode(branchContent)
+                self.clientsock.send(str(len(imageStr) * 10))
+                self.clientsock.recv(self.BUFSIZ)
+                time.sleep(0.1)
+                self.clientsock.send(imageStr)
+                self.clientsock.recv(self.BUFSIZ)
+            else:
+                for file in filesInDir:
+                    if file.split('.')[0].replace('_', '.') == branchVer:
+                        branchName = file
+                        break
+                with open(proPath + branchName, 'rb') as branchFile:
+                    branchContent = branchFile.read()
+                self.clientsock.send(str(len(branchContent.encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                time.sleep(0.1)
+                self.clientsock.send(branchContent)
+                self.clientsock.recv(self.BUFSIZ)
 
     def comment(self):
         commentInfo = self.clientsock.recv(self.BUFSIZ)

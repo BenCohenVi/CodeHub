@@ -78,7 +78,7 @@ namespace Client
                 bool valiable = false;
                 foreach (string ext in this.text_extensions)
                 {
-                    if (fileInfo == ext)
+                    if (fileInfo.Split('.')[1] == ext)
                     {
                         valiable = true;
                         break;

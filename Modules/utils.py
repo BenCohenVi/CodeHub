@@ -72,7 +72,6 @@ def get_branches(proPath):
 
 def get_type(clientsock, PATH):
     proInfo = clientsock.recv(1024)
-    print proInfo
     proName = proInfo.split("^")[0]
     proVer = proInfo.split("^")[1]
     proPath = PATH + "\\Projects" + "\\" + proName + "\\"
@@ -83,7 +82,6 @@ def get_type(clientsock, PATH):
         if file.split(".")[0] == proVer:
             proName = file
             break
-    print proName
     clientsock.send(proName.split(".")[1])
 
 
