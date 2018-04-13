@@ -75,4 +75,10 @@
                 LoadingForm.CloseForm();                errorMessage1.Visible = false;                successMessage1.Set_Message("Branch Created!");                successMessage1.Visible = true;                successMessage1.BringToFront();                projectList_SelectedIndexChanged(null, null);
             }            catch (FieldAccessException)            {                successMessage1.Visible = false;                errorMessage1.Set_Message("File Is Too Big");                errorMessage1.Visible = true;                successMessage1.BringToFront();
             }        }        private void deleteProjectBtn_Click(object sender, EventArgs e)        {            if (projectList.SelectedIndex > -1)            {                string proName = projectList.SelectedItem.ToString();                this.cSock.Delete_Project(proName);                Refresh_Table();                versionList.Items.Clear();                errorMessage1.Visible = false;                successMessage1.Set_Message("Project Deleted!");                successMessage1.Visible = true;                successMessage1.BringToFront();            }            else            {                successMessage1.Visible = false;                errorMessage1.Set_Message("Select A Project To Delete First");                errorMessage1.Visible = true;                successMessage1.BringToFront();            }        }
+
+        private void reloadBtn_Click(object sender, EventArgs e)
+        {
+            this.projectList.Items.Clear();
+            this.Projects = this.cSock.Get_Projects_New();            this.Projects = this.Fix_Format(this.Projects);            this.Set_Table();
+        }
     }}

@@ -33,8 +33,6 @@ namespace Client
             pictureView.MouseWheel += PictureView_MouseWheel;
         }
 
-
-
         public void SetTab(ClientSocket cliSock, string proName, string username)
         {
             try
@@ -141,8 +139,8 @@ namespace Client
 
         private void verBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //try 
-            //{
+            try 
+            {
                 previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
@@ -180,8 +178,11 @@ namespace Client
                 {
                     previewBox.Text = "No Version Selected";
                 }
-            //}
-            //catch { }
+            }
+            catch
+            {
+                previewBox.Text = "Unable To Get Preview";
+            }
         }
 
         private void pictureView_MouseHover(object sender, EventArgs e)
@@ -212,6 +213,53 @@ namespace Client
                 }
             }
             catch { }
+        }
+
+        private void reloadBtn_Click(object sender, EventArgs e)
+        {
+            previewBox.Clear();
+            verBox.Items.Clear();
+            verBox.Text = "";
+            pictureView.Image = null;
+            if (this.ParentF.GetHeader() == "My Profile")
+            {
+                this.Versions = Convert.ToInt32(this.cSock.Get_Versions(this.selectedProject));
+            }
+            else
+            {
+                this.Versions = Convert.ToInt32(this.cSock.Get_UVersions(this.selectedProject, this.username));
+            }
+            this.Branches = this.cSock.Get_Branches(this.selectedProject);
+            if (this.Branches.Contains('_'))
+            {
+                int branchIndex = 0;
+                string temp;
+                for (int i = 0; i < this.Versions; i++)
+                {
+                    temp = this.Branches.Split(',')[branchIndex];
+                    if ((i + 1) == Convert.ToInt32(temp.Split('_')[0]))
+                    {
+                        verBox.Items.Add((i + 1).ToString());
+                        for (int x = 0; x < Convert.ToInt32(this.Branches.Split(',')[branchIndex].Split('_')[1]); x++)
+                        {
+                            verBox.Items.Add("   " + ((i + 1) + "." + (+x + 1).ToString()));
+                        }
+                        branchIndex++;
+                    }
+                    else
+                    {
+                        verBox.Items.Add((i + 1).ToString());
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < Versions; i++)
+                {
+                    verBox.Items.Add((i + 1).ToString());
+                }
+            }
+            SetComments();
         }
     }
 }

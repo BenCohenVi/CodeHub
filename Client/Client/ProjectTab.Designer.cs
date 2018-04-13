@@ -49,6 +49,7 @@
             this.branchBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.openFileDialogU = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
+            this.reloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.errorMessage1 = new Client.ErrorMessage();
             this.successMessage1 = new Client.SuccessMessage();
             this.panel1.SuspendLayout();
@@ -57,6 +58,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.downloadBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.uploadBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchBtn)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reloadBtn)).BeginInit();
             this.SuspendLayout();
             // 
             // label8
@@ -206,7 +208,7 @@
             this.panel1.Controls.Add(this.errorMessage1);
             this.panel1.Controls.Add(this.successMessage1);
             this.bunifuTransition1.SetDecoration(this.panel1, BunifuAnimatorNS.DecorationType.None);
-            this.panel1.Location = new System.Drawing.Point(602, 442);
+            this.panel1.Location = new System.Drawing.Point(582, 446);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(336, 52);
             this.panel1.TabIndex = 67;
@@ -290,6 +292,21 @@
             // 
             this.openFileDialogU.FileName = "openFileDialog1";
             // 
+            // reloadBtn
+            // 
+            this.reloadBtn.BackColor = System.Drawing.Color.Transparent;
+            this.bunifuTransition1.SetDecoration(this.reloadBtn, BunifuAnimatorNS.DecorationType.None);
+            this.reloadBtn.Image = ((System.Drawing.Image)(resources.GetObject("reloadBtn.Image")));
+            this.reloadBtn.ImageActive = null;
+            this.reloadBtn.Location = new System.Drawing.Point(890, 3);
+            this.reloadBtn.Name = "reloadBtn";
+            this.reloadBtn.Size = new System.Drawing.Size(25, 25);
+            this.reloadBtn.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.reloadBtn.TabIndex = 68;
+            this.reloadBtn.TabStop = false;
+            this.reloadBtn.Zoom = 10;
+            this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
+            // 
             // errorMessage1
             // 
             this.errorMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(23)))), ((int)(((byte)(58)))));
@@ -316,6 +333,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.reloadBtn);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.versionList);
@@ -333,13 +351,14 @@
             this.Controls.Add(this.label1);
             this.bunifuTransition1.SetDecoration(this, BunifuAnimatorNS.DecorationType.None);
             this.Name = "ProjectTab";
-            this.Size = new System.Drawing.Size(938, 494);
+            this.Size = new System.Drawing.Size(918, 498);
             this.panel1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.deleteProjectBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.newProjectBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.downloadBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.uploadBtn)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.branchBtn)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.reloadBtn)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -367,5 +386,6 @@
         private System.Windows.Forms.Panel panel1;
         private SuccessMessage successMessage1;
         private ErrorMessage errorMessage1;
+        private Bunifu.Framework.UI.BunifuImageButton reloadBtn;
     }
 }

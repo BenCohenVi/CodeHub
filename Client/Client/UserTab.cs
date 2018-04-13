@@ -65,6 +65,14 @@ namespace Client
                 }
             }
         }
+
+        private void reloadBtn_Click(object sender, EventArgs e)
+        {
+            projectList.Items.Clear();
+            versionList.Items.Clear();
+            this.projects = this.cSock.Search_User(this.username);
+            this.projects = this.Fix_Format(this.projects);            this.Set_Table();
+        }
     }
 }
 
