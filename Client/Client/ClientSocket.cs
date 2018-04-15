@@ -475,7 +475,7 @@ namespace Client
 
         }
 
-        public void Comment(string proName, string Comment)
+        public void Comment(string proName, string Comment, string Version)
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -486,7 +486,7 @@ namespace Client
             byte[] inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            outStream = System.Text.Encoding.ASCII.GetBytes(proName.Replace("\0", string.Empty) + "^"+ Comment.Replace("\0", string.Empty));
+            outStream = System.Text.Encoding.ASCII.GetBytes(proName.Replace("\0", string.Empty) + "^"+ Comment.Replace("\0", string.Empty) + "^" + Version.Replace("\0", string.Empty));
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 

@@ -42,16 +42,16 @@
             this.versionList = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.errorMessage1 = new Client.ErrorMessage();
+            this.successMessage1 = new Client.SuccessMessage();
             this.deleteProjectBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.newProjectBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.downloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.uploadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.branchBtn = new Bunifu.Framework.UI.BunifuImageButton();
+            this.reloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
             this.openFileDialogU = new System.Windows.Forms.OpenFileDialog();
             this.folderBrowserDialogU = new System.Windows.Forms.FolderBrowserDialog();
-            this.reloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
-            this.errorMessage1 = new Client.ErrorMessage();
-            this.successMessage1 = new Client.SuccessMessage();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.deleteProjectBtn)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.newProjectBtn)).BeginInit();
@@ -213,6 +213,27 @@
             this.panel1.Size = new System.Drawing.Size(336, 52);
             this.panel1.TabIndex = 67;
             // 
+            // errorMessage1
+            // 
+            this.errorMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(23)))), ((int)(((byte)(58)))));
+            this.bunifuTransition1.SetDecoration(this.errorMessage1, BunifuAnimatorNS.DecorationType.None);
+            this.errorMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.errorMessage1.Location = new System.Drawing.Point(0, 0);
+            this.errorMessage1.Name = "errorMessage1";
+            this.errorMessage1.Size = new System.Drawing.Size(336, 52);
+            this.errorMessage1.TabIndex = 1;
+            // 
+            // successMessage1
+            // 
+            this.successMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(154)))));
+            this.bunifuTransition1.SetDecoration(this.successMessage1, BunifuAnimatorNS.DecorationType.None);
+            this.successMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.successMessage1.Location = new System.Drawing.Point(0, 0);
+            this.successMessage1.Name = "successMessage1";
+            this.successMessage1.Size = new System.Drawing.Size(336, 52);
+            this.successMessage1.TabIndex = 0;
+            this.successMessage1.Visible = false;
+            // 
             // deleteProjectBtn
             // 
             this.deleteProjectBtn.BackColor = System.Drawing.Color.Transparent;
@@ -288,15 +309,11 @@
             this.branchBtn.Zoom = 10;
             this.branchBtn.Click += new System.EventHandler(this.branchBtn_Click);
             // 
-            // openFileDialogU
-            // 
-            this.openFileDialogU.FileName = "openFileDialog1";
-            // 
             // reloadBtn
             // 
             this.reloadBtn.BackColor = System.Drawing.Color.Transparent;
             this.bunifuTransition1.SetDecoration(this.reloadBtn, BunifuAnimatorNS.DecorationType.None);
-            this.reloadBtn.Image = ((System.Drawing.Image)(resources.GetObject("reloadBtn.Image")));
+            this.reloadBtn.Image = global::Client.Properties.Resources.Refresh;
             this.reloadBtn.ImageActive = null;
             this.reloadBtn.Location = new System.Drawing.Point(890, 3);
             this.reloadBtn.Name = "reloadBtn";
@@ -307,26 +324,9 @@
             this.reloadBtn.Zoom = 10;
             this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
             // 
-            // errorMessage1
+            // openFileDialogU
             // 
-            this.errorMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(23)))), ((int)(((byte)(58)))));
-            this.bunifuTransition1.SetDecoration(this.errorMessage1, BunifuAnimatorNS.DecorationType.None);
-            this.errorMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.errorMessage1.Location = new System.Drawing.Point(0, 0);
-            this.errorMessage1.Name = "errorMessage1";
-            this.errorMessage1.Size = new System.Drawing.Size(336, 52);
-            this.errorMessage1.TabIndex = 1;
-            // 
-            // successMessage1
-            // 
-            this.successMessage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(190)))), ((int)(((byte)(154)))));
-            this.bunifuTransition1.SetDecoration(this.successMessage1, BunifuAnimatorNS.DecorationType.None);
-            this.successMessage1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.successMessage1.Location = new System.Drawing.Point(0, 0);
-            this.successMessage1.Name = "successMessage1";
-            this.successMessage1.Size = new System.Drawing.Size(336, 52);
-            this.successMessage1.TabIndex = 0;
-            this.successMessage1.Visible = false;
+            this.openFileDialogU.FileName = "openFileDialog1";
             // 
             // ProjectTab
             // 

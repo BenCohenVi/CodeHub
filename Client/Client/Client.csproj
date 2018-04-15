@@ -265,5 +265,8 @@
   <ItemGroup>
     <None Include="Resources\BranchNew.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\icons8-synchronize-48.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -574,10 +574,10 @@ class Useresponse:
                 if file.split('.')[0] == proVer:
                     verName = file
                     break
-            with open(proPath + verName , 'rb') as verPic:
+            with open(proPath + verName, 'rb') as verPic:
                 verContent = verPic.read()
             imageStr = base64.b64encode(verContent)
-            self.clientsock.send(str(len(imageStr)*10))
+            self.clientsock.send(str(len(imageStr) * 10))
             self.clientsock.recv(self.BUFSIZ)
             time.sleep(0.1)
             self.clientsock.send(imageStr)
@@ -667,9 +667,11 @@ class Useresponse:
         self.clientsock.send("OK")
         proName = commentInfo.split("^")[0]
         commentContent = commentInfo.split("^")[1]
+        commentVersion = commentInfo.split("^")[2]
         commentsPath = self.PATH + "\\Projects" + "\\" + proName + "\\" + "comments.txt"
         with open(commentsPath, "a") as commentsFile:
-            commentsFile.write(self.username + ":\n" + commentContent + "\n")
+            commentsFile.write(commentVersion + "^" + self.username + ":^" +
+                               commentContent + "\n")
 
     def get_comments(self):
         proName = self.clientsock.recv(self.BUFSIZ)
@@ -677,6 +679,10 @@ class Useresponse:
         with open(commentsPath, "r") as commentsFile:
             Comments = commentsFile.read()
             if Comments != "":
-                self.clientsock.send(Comments)
+                newComments = '\n'.join(
+                    sorted(
+                        Comments.split('\n'),
+                        key=lambda x: x[:1] if '.' not in x else x[:3]))
+                self.clientsock.send(newComments)
             else:
                 self.clientsock.send("No Comments Yet\n Be The First One")

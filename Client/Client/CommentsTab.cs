@@ -92,25 +92,31 @@ namespace Client
 
         public void SetComments()
         {
-            try
+            this.Comments = this.cSock.Get_Comments(this.selectedProject).Split('\n');
+            commentsList.Items.Clear();
+            for (int i = 0; i < this.Comments.Length; i++)
             {
-                this.Comments = this.cSock.Get_Comments(this.selectedProject).Split('\n');
-                commentsList.Items.Clear();
-                for (int i = 0; i < this.Comments.Length; i++)
+                if (this.Comments[i].Contains("^"))
                 {
-                    commentsList.Items.Add(this.Comments[i]);
+                    commentsList.Items.Add("(" + this.Comments[i].Split('^')[0] + ") "  + this.Comments[i].Split('^')[1]);
+                    commentsList.Items.Add(this.Comments[i].Split('^')[2]);
                 }
             }
-            catch { }
         }
 
 
         private void commentBtn_Click(object sender, EventArgs e)
         {
-            if (proLabel.Text != "SELECTED PROJECT: None" && commentBox.Text != "")
+            if (proLabel.Text != "SELECTED PROJECT: None" && commentBox.Text != "" && verBox.SelectedIndex > -1)
             {
-                this.cSock.Comment(this.selectedProject, commentBox.Text);
+                this.cSock.Comment(this.selectedProject, commentBox.Text, verBox.SelectedItem.ToString().Replace(" ", string.Empty));
                 SetComments();
+            }
+            else
+            {
+                statusLabel.Text = "Select A Version To Comment On It";
+                statusLabel.Visible = true;
+                statusTimer.Start();
             }
             commentBox.Text = "";
         }
@@ -119,7 +125,7 @@ namespace Client
         {
             commentBox.Text = "";
         }
-
+          
         private void commentBox_Enter(object sender, EventArgs e)
         {
             commentBox.Text = "";
@@ -260,6 +266,12 @@ namespace Client
                 }
             }
             SetComments();
+        }
+
+        private void statusTimer_Tick(object sender, EventArgs e)
+        {
+            statusLabel.Visible = false;
+            statusTimer.Stop();
         }
     }
 }

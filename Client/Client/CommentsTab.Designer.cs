@@ -41,6 +41,8 @@
             this.verBox = new System.Windows.Forms.ComboBox();
             this.pictureView = new System.Windows.Forms.PictureBox();
             this.reloadBtn = new Bunifu.Framework.UI.BunifuImageButton();
+            this.statusLabel = new Bunifu.Framework.UI.BunifuCustomLabel();
+            this.statusTimer = new System.Windows.Forms.Timer(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.pictureView)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.reloadBtn)).BeginInit();
             this.SuspendLayout();
@@ -199,7 +201,7 @@
             // 
             this.reloadBtn.BackColor = System.Drawing.Color.Transparent;
             this.bunifuTransition1.SetDecoration(this.reloadBtn, BunifuAnimatorNS.DecorationType.None);
-            this.reloadBtn.Image = ((System.Drawing.Image)(resources.GetObject("reloadBtn.Image")));
+            this.reloadBtn.Image = global::Client.Properties.Resources.Refresh;
             this.reloadBtn.ImageActive = null;
             this.reloadBtn.Location = new System.Drawing.Point(890, 3);
             this.reloadBtn.Name = "reloadBtn";
@@ -210,11 +212,31 @@
             this.reloadBtn.Zoom = 10;
             this.reloadBtn.Click += new System.EventHandler(this.reloadBtn_Click);
             // 
+            // statusLabel
+            // 
+            this.statusLabel.AutoSize = true;
+            this.bunifuTransition1.SetDecoration(this.statusLabel, BunifuAnimatorNS.DecorationType.None);
+            this.statusLabel.Font = new System.Drawing.Font("Segoe UI", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.statusLabel.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(190)))), ((int)(((byte)(23)))), ((int)(((byte)(58)))));
+            this.statusLabel.Location = new System.Drawing.Point(19, 55);
+            this.statusLabel.Name = "statusLabel";
+            this.statusLabel.Size = new System.Drawing.Size(43, 17);
+            this.statusLabel.TabIndex = 70;
+            this.statusLabel.Text = "Status";
+            this.statusLabel.Visible = false;
+            // 
+            // statusTimer
+            // 
+            this.statusTimer.Enabled = true;
+            this.statusTimer.Interval = 3000;
+            this.statusTimer.Tick += new System.EventHandler(this.statusTimer_Tick);
+            // 
             // CommentsTab
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(252)))), ((int)(((byte)(252)))), ((int)(((byte)(252)))));
+            this.Controls.Add(this.statusLabel);
             this.Controls.Add(this.reloadBtn);
             this.Controls.Add(this.pictureView);
             this.Controls.Add(this.verBox);
@@ -246,5 +268,7 @@
         private System.Windows.Forms.ComboBox verBox;
         private System.Windows.Forms.PictureBox pictureView;
         private Bunifu.Framework.UI.BunifuImageButton reloadBtn;
+        private Bunifu.Framework.UI.BunifuCustomLabel statusLabel;
+        private System.Windows.Forms.Timer statusTimer;
     }
 }

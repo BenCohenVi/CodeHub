@@ -53,7 +53,6 @@ def send_UVersions(clientsock, c, conn):
     clientsock.send(str(projectVersions))
 
 
-
 def handler(clientsock, serversock, addr):
     # try:
     conn = sqlite3.connect(PATH + '\\ProjectsInfo.db')
