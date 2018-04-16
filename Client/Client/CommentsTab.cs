@@ -86,6 +86,7 @@ namespace Client
                     }
                 }
                 SetComments();
+                verBox.SelectedIndex = 0;
             }
             catch { }
         }
@@ -93,6 +94,7 @@ namespace Client
         public void SetComments()
         {
             this.Comments = this.cSock.Get_Comments(this.selectedProject).Split('\n');
+            Array.Reverse(this.Comments);
             commentsList.Items.Clear();
             for (int i = 0; i < this.Comments.Length; i++)
             {
@@ -150,6 +152,7 @@ namespace Client
                 previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
+                    LoadingForm.ShowLoadingScreen();
                     if (this.cSock.GetType(this.selectedProject, verBox.SelectedItem.ToString()) != "png")
                     {
                         previewBox.Text = this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString());
@@ -173,12 +176,12 @@ namespace Client
                                 tempPath = Path.GetTempPath() + "pic" + index.ToString() + ".png";
                             }
                         }
-
                         System.IO.File.WriteAllBytes(tempPath, Convert.FromBase64String(this.cSock.Get_Preview(this.selectedProject, verBox.SelectedItem.ToString())));
                         pictureView.Image = System.Drawing.Image.FromFile(tempPath);
                         bitmap = new Bitmap(tempPath);
                         pictureView.BringToFront();
                     }
+                    LoadingForm.CloseForm();
                 }
                 else
                 {
@@ -223,48 +226,6 @@ namespace Client
 
         private void reloadBtn_Click(object sender, EventArgs e)
         {
-            previewBox.Clear();
-            verBox.Items.Clear();
-            verBox.Text = "";
-            pictureView.Image = null;
-            if (this.ParentF.GetHeader() == "My Profile")
-            {
-                this.Versions = Convert.ToInt32(this.cSock.Get_Versions(this.selectedProject));
-            }
-            else
-            {
-                this.Versions = Convert.ToInt32(this.cSock.Get_UVersions(this.selectedProject, this.username));
-            }
-            this.Branches = this.cSock.Get_Branches(this.selectedProject);
-            if (this.Branches.Contains('_'))
-            {
-                int branchIndex = 0;
-                string temp;
-                for (int i = 0; i < this.Versions; i++)
-                {
-                    temp = this.Branches.Split(',')[branchIndex];
-                    if ((i + 1) == Convert.ToInt32(temp.Split('_')[0]))
-                    {
-                        verBox.Items.Add((i + 1).ToString());
-                        for (int x = 0; x < Convert.ToInt32(this.Branches.Split(',')[branchIndex].Split('_')[1]); x++)
-                        {
-                            verBox.Items.Add("   " + ((i + 1) + "." + (+x + 1).ToString()));
-                        }
-                        branchIndex++;
-                    }
-                    else
-                    {
-                        verBox.Items.Add((i + 1).ToString());
-                    }
-                }
-            }
-            else
-            {
-                for (int i = 0; i < Versions; i++)
-                {
-                    verBox.Items.Add((i + 1).ToString());
-                }
-            }
             SetComments();
         }
 
