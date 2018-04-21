@@ -122,7 +122,6 @@ C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\bin\Deb
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\bin\Debug\Client.pdb
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.CommentsTab.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.ErrorMessage.resources
-C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.Form1.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.NewProjectForm.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.LoadingForm.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.MainForm.resources
@@ -138,3 +137,4 @@ C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Deb
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.UserTab.resources
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csproj.CopyComplete
 C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.csprojResolveAssemblyReference.cache
+C:\Users\Ben\Documents\Workspace\CodeHub\CodeHub-Workspace\Client\Client\obj\Debug\Client.loginForm.resources
