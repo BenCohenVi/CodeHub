@@ -6,6 +6,12 @@ import sqlite3
 
 
 def search_user(clientsock, c, conn, username):
+    """Gets a username from the client, and searches it in the Databasae.
+
+    Getting the searched username from the client by socket,
+    if username is found sending the client his projects,
+    if not sends "NO"
+    """
     userSearch = clientsock.recv(BUFSIZ)
     c.execute("SELECT * FROM UsersDB WHERE username=:data",
               {'data': userSearch})
@@ -19,6 +25,11 @@ def search_user(clientsock, c, conn, username):
 
 
 def send_projects(clientsock, c, conn, username):
+    """Sends all of the user projects to the client.
+
+    The function gets all of the current user project from the Database,
+    then sends them to the client.
+    """
     clientsock.recv(BUFSIZ)
     c.execute("SELECT name FROM " + username)
     projectsAll = c.fetchall()
@@ -26,6 +37,12 @@ def send_projects(clientsock, c, conn, username):
 
 
 def send_versions(clientsock, c, conn, username):
+    """Sends the latest version of a project.
+
+    The function gets a project name from the client,
+    then it gets the latest version of the project from the Database,
+    then sends it to him.
+    """
     proName = clientsock.recv(BUFSIZ)
     c.execute("SELECT version FROM " + username + " WHERE name=:data",
               {'data': proName})
@@ -34,6 +51,12 @@ def send_versions(clientsock, c, conn, username):
 
 
 def send_branches(clientsock, c, conn):
+    """Sends the branches of a project.
+
+    The function gets a project name from the client,
+    it gets the branches of the project by using a utility function i built (explation there),
+    then sends them to the client.
+    """
     proName = clientsock.recv(BUFSIZ)
     proPath = PATH + "\\Projects\\" + proName + "\\"
     proBranches = utils.get_branches(proPath)
@@ -44,6 +67,12 @@ def send_branches(clientsock, c, conn):
 
 
 def send_UVersions(clientsock, c, conn):
+    """Sends the latest version of another user project.
+
+    The function gets a username and a project name from the client,
+    then finds the project from the Database and getting the project latest version,
+    sends the latest version to the client.
+    """
     proInfo = clientsock.recv(BUFSIZ)
     proName = proInfo.split("^")[0]
     uName = proInfo.split("^")[1]
@@ -54,7 +83,12 @@ def send_UVersions(clientsock, c, conn):
 
 
 def handler(clientsock, serversock, addr):
-    # try:
+    """Main function for every client thread.
+
+    The function manages the login/register of a user,
+    then manages the client's request from the server.
+    """
+    #try:
     conn = sqlite3.connect(PATH + '\\ProjectsInfo.db')
     c = conn.cursor()
     connected = False
@@ -79,14 +113,11 @@ def handler(clientsock, serversock, addr):
             else:
                 clientsock.send("NO")
     del uact
-    c.execute("UPDATE " + username + " SET version=? WHERE name=?",
-              [5, "George"])
-    conn.commit()
     clientsock.recv(BUFSIZ)
     c.execute("SELECT name FROM " + username)
     clientsock.send(str(c.fetchall()))
     clientResponse = cliresponse.Useresponse(clientsock, c, conn, PATH,
-                                             username)
+                                                username)
     while 1:
         data = clientsock.recv(BUFSIZ)
         clientsock.send("OK")
@@ -125,9 +156,9 @@ def handler(clientsock, serversock, addr):
         else:
             clientsock.close()
             conn.close()
-    # except:
-    # clientsock.close()
-    # conn.close()
+    #except:
+        #clientsock.close()
+        #conn.close()
 
 
 PATH = utils.get_path()

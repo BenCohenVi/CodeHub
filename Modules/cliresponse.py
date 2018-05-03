@@ -9,7 +9,18 @@ import time
 
 
 class Useresponse:
+    """This class contains all of the main response to the client commands.
+
+    It contains 6 variables,
+    "BUFSIZ" is the main recv size,
+    "clientsock" is the socket between the server and the user,
+    "c" & "conn" is for managing the Database,
+    "PATH" is the path that "Server.py" is being ran from,
+    "username" is the current client username.
+    """
+
     def __init__(self, clisock, c, conn, path, username):
+        #Setting the variables of the class
         self.BUFSIZ = 1024
         self.clientsock = clisock
         self.c = c
@@ -18,6 +29,14 @@ class Useresponse:
         self.username = username
 
     def new_project(self):
+        """Creating a new project.
+
+        The function gets the project name, the first version content and type from the client,
+        after doing some checks (like if project already exists),
+        creating a new folder with the name of the project,
+        adds the first version to the folder,
+        adds the project to the user Database.
+        """
         size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
         proInfo = self.clientsock.recv(1024)
@@ -55,6 +74,12 @@ class Useresponse:
         self.conn.commit()
 
     def delete_project(self):
+        """Deltes a project.
+
+        The function gets a project name from the client,
+        after doing some checks (like if the project is shared),
+        delets the project folder and removes the project from the Database.
+        """
         proName = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
         self.c.execute(
@@ -102,7 +127,13 @@ class Useresponse:
         self.conn.commit()
 
     def download_project(self):
-        #Downloading Version That Isn't A Branch
+        """Downloading Version That Isn't A Branch.
+
+        The function gets a project name and a version from that project from the client,
+        then searches the version in the project folder,
+        gets the first content of the version (delta is being saved),
+        sends the client the content and the type of the version file.
+        """
         isPng = False
         isTxt = False
         proInfo = self.clientsock.recv(self.BUFSIZ)
@@ -130,8 +161,6 @@ class Useresponse:
                     if file.split('.')[1] == "png" and int(
                             file.split('.')[0]) <= int(proVer):
                         isPng = True
-                if verName.split('.')[1] == "txt":
-                    isTxt = True
             if proVer != "1":
                 for x in range(2, int(proVer) + 1):
                     for file in filesInDir:
@@ -143,15 +172,17 @@ class Useresponse:
                                         oldVerContent, verXFile.read(), isTxt)
                                 if file.split('.')[1] == "png":
                                     isPng = True
-                                if verName.split('.')[1] == "txt":
+                            if file.split('.')[1] == "txt" and file.split('.')[0] == proVer:
                                     isTxt = True
             if isPng == False:
+                time.sleep(0.1)
                 self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
                 self.clientsock.recv(self.BUFSIZ)
                 self.clientsock.send(
                     str(oldVerContent) + "`~`" + verName.split('.')[1])
                 self.clientsock.recv(self.BUFSIZ)
             else:
+                time.sleep(0.1)
                 for file in filesInDir:
                     if file.split('.')[0] == proVer:
                         verName = file
@@ -163,6 +194,7 @@ class Useresponse:
                     str(verContent) + "`~`" + verName.split('.')[1])
                 self.clientsock.recv(self.BUFSIZ)
         else:
+            time.sleep(0.1)
             for file in filesInDir:
                 if file.split('.')[0] == proVer:
                     verName = file
@@ -175,9 +207,15 @@ class Useresponse:
             time.sleep(0.1)
             self.clientsock.send(imageStr + "`~`" + verName.split('.')[1])
             self.clientsock.recv(self.BUFSIZ)
+        time.sleep(0.1)
 
     def download_branch(self, proInfo):
-        #Downloading A Branch Version
+        """Downloading A Branch Version.
+
+        This function is called when the function "download_project" gets a branch version to download,
+        it gets the project name and the branch version, the function gets the orginal file (from delta),
+        then it sends the content and the information about the file to the client.
+        """
         isPng = False
         isTxt = False
         proName = proInfo.split(",")[0]
@@ -191,8 +229,6 @@ class Useresponse:
                     '_', '.') == branchVer.split('.')[0] + ".1":
                 with open(proPath + file, 'rb') as firstBranchFile:
                     oldBranchContent = firstBranchFile.read()
-                if file.split('.')[1] == "txt":
-                    isTxt = True
                 if file.split('.')[1] == "png":
                     isPng = True
             if file.split('.')[0].replace('_', '.') == branchVer:
@@ -207,11 +243,12 @@ class Useresponse:
                         with open(proPath + file, 'r') as verXFile:
                             oldBranchContent = utils.restore_delta(
                                 oldBranchContent, verXFile.read(), isTxt)
-                        if file.split('.')[1] == "png":
-                            isPng = True
-                        if verName.split('.')[1] == "txt":
-                            isTxt = True
+                            if file.split('.')[1] == "png":
+                                isPng = True
+                    if file.split('.')[1] == "txt" and file.split('.')[0].replace('_', '.') == branchVer.split('.'):
+                                isTxt = True
             if isPng == False:
+                time.sleep(0.1)
                 self.clientsock.send(
                     str(len(oldBranchContent.encode('utf-8'))))
                 self.clientsock.recv(self.BUFSIZ)
@@ -219,6 +256,7 @@ class Useresponse:
                     str(oldBranchContent) + "`~`" + verName.split('.')[1])
                 self.clientsock.recv(self.BUFSIZ)
             else:
+                time.sleep(0.1)
                 for file in filesInDir:
                     if file.split('.')[0].replace('_', '.') == branchVer:
                         branchName = file
@@ -232,6 +270,7 @@ class Useresponse:
                     branchContent + "`~`" + branchName.split('.')[1])
                 self.clientsock.recv(self.BUFSIZ)
         else:
+            time.sleep(0.1)
             if branchVer.split('.')[1] != "1":
                 for file in filesInDir:
                     if file.split('.')[0].replace('_', '.') == branchVer:
@@ -259,8 +298,14 @@ class Useresponse:
                 self.clientsock.send(
                     branchContent + "`~`" + branchName.split('.')[1])
                 self.clientsock.recv(self.BUFSIZ)
+        time.sleep(0.1)
 
     def share_project(self):
+        """Sharing a project with a new user.
+
+        This function gets the project name, its versions, username to share with from the client,
+        after doing checks (for example if no such user), the function adds the project and versions to the user Database.
+        """
         shareInfo = self.clientsock.recv(self.BUFSIZ)
         proName = shareInfo.split("^")[0]
         proVers = shareInfo.split("^")[1]
@@ -314,6 +359,11 @@ class Useresponse:
                 self.conn.commit()
 
     def new_branch(self):
+        """Creating a new branch.
+
+        The function gets a project, branch version, and file content and type from the client,
+        the function creates a new branch and saves it in the project folder.
+        """
         size = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("Size Gotten")
         proInfo = self.clientsock.recv(self.BUFSIZ)
@@ -339,8 +389,15 @@ class Useresponse:
         with io.FileIO(branchPath, "w") as f:
             f.write(buffer)
             f.close()
+        time.sleep(0.1)
 
     def update_project(self):
+        """Updating a non-branch version.
+
+        This function gets a project name, version, content and file type from the client,
+        then its getting the delta for the new version,
+        saving the delta in the project folder and updating the Database (also with sharing).
+        """
         isPng = False
         proName = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
@@ -434,8 +491,14 @@ class Useresponse:
             with io.FileIO(proPath, "w") as f:
                 f.write(buffer)
                 f.close()
+        time.sleep(0.1)
 
     def update_branch(self):
+        """Updating a branch in a project.
+
+        This function gets project name, the branch we updating, file content and type from the client,
+        then getting the delta for the new version, saving the delta to a new file in the project folder.
+        """
         isTxt = False
         isPng = False
         size = self.clientsock.recv(self.BUFSIZ)
@@ -509,10 +572,17 @@ class Useresponse:
             with io.FileIO(proPath, "w") as f:
                 f.write(buffer)
                 f.close()
+        time.sleep(0.1)
 
     def send_preview(self):
+        """Sends a preiew of a non-branch version to the client.
+
+        This function gets a project and a version in the project, 
+        it finds the request version and restoring it from delta (if needed),
+        then sends its content and type to the client.
+        """
         isPng = False
-        isTxt = False
+        isTxt = True
         proInfo = self.clientsock.recv(self.BUFSIZ)
         proName = proInfo.split("^")[0]
         proVer = proInfo.split("^")[1]
@@ -539,8 +609,12 @@ class Useresponse:
                     if file.split('.')[1] == "png" and int(
                             file.split('.')[0]) <= int(proVer):
                         isPng = True
-                if verName.split('.')[1] == "txt":
-                    isTxt = True
+            if proVer == "1":
+                time.sleep(0.1)
+                self.clientsock.send(str(len(oldVerContent.replace("\n", "\r\n").encode('utf-8'))))
+                self.clientsock.recv(self.BUFSIZ)
+                self.clientsock.send(str(oldVerContent.replace("\n", "\r\n")))
+                self.clientsock.recv(self.BUFSIZ)
             if proVer != "1":
                 for x in range(2, int(proVer) + 1):
                     for file in filesInDir:
@@ -552,14 +626,14 @@ class Useresponse:
                                         oldVerContent, verXFile.read(), isTxt)
                                 if file.split('.')[1] == "png":
                                     isPng = True
-                                if verName.split('.')[1] == "txt":
-                                    isTxt = True
             if isPng == False:
+                time.sleep(0.1)
                 self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
                 self.clientsock.recv(self.BUFSIZ)
                 self.clientsock.send(str(oldVerContent))
                 self.clientsock.recv(self.BUFSIZ)
             else:
+                time.sleep(0.1)
                 for file in filesInDir:
                     if file.split('.')[0] == proVer:
                         verName = file
@@ -570,6 +644,7 @@ class Useresponse:
                 self.clientsock.send(str(verContent))
                 self.clientsock.recv(self.BUFSIZ)
         else:
+            time.sleep(0.1)
             for file in filesInDir:
                 if file.split('.')[0] == proVer:
                     verName = file
@@ -582,10 +657,17 @@ class Useresponse:
             time.sleep(0.1)
             self.clientsock.send(imageStr)
             self.clientsock.recv(self.BUFSIZ)
+        time.sleep(0.1)
 
     def send_previewB(self, proInfo):
+        """Sending a branch version content to the client.
+
+        This function is being called from the function "send_preview" if it finds that a branch version is request,
+        this function gets a project name and a branch version, it finds the version file and restoring it from delta (if needed),
+        then it sends the content and type to the client.
+        """
         isPng = False
-        isTxt = False
+        isTxt = True
         proName = proInfo.split("^")[0]
         branchVer = proInfo.split("^")[1].replace(' ', '')
         proPath = self.PATH + "\\Projects" + "\\" + proName + "\\"
@@ -597,8 +679,6 @@ class Useresponse:
                     '_', '.') == branchVer.split('.')[0] + ".1":
                 with open(proPath + file, 'rb') as firstBranchFile:
                     oldBranchContent = firstBranchFile.read()
-                if file.split('.')[1] == "txt":
-                    isTxt = True
                 if file.split('.')[1] == "png":
                     isPng = True
             if file.split('.')[0].replace('_', '.') == branchVer:
@@ -615,15 +695,15 @@ class Useresponse:
                                 oldBranchContent, verXFile.read(), isTxt)
                         if file.split('.')[1] == "png":
                             isPng = True
-                        if verName.split('.')[1] == "txt":
-                            isTxt = True
             if isPng == False:
+                time.sleep(0.1)
                 self.clientsock.send(
                     str(len(oldBranchContent.encode('utf-8'))))
                 self.clientsock.recv(self.BUFSIZ)
                 self.clientsock.send(str(oldBranchContent))
                 self.clientsock.recv(self.BUFSIZ)
             else:
+                time.sleep(0.1)
                 for file in filesInDir:
                     if file.split('.')[0].replace('_', '.') == branchVer:
                         branchName = file
@@ -636,6 +716,7 @@ class Useresponse:
                 self.clientsock.send(branchContent)
                 self.clientsock.recv(self.BUFSIZ)
         else:
+            time.sleep(0.1)
             if branchVer.split('.')[1] != "1":
                 for file in filesInDir:
                     if file.split('.')[0].replace('_', '.') == branchVer:
@@ -661,8 +742,14 @@ class Useresponse:
                 time.sleep(0.1)
                 self.clientsock.send(branchContent)
                 self.clientsock.recv(self.BUFSIZ)
+        time.sleep(0.1)
 
     def comment(self):
+        """Adds a new comment.
+
+        This function gets a project, comment content, version from the client,
+        it saves the information to the commtents file in the project folder.
+        """
         commentInfo = self.clientsock.recv(self.BUFSIZ)
         self.clientsock.send("OK")
         proName = commentInfo.split("^")[0]
@@ -674,6 +761,12 @@ class Useresponse:
                                commentContent + "\n")
 
     def get_comments(self):
+        """Sending a project comments to the user.
+
+        This function gets a project name from the client,
+        it gets all of the comments of the project and ordering it in lowering order,
+        then it sends it to the client.
+        """
         proName = self.clientsock.recv(self.BUFSIZ)
         commentsPath = self.PATH + "\\Projects" + "\\" + proName + "\\" + "comments.txt"
         with open(commentsPath, "r") as commentsFile:

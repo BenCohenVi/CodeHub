@@ -21,6 +21,11 @@ namespace Client
         }
 
         static public void ShowLoadingScreen()
+        /* Showing the loading screen.
+         * 
+         * To show the animation in the loading screen we need to run this form in a thread,
+         * this function starts the thread that shows this form.
+         */
         {
             if (loadingForm != null)
                 return;

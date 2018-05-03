@@ -1,21 +1,15 @@
+-`0
++`0`2811,dasqwe
 -`1
-+`1`from Connections import *
 -`2
-+`2`from socket import *
 -`3
-+`3`import Display
 -`4
-+`4`import API
+-`5
 -`6
-+`6`root = Tk()
 -`7
-+`7`c_socket = Client_Sock()
 -`8
-+`8`app = Display.Client_Display(root)
 -`9
-+`9`root.mainloop()
 -`10
-+`10`
 -`11
 -`12
 -`13
@@ -66,3 +60,23 @@
 -`58
 -`59
 -`60
+-`61
+-`62
+-`63
+-`64
+-`65
+-`66
+-`67
+-`68
+-`69
+-`70
+-`71
+-`72
+-`73
+-`74
+-`75
+-`76
+-`77
+-`78
+-`79
+-`80

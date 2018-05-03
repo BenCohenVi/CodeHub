@@ -60,43 +60,24 @@
 +`29`class Server_Display:
 -`30
 +`30`
--`31
 +`31`    def __init__(self, root):
--`32
 +`32`        self.root = root
--`33
 +`33`        self.root.title("Kahoot Server")
--`34
 +`34`        self.current_users = Label(self.root, text="Current Users: ", font="Arial 14")
--`35
 +`35`        self.current_users.grid(row=1, column=1, sticky="W")
--`36
 +`36`
--`37
 +`37`    def show_question(self, q):
--`38
 +`38`        self.root.geometry("975x533")
--`39
 +`39`        #questions = ["questions1.txt", "questions2.txt", "questions3.txt"]
--`40
 +`40`        #questionire = random.choice(questions)
--`41
 +`41`        #q = open("questions1.txt", "r")
--`42
 +`42`        self.current_users.grid_forget()
--`43
 +`43`        ques = q.readline()
--`44
 +`44`        self.Question = Label(self.root, text = ques, font="Arial 22")
--`45
 +`45`        self.Question.grid(row=1, column=1, sticky="E")
--`46
 +`46`        ans1 = q.readline()
--`47
 +`47`        self.Option1 = Label(self.root, text = ans1, height=7, width=30, font="Arial 20", bg="red")
--`48
 +`48`        self.Option1.grid(row=2, column=1, sticky="W")
--`49
 +`49`        ans2 = q.readline()
 +`50`        self.Option2 = Label(self.root, text = ans2, height=7, width=30, font="Arial 20", bg="blue")
 +`51`        self.Option2.grid(row=2, column=2, sticky="E")

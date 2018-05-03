@@ -151,6 +151,7 @@
             this.passBox.Size = new System.Drawing.Size(474, 41);
             this.passBox.TabIndex = 1;
             this.passBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.passBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.passBox_KeyDown);
             // 
             // userBox
             // 
@@ -170,6 +171,7 @@
             this.userBox.Size = new System.Drawing.Size(474, 41);
             this.userBox.TabIndex = 0;
             this.userBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.userBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.userBox_KeyDown);
             // 
             // panel1
             // 
@@ -242,7 +244,7 @@
             this.statusTimer.Interval = 3000;
             this.statusTimer.Tick += new System.EventHandler(this.statusTimer_Tick);
             // 
-            // Form1
+            // loginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -252,7 +254,7 @@
             this.Controls.Add(this.panel2);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
+            this.Name = "loginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Form1_Load);

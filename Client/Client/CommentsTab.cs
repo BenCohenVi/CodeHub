@@ -146,10 +146,15 @@ namespace Client
         }
 
         private void verBox_SelectedIndexChanged(object sender, EventArgs e)
+        /* Setting the preview.
+         * 
+         * When the user changes the previewed version from the combo box,
+         * the program will request the selected version preview and showing it in the preview place.
+         */
         {
-            try 
-            {
-                previewBox.Clear();
+        try
+        {
+            previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
                     LoadingForm.ShowLoadingScreen();
@@ -190,7 +195,7 @@ namespace Client
             }
             catch
             {
-                previewBox.Text = "Unable To Get Preview";
+                //previewBox.Text = "Unable To Get Preview";
             }
         }
 
@@ -200,6 +205,11 @@ namespace Client
         }
 
         private void PictureView_MouseWheel(object sender, MouseEventArgs e)
+        /* Zoom in/out a picture preview.
+         * 
+         * Incase the previewed version is a picture, if the user using the scrollwheel on the picture,
+         * the picture will zoom in or out accordingly.
+         */
         {
             try
             {
@@ -233,6 +243,15 @@ namespace Client
         {
             statusLabel.Visible = false;
             statusTimer.Stop();
+        }
+
+        private void commentBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.commentBtn_Click(null, null);
+            }
+            else { }
         }
     }
 }

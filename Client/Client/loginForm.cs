@@ -26,7 +26,7 @@ namespace Client
         private void Form1_Load(object sender, EventArgs e)
         {
             this.ip = "169.254.157.148";
-            this.port = 2395;
+            this.port = 10584;
             this.cSock = new ClientSocket(this.ip, this.port);
         }
 
@@ -41,6 +41,11 @@ namespace Client
         }
 
         private void logBtn_Click(object sender, EventArgs e)
+        /* Loging/Registering to the server.
+         * 
+         * The logBtn is chaning, if the user wants to sign up its text is "REGISTER" else its "LOGIN",
+         * this function accours when the button is clicked and acts accordingly to the button text.
+         */
         {
             if (logBtn.ButtonText != "REGISTER")
             {
@@ -140,6 +145,24 @@ namespace Client
         private void panel3_MouseUp(object sender, MouseEventArgs e)
         {
             this.dr.Release();
+        }
+
+        private void passBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.logBtn_Click(null, null);
+            }
+            else { }
+        }
+
+        private void userBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                this.logBtn_Click(null, null);
+            }
+            else { }
         }
     }
 }

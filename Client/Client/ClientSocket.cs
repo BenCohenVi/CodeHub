@@ -12,6 +12,7 @@ namespace Client
 {
     public class ClientSocket
     {
+        //Contains all the functions that sends commends to the server.
         System.Net.Sockets.TcpClient clientSocket = new System.Net.Sockets.TcpClient();
         private string ip;
         private int port;
@@ -25,6 +26,11 @@ namespace Client
 
 
         public bool Try_Login(string username, string password)
+        /* Trying to login into a user.
+         * 
+         * This function sends the server a username and password,
+         * and returns the bool answer that the server responded (True if valid, False if not).
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -35,7 +41,7 @@ namespace Client
             byte[] inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            outStream = System.Text.Encoding.ASCII.GetBytes(username+","+password);
+            outStream = System.Text.Encoding.ASCII.GetBytes(username.Replace("\0", string.Empty) + "," + password.Replace("\0", string.Empty));
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 
@@ -46,6 +52,10 @@ namespace Client
         }
 
         public void Register(string username, string password)
+        /* Register a new user to the system.
+         * 
+         * The function sends the server a username and password to register.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -56,7 +66,7 @@ namespace Client
             byte[] inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            outStream = System.Text.Encoding.ASCII.GetBytes(username + "," + password);
+            outStream = System.Text.Encoding.ASCII.GetBytes(username.Replace("\0", string.Empty) + "," + password.Replace("\0", string.Empty));
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 
@@ -70,6 +80,11 @@ namespace Client
         }
 
         public string Get_Projects()
+        /* Getting the project of a user that just logged in.
+         * 
+         * The function requests the projects from the server,
+         * the server sends the information and the function returns it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -84,8 +99,13 @@ namespace Client
         }
 
         public string Get_Projects_New()
+        /* Getting the project of a user that is already logged in.
+         * 
+         * The function requests the projects from the server,
+         * the server sends the information and the function returns it.
+         */
         {
-                NetworkStream serverStream = clientSocket.GetStream();
+            NetworkStream serverStream = clientSocket.GetStream();
                 byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Projects.");
                 serverStream.Write(outStream, 0, outStream.Length);
                 serverStream.Flush();
@@ -105,6 +125,11 @@ namespace Client
         }
 
         public string Get_Versions(string proName)
+        /* Getting the last version of a project.
+         * 
+         * The function sends a project name to the server,
+         * the server sends the latest version back and the function returns it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -127,6 +152,11 @@ namespace Client
         }
 
         public string Get_Branches(string proName)
+        /* Getting the branches in a project.
+         * 
+         * The function sends a project name to the server,
+         * the server sends the project branches back and the function returns it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
             byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Branches.");
@@ -147,6 +177,11 @@ namespace Client
         }
 
         public string New_Project(string data, string fileInfo)
+        /* Creating a new project.
+         * 
+         * The function sends the project name, and the first version information to the server,
+         * if the server sends back that something wrong act accordingly (for example if the project name is taken).
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -211,6 +246,11 @@ namespace Client
         }
 
         public void Delete_Project(string projectName)
+        /* Deleting a project.
+         * 
+         * The function sends a project name to the server,
+         * the server delets the project.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -230,6 +270,12 @@ namespace Client
         }
 
         public string Download_Project(string project, string version)
+        /* Downloading a version in a project.
+         * 
+         * The function sends a project and a version in that project to the server,
+         * the server sends the version infomration (content and type),
+         * the function returns this information.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -265,6 +311,12 @@ namespace Client
         }
 
         public void Share_Project(string projectName, string projectVersions, string username)
+        /* Sharing a project with a user.
+         * 
+         * The function sends a project name, its latest version, and a username to the server,
+         * the servers then shares the project with the user sent,
+         * if there is a problem the function acts accordingly (for example if user doesn't exists).
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -307,6 +359,11 @@ namespace Client
         }
 
         public void Update_Project(string project, string data, string fileInfo)
+        /* Updating a non-branch version.
+         * 
+         * The function sends a project and the new version information to server,
+         * the server then saves the new version.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -371,6 +428,11 @@ namespace Client
 
 
         public void Manage_Branch(string project, string fileP, string fileInfo, string version)
+        /* Creating a new branch/Updating branch.
+         * 
+         * This function send the server an  update/create command according to the request,
+         * then it sends the project and the branch information to the server to save.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -442,6 +504,11 @@ namespace Client
         }
 
         public string Get_Preview(string proName, string version)
+        /* Getting a preview of a selected version.
+         * 
+         * The function sends the server a project name and version,
+         * the server sends the version information (content and type) and the function returns it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -452,7 +519,7 @@ namespace Client
             byte[] inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
 
-            outStream = System.Text.Encoding.ASCII.GetBytes(proName.Replace("\0", string.Empty) +"^"+ version.Replace("\0", string.Empty));
+            outStream = System.Text.Encoding.ASCII.GetBytes(proName.Replace("\0", string.Empty) +"^"+ version.Replace("\0", string.Empty).Replace("OK", string.Empty));
             serverStream.Write(outStream, 0, outStream.Length);
             serverStream.Flush();
 
@@ -476,6 +543,11 @@ namespace Client
         }
 
         public void Comment(string proName, string Comment, string Version)
+        /* Sending a new comment to the server.
+         * 
+         * The function sends the comment information to the server (project, version and content), 
+         * the server saves it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -495,6 +567,11 @@ namespace Client
         }
 
         public string Get_Comments(string proName)
+        /* Getting the comments for a project.
+         * 
+         * The function sends the server a project name,
+         * the server sends back the comments of the project, the function returns it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -516,43 +593,12 @@ namespace Client
             return returndata.Replace("\0", string.Empty);
         }
 
-        public void Send_Test(string fileP)
-        {
-            NetworkStream serverStream = clientSocket.GetStream();
-
-            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Update.");
-            serverStream.Write(outStream, 0, outStream.Length);
-            serverStream.Flush();
-
-            byte[] inStream = new byte[10025];
-            serverStream.Read(inStream, 0, inStream.Length);
-
-            FileInfo file = new FileInfo(fileP);
-            string lenghtf = file.Length.ToString();
-            outStream = System.Text.Encoding.ASCII.GetBytes(lenghtf);
-            serverStream.Write(outStream, 0, outStream.Length);
-            serverStream.Flush();
-
-
-            inStream = new byte[10025];
-            serverStream.Read(inStream, 0, inStream.Length);
-
-            using (FileStream fs = File.Open(fileP, FileMode.Open))
-            {
-                byte[] b = new byte[1024];
-                UTF8Encoding temp = new UTF8Encoding(true);
-                while (fs.Read(b, 0, b.Length) > 0)
-                {
-                    outStream = System.Text.Encoding.ASCII.GetBytes(temp.GetString(b));
-                    serverStream.Write(outStream, 0, outStream.Length);
-                    serverStream.Flush();
-                }
-
-            }
-
-        }
-
         public string Search_User(string username)
+        /* Searching a user by username.
+         * 
+         * The function sends a username to server,
+         * returns what the server sent back (the server sends the user project or not found).
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -570,11 +616,16 @@ namespace Client
             inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
             string returndata = System.Text.Encoding.ASCII.GetString(inStream);
-
+    
             return returndata.Replace("\0", string.Empty);
         }
 
         public string Get_UVersions(string proName, string username)
+        /* Getting the latest version of another user project.
+         * 
+         * The function sends a project name to the server,
+         * the server respondes, the function returns the response.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
@@ -597,6 +648,11 @@ namespace Client
         }
 
         public string GetType(string proName, string Version)
+        /* Getting a type of a version.
+         * 
+         * The function sends the server a project name and a version in that project,
+         * the server sends the version type (extension), the function returns it.
+         */
         {
             NetworkStream serverStream = clientSocket.GetStream();
 
