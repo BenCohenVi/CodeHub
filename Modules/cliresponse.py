@@ -271,7 +271,7 @@ class Useresponse:
                 self.clientsock.recv(self.BUFSIZ)
         else:
             time.sleep(0.1)
-            if branchVer.split('.')[1] != "1":
+            if isPng == True and branchVer.split('.')[1] == "1":
                 for file in filesInDir:
                     if file.split('.')[0].replace('_', '.') == branchVer:
                         branchName = file
@@ -626,23 +626,23 @@ class Useresponse:
                                         oldVerContent, verXFile.read(), isTxt)
                                 if file.split('.')[1] == "png":
                                     isPng = True
-            if isPng == False:
-                time.sleep(0.1)
-                self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
-                self.clientsock.recv(self.BUFSIZ)
-                self.clientsock.send(str(oldVerContent))
-                self.clientsock.recv(self.BUFSIZ)
-            else:
-                time.sleep(0.1)
-                for file in filesInDir:
-                    if file.split('.')[0] == proVer:
-                        verName = file
-                with open(proPath + verName, 'rb') as verFile:
-                    verContent = verFile.read()
-                self.clientsock.send(str(len(verContent.encode('utf-8'))))
-                self.clientsock.recv(self.BUFSIZ)
-                self.clientsock.send(str(verContent))
-                self.clientsock.recv(self.BUFSIZ)
+                if isPng == False:
+                    time.sleep(0.1)
+                    self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
+                    self.clientsock.recv(self.BUFSIZ)
+                    self.clientsock.send(str(oldVerContent))
+                    self.clientsock.recv(self.BUFSIZ)
+                else:
+                    time.sleep(0.1)
+                    for file in filesInDir:
+                        if file.split('.')[0] == proVer:
+                            verName = file
+                    with open(proPath + verName, 'rb') as verFile:
+                        verContent = verFile.read()
+                    self.clientsock.send(str(len(verContent.encode('utf-8'))))
+                    self.clientsock.recv(self.BUFSIZ)
+                    self.clientsock.send(str(verContent))
+                    self.clientsock.recv(self.BUFSIZ)
         else:
             time.sleep(0.1)
             for file in filesInDir:
@@ -657,7 +657,7 @@ class Useresponse:
             time.sleep(0.1)
             self.clientsock.send(imageStr)
             self.clientsock.recv(self.BUFSIZ)
-        time.sleep(0.1)
+        #time.sleep(0.1)
 
     def send_previewB(self, proInfo):
         """Sending a branch version content to the client.
@@ -717,7 +717,7 @@ class Useresponse:
                 self.clientsock.recv(self.BUFSIZ)
         else:
             time.sleep(0.1)
-            if branchVer.split('.')[1] != "1":
+            if isPng == True and branchVer.split('.')[1] == "1":
                 for file in filesInDir:
                     if file.split('.')[0].replace('_', '.') == branchVer:
                         branchName = file
@@ -742,7 +742,7 @@ class Useresponse:
                 time.sleep(0.1)
                 self.clientsock.send(branchContent)
                 self.clientsock.recv(self.BUFSIZ)
-        time.sleep(0.1)
+        #time.sleep(0.1)
 
     def comment(self):
         """Adds a new comment.

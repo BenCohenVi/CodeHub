@@ -152,8 +152,8 @@ namespace Client
          * the program will request the selected version preview and showing it in the preview place.
          */
         {
-        try
-        {
+        //try
+        //{
             previewBox.Clear();
                 if (verBox.SelectedIndex > -1)
                 {
@@ -192,11 +192,11 @@ namespace Client
                 {
                     previewBox.Text = "No Version Selected";
                 }
-            }
-            catch
-            {
+            //}
+            //catch
+            //{
                 //previewBox.Text = "Unable To Get Preview";
-            }
+            //}
         }
 
         private void pictureView_MouseHover(object sender, EventArgs e)

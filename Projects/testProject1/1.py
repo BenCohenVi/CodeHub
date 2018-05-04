@@ -46,4 +46,3 @@ input_entry.grid(row=0, column=0, sticky=W)
 send_data_btn = Button(root, text="SEND DATA", command=print_input)
 send_data_btn.grid(row=0, column=1)
 root.mainloop()
-
