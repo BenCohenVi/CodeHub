@@ -154,8 +154,7 @@ def handler(clientsock, serversock, addr):
             elif data == "GetType.":
                 utils.get_type(clientsock, PATH)
             else:
-                clientsock.close()
-                conn.close()
+                send_projects(clientsock, c, conn, username)
     except:
         clientsock.close()
         conn.close()

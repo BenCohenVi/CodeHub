@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
-using System.Diagnostics;
+using System.Diagnostics;using System.Threading;
 
 namespace Client
 {
@@ -106,21 +106,22 @@ namespace Client
          */
         {
             NetworkStream serverStream = clientSocket.GetStream();
-                byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Projects.");
-                serverStream.Write(outStream, 0, outStream.Length);
-                serverStream.Flush();
 
-                byte[] inStream = new byte[10025];
-                serverStream.Read(inStream, 0, inStream.Length);
+            byte[] outStream = System.Text.Encoding.ASCII.GetBytes("Projects.");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
 
-                outStream = System.Text.Encoding.ASCII.GetBytes("Get");
-                serverStream.Write(outStream, 0, outStream.Length);
-                serverStream.Flush();
+            byte[] inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
 
-                inStream = new byte[10025];
-                serverStream.Read(inStream, 0, inStream.Length);
+            outStream = System.Text.Encoding.ASCII.GetBytes("Get");
+            serverStream.Write(outStream, 0, outStream.Length);
+            serverStream.Flush();
 
-                return System.Text.Encoding.ASCII.GetString(inStream);
+            inStream = new byte[10025];
+            serverStream.Read(inStream, 0, inStream.Length);
+
+            return System.Text.Encoding.ASCII.GetString(inStream);
             
         }
 
@@ -241,7 +242,7 @@ namespace Client
             serverStream.Read(inStream, 0, inStream.Length);
             string returndata = System.Text.Encoding.ASCII.GetString(inStream);
 
-
+            Thread.Sleep(100);
             return returndata;
         }
 
@@ -421,7 +422,7 @@ namespace Client
                 }
             }
 
-            inStream = new byte[1025];
+            inStream = new byte[10025];
             serverStream.Read(inStream, 0, inStream.Length);
         }
 

@@ -72,6 +72,7 @@ class Useresponse:
         self.c.execute("INSERT INTO " + self.username + " VALUES (?, 1, ?, ?)",
                        (proName, "NoOne", "NoOne"))
         self.conn.commit()
+        time.sleep(0.1)
 
     def delete_project(self):
         """Deltes a project.
