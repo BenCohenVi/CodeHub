@@ -1,7 +1,0 @@
-{
-    "python.linting.pylintArgs": [
-        "--errors-only"
-    ],
-    "python.pythonPath": "C:\\Python27\\python.exe",
-    "python.formatting.provider": "yapf"
-}
