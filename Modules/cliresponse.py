@@ -578,7 +578,7 @@ class Useresponse:
     def send_preview(self):
         """Sends a preiew of a non-branch version to the client.
 
-        This function gets a project and a version in the project, 
+        This function gets a project and a version in the project,
         it finds the request version and restoring it from delta (if needed),
         then sends its content and type to the client.
         """
@@ -627,6 +627,7 @@ class Useresponse:
                                         oldVerContent, verXFile.read(), isTxt)
                                 if file.split('.')[1] == "png":
                                     isPng = True
+				print oldVerContent
                 if isPng == False:
                     time.sleep(0.1)
                     self.clientsock.send(str(len(oldVerContent.encode('utf-8'))))
